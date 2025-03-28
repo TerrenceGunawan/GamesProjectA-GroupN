@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float maxLookAngle = 90f;
     private float verticalRotation = 0f;
 
+    [SerializeField] private float sanity = 100f;
+
     void Awake()
     {
         camera = GetComponentInChildren<Camera>();
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ReduceSanity();
         HandleMovement();
         HandleMouseLook();
     }
@@ -69,5 +72,10 @@ public class Player : MonoBehaviour
         verticalRotation -= lookInput.y * Time.deltaTime;
         verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
         camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0); // Rotate camera for vertical look
+    }
+
+    void ReduceSanity()
+    {
+        sanity -= Time.deltaTime;
     }
 }
