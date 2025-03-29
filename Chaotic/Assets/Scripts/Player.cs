@@ -8,17 +8,19 @@ public class Player : MonoBehaviour
     private PlayerActions actions;
     private InputAction movementAction;
     private InputAction lookingAction;
+    private Rigidbody rb;
     
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float lookSensitivity = 10f;
     [SerializeField] private float maxLookAngle = 90f;
     private float verticalRotation = 0f;
-
-    [SerializeField] private float sanity = 100f;
+    private float sanity = 100f;
 
     void Awake()
     {
         camera = GetComponentInChildren<Camera>();
+        rb = GetComponent<Rigidbody>(); // Get Rigidbody component
+        rb.freezeRotation = true; 
         actions = new PlayerActions();
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
@@ -50,17 +52,19 @@ public class Player : MonoBehaviour
         HandleMouseLook();
     }
 
+    void FixedUpdate()
+    {
+        HandleMovement();
+    }
+
     void HandleMovement()
     {
         Vector2 moveInput = movementAction.ReadValue<Vector2>();
-
-        // Convert 2D input to 3D world movement
         Vector3 moveDirection = (transform.right * moveInput.x) + (transform.forward * moveInput.y);
-        
-        // Apply movement (ignoring Y to prevent floating)
-        moveDirection.y = 0f;
-        
-        transform.position += moveDirection * walkSpeed * Time.deltaTime; // Move the player
+        moveDirection.y = 0f; // Ensure no unintended vertical movement
+
+        // Move the player while respecting colliders
+        rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
     }
 
     void HandleMouseLook()
