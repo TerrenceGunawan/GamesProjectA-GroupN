@@ -8,19 +8,21 @@ public class Player : MonoBehaviour
     private PlayerActions actions;
     private InputAction movementAction;
     private InputAction lookingAction;
-    private Rigidbody rb;
     
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float lookSensitivity = 10f;
     [SerializeField] private float maxLookAngle = 90f;
     private float verticalRotation = 0f;
-    private float sanity = 100f;
+
+    [SerializeField] private float maxDamageTimer = 2f;
+    [SerializeField] private float damageTimer;
+    [SerializeField] private float enemySanityDamage = 30f;
+
+    [SerializeField] private float sanity = 100f;
 
     void Awake()
     {
         camera = GetComponentInChildren<Camera>();
-        rb = GetComponent<Rigidbody>(); // Get Rigidbody component
-        rb.freezeRotation = true; 
         actions = new PlayerActions();
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
+        damageTimer = maxDamageTimer;
     }
 
     // Update is called once per frame
@@ -52,19 +55,17 @@ public class Player : MonoBehaviour
         HandleMouseLook();
     }
 
-    void FixedUpdate()
-    {
-        HandleMovement();
-    }
-
     void HandleMovement()
     {
         Vector2 moveInput = movementAction.ReadValue<Vector2>();
-        Vector3 moveDirection = (transform.right * moveInput.x) + (transform.forward * moveInput.y);
-        moveDirection.y = 0f; // Ensure no unintended vertical movement
 
-        // Move the player while respecting colliders
-        rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
+        // Convert 2D input to 3D world movement
+        Vector3 moveDirection = (transform.right * moveInput.x) + (transform.forward * moveInput.y);
+        
+        // Apply movement (ignoring Y to prevent floating)
+        moveDirection.y = 0f;
+        
+        transform.position += moveDirection * walkSpeed * Time.deltaTime; // Move the player
     }
 
     void HandleMouseLook()
@@ -77,9 +78,34 @@ public class Player : MonoBehaviour
         verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
         camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0); // Rotate camera for vertical look
     }
+    void OnCollisionEnter(Collision other)
+    {
+        if(damageTimer == 0)
+        { 
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            sanity -=enemySanityDamage;
+            damageTimer = maxDamageTimer;
+            Debug.Log("You got hit");
+        }
+        }
+    }
 
     void ReduceSanity()
     {
+        damageTimer -= Time.deltaTime;
+        if(damageTimer < 0)
+        {
+            damageTimer = 0;
+        }
+
         sanity -= Time.deltaTime;
+
+        if(sanity < 0)
+        {
+            OnDisable();
+        }
     }
+        
 }
+
