@@ -122,9 +122,9 @@ GameObject:
   - component: {fileID: 3164948895774940372}
   - component: {fileID: -3104750383694207172}
   - component: {fileID: 1342932703080839338}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cdbec5bd978fe469490dae3a19113d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
+  walkSpeed: 5
   lookSensitivity: 10
   maxLookAngle: 90
   maxDamageTimer: 2
