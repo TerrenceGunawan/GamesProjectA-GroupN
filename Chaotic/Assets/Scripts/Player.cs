@@ -14,6 +14,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float maxLookAngle = 90f;
     private float verticalRotation = 0f;
 
+    [SerializeField] private float maxDamageTimer = 2f;
+    [SerializeField] private float damageTimer;
+    [SerializeField] private float enemySanityDamage = 30f;
+
     [SerializeField] private float sanity = 100f;
 
     void Awake()
@@ -40,6 +44,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
+        damageTimer = maxDamageTimer;
     }
 
     // Update is called once per frame
@@ -73,9 +78,34 @@ public class Player : MonoBehaviour
         verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
         camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0); // Rotate camera for vertical look
     }
+    void OnCollisionEnter(Collision other)
+    {
+        if(damageTimer == 0)
+        { 
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            sanity -=enemySanityDamage;
+            damageTimer = maxDamageTimer;
+            Debug.Log("You got hit");
+        }
+        }
+    }
 
     void ReduceSanity()
     {
+        damageTimer -= Time.deltaTime;
+        if(damageTimer < 0)
+        {
+            damageTimer = 0;
+        }
+
         sanity -= Time.deltaTime;
+
+        if(sanity < 0)
+        {
+            OnDisable();
+        }
     }
+        
 }
+
