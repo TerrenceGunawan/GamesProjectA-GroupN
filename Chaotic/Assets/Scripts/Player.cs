@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
         lookingAction.Enable();
     }
     
-    void OnDisable()
+    public void OnDisable()
     {
         movementAction.Disable();
         lookingAction.Disable();

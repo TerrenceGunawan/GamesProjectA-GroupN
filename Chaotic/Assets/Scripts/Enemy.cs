@@ -115,6 +115,8 @@ public class Enemy : MonoBehaviour
 
         // Make the enemy face the player while chasing (rotate towards player)
         Vector3 direction = playerRef.transform.position - transform.position;
+        direction.y = 0;
+        
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
         
         if (!canSeePlayer && currentState != State.Patrol)  // If the enemy can no longer see the player
