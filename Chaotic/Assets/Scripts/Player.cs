@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         lookingAction = actions.movement.look;
     }
 
-    void OnEnable()
+   void OnEnable()
     {
         movementAction.Enable();
         lookingAction.Enable();
@@ -109,6 +109,18 @@ public class Player : MonoBehaviour
         {
             OnDisable();
         }
+    }
+
+    public void EnableMovement()
+    {
+        movementAction.Enable();
+        lookingAction.Enable();
+    }
+
+    public void DisableMovement()
+    {
+        movementAction.Disable();
+        lookingAction.Disable();
     }
         
 }

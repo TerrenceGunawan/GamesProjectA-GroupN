@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class Enemy : MonoBehaviour
     public float chaseSpeed = 5f;  // Speed at which the enemy chases the player
     private State currentState;  // Current state of the enemy
 
+    [SerializeField] private NavMeshAgent navAgent;
+
+    [SerializeField] private Transform player;
+    
+
     private enum State
     {
         Patrol,
@@ -34,6 +40,8 @@ public class Enemy : MonoBehaviour
 
         // Start the field of view routine
         StartCoroutine(FOVRoutine());
+
+        navAgent = GetComponent<NavMeshAgent>(); 
     }
 
     void Update()
@@ -53,6 +61,7 @@ public class Enemy : MonoBehaviour
                 SearchForPlayer();
                 break;
         }
+
     }
 
     // Field of view check - checks if the player is within the enemy's line of sight
@@ -100,7 +109,7 @@ public class Enemy : MonoBehaviour
     // Patrol logic (not implemented yet)
     void Patrol()
     {
-        if (canSeePlayer)  // If the enemy can see the player
+        if (canSeePlayer)  
         {
             currentState = State.Chase;  // Transition to Chase state
             Debug.Log("I see you!");
@@ -110,16 +119,21 @@ public class Enemy : MonoBehaviour
     // Chase logic - move the enemy towards the player
     void ChasePlayer()
     {
-        // Move the enemy towards the player at a set speed
-        transform.position = Vector3.MoveTowards(transform.position, playerRef.transform.position, chaseSpeed * Time.deltaTime);
+        // // Move the enemy towards the player at a set speed
+        // transform.position = Vector3.MoveTowards(transform.position, playerRef.transform.position, chaseSpeed * Time.deltaTime);
 
-        // Make the enemy face the player while chasing (rotate towards player)
-        Vector3 direction = playerRef.transform.position - transform.position;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
+        // // Make the enemy face the player while chasing (rotate towards player)
+        // Vector3 direction = playerRef.transform.position - transform.position;
+        // direction.y = 0;
+        
+        // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
+
+        navAgent.SetDestination(player.position);
+
         
         if (!canSeePlayer && currentState != State.Patrol)  // If the enemy can no longer see the player
         {
-            currentState = State.Patrol;  // Transition to Patrol state
+            currentState = State.Patrol; 
             Debug.Log("Where did you go?");
         }
     }
