@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float lookSensitivity = 10f;
     [SerializeField] private float maxLookAngle = 90f;
     private float verticalRotation = 0f;
+    private bool isHidden = false;
 
     [SerializeField] private float maxDamageTimer = 2f;
     [SerializeField] private float damageTimer;
@@ -122,6 +123,29 @@ public class Player : MonoBehaviour
         movementAction.Disable();
         lookingAction.Disable();
     }
-        
+
+    public void HideAtPosition(Transform hidingSpot)
+    {
+        isHidden = true;
+        DisableMovement();
+
+        rb.isKinematic = true; // Prevent physics from interfering
+        transform.position = hidingSpot.position;
+        transform.rotation = hidingSpot.rotation;
+    }
+
+    public void ExitHiding(Vector3 exitOffset)
+    {
+        isHidden = false;
+        EnableMovement();
+
+        rb.isKinematic = false;
+        transform.position += exitOffset;
+    }
+
+    public bool IsHidden()
+    {
+        return isHidden;
+    }
 }
 
