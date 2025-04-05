@@ -6070,7 +6070,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3306166795354060471, guid: b0fe746a458b1c544874d81ce6709b71, type: 3}
+      propertyPath: angle
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306166795354060471, guid: b0fe746a458b1c544874d81ce6709b71, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1003410458}
+    - target: {fileID: 3306166795354060471, guid: b0fe746a458b1c544874d81ce6709b71, type: 3}
+      propertyPath: navAgent
+      value: 
+      objectReference: {fileID: 2056273092}
+    m_RemovedComponents:
+    - {fileID: 2280382075122213518, guid: b0fe746a458b1c544874d81ce6709b71, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -15125,6 +15138,11 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -1, y: 1.5000001, z: 2.5}
   m_TimeToStationary: 0.5
+--- !u!4 &1003410458 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3966372436805886919, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+  m_PrefabInstance: {fileID: 3510216306340411955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1006978379
 GameObject:
   m_ObjectHideFlags: 0
@@ -23134,10 +23152,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 1
+  m_Acceleration: 1
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -23322,6 +23340,10 @@ PrefabInstance:
     - target: {fileID: 121764075816087265, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1342932703080839338, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2854244541284898937, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: m_Name

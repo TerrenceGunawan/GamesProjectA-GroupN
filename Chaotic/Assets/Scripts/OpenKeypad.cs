@@ -12,11 +12,12 @@ public class OpenKeyPad : MonoBehaviour
     void Start()
     {
         inReach = false;  // Initially, the player is not in reach of the keypad
+        keypadOB.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))  // When the player enters the trigger
+        if (other.gameObject.CompareTag("Reach"))  // When the player enters the trigger
         {
             inReach = true;
             keypadText.SetActive(true);  // Show interaction text
@@ -25,7 +26,7 @@ public class OpenKeyPad : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))  // When the player exits the trigger
+        if (other.gameObject.CompareTag("Reach"))  // When the player exits the trigger
         {
             inReach = false;
             keypadText.SetActive(false);  // Hide interaction text
@@ -45,6 +46,6 @@ public class OpenKeyPad : MonoBehaviour
     void OpenKeypadUI()
     {
         keypadOB.SetActive(true);  // Show the keypad UI
-        player.OnDisable();  // Disable player movement when interacting
+        player.DisableMovement();  // Disable player movement when interacting
     }
 }
