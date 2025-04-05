@@ -23444,6 +23444,7 @@ MonoBehaviour:
   hidePosition: {fileID: 1924403309}
   exitOffset: {x: 0, y: 0, z: 1}
   interactionUI: {fileID: 1405831053}
+  interactionText: {fileID: 1405831055}
   interactKey: 101
 --- !u!208 &1924403303
 NavMeshObstacle:
