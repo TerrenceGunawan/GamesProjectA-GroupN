@@ -46,7 +46,7 @@ public class Doors : MonoBehaviour
     void Update()
     {
 
-        if (inReach && Input.GetButtonDown("Interact"))
+        if (inReach && Input.GetKeyDown(KeyCode.E))
         {
             DoorOpens();
         }

@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     void OnDisable()
     {
         movementAction.Disable();
-        lookingAction.Disable();
+        lookingAction.Disable();    
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
