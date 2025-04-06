@@ -36,7 +36,7 @@ public class OpenKeyPad : MonoBehaviour
     void Update()
     {
         // If the player presses the interact button and is within reach
-        if (Input.GetButtonDown("Interact") && inReach)
+        if (Input.GetKeyDown(KeyCode.E) && inReach) 
         {
             OpenKeypadUI();  // Call method to open the keypad UI
         }

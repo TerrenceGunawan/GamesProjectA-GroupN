@@ -35,7 +35,7 @@ public class Keypad : MonoBehaviour
     public void Number(int number)
     {
         textOB.text += number.ToString();
-        button.Play();
+        // button.Play();
     }
 
     public void Execute()
