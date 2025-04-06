@@ -16,8 +16,6 @@ public class Enemy : MonoBehaviour
 
     public bool canSeePlayer;  // Whether the enemy can see the player
 
-    // Enemy state variables
-    public float chaseSpeed = 5f;  // Speed at which the enemy chases the player
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
@@ -106,7 +104,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // Patrol logic (not implemented yet)
     void Patrol()
     {
         if (canSeePlayer)  
@@ -119,19 +116,10 @@ public class Enemy : MonoBehaviour
     // Chase logic - move the enemy towards the player
     void ChasePlayer()
     {
-        // // Move the enemy towards the player at a set speed
-        // transform.position = Vector3.MoveTowards(transform.position, playerRef.transform.position, chaseSpeed * Time.deltaTime);
-
-        // // Make the enemy face the player while chasing (rotate towards player)
-        // Vector3 direction = playerRef.transform.position - transform.position;
-        // direction.y = 0;
-        
-        // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
-
         navAgent.SetDestination(player.position);
 
         
-        if (!canSeePlayer && currentState != State.Patrol)  // If the enemy can no longer see the player
+        if (!canSeePlayer && currentState != State.Patrol)  
         {
             currentState = State.Patrol; 
             Debug.Log("Where did you go?");

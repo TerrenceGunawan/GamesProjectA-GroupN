@@ -48,7 +48,7 @@ public class Keypad : MonoBehaviour
         }
         else
         {
-            wrong.Play();
+            // wrong.Play();
             textOB.text = "Wrong";
         }
 
@@ -68,6 +68,8 @@ public class Keypad : MonoBehaviour
         keypadOB.SetActive(false);
         hud.SetActive(true);
         player.EnableMovement();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Update()
