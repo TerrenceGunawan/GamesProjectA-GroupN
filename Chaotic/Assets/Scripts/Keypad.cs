@@ -9,8 +9,6 @@ public class Keypad : MonoBehaviour
 {
     public Player player;
     public GameObject keypadOB;
-    public GameObject hud;
-
     public GameObject animateOB;
     public Animator ANI;
 
@@ -66,7 +64,6 @@ public class Keypad : MonoBehaviour
     public void Exit()
     {
         keypadOB.SetActive(false);
-        hud.SetActive(true);
         player.EnableMovement();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -83,7 +80,6 @@ public class Keypad : MonoBehaviour
 
         if(keypadOB.activeInHierarchy)
         {
-            hud.SetActive(false);
             player.DisableMovement();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;

@@ -61,7 +61,7 @@ public class HidingSpot : MonoBehaviour
     {
         if (interactionText != null)
         {
-            interactionText.text = isHiding ? "Press E to exit" : "Press E to hide";
+            interactionText.text = isHiding ? "Exit [E]" : "Hide [E]";
         }
     }
 }
