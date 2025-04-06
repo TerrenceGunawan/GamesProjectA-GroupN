@@ -39,6 +39,7 @@ public class OpenKeyPad : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && inReach) 
         {
             OpenKeypadUI();  // Call method to open the keypad UI
+            keypadText.SetActive(false);
         }
     }
 

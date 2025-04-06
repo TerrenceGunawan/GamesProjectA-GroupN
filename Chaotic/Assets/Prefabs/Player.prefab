@@ -282,6 +282,7 @@ MonoBehaviour:
   walkSpeed: 5
   lookSensitivity: 10
   maxLookAngle: 90
+  sanityBar: {fileID: 0}
   maxDamageTimer: 2
   damageTimer: 0
   enemySanityDamage: 30
@@ -307,9 +308,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!54 &1342932703080839338
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviour
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     private float verticalRotation = 0f;
     private bool isHidden = false;
 
+    [SerializeField] private Slider sanityBar;
     [SerializeField] private float maxDamageTimer = 2f;
     [SerializeField] private float damageTimer;
     [SerializeField] private float enemySanityDamage = 30f;
@@ -48,6 +50,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
+        sanityBar.value = sanity;
         damageTimer = maxDamageTimer;
     }
 
@@ -113,6 +116,8 @@ public class Player : MonoBehaviour
             sanity -= Time.deltaTime;
         }
 
+        sanityBar.value = sanity;
+
         if(sanity < 0)
         {
             OnDisable();
@@ -139,6 +144,9 @@ public class Player : MonoBehaviour
         rb.isKinematic = true; // Prevent physics from interfering
         transform.position = hidingSpot.position;
         transform.rotation = hidingSpot.rotation;
+
+        verticalRotation = 0f;
+        camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     public void ExitHiding(Vector3 exitOffset)

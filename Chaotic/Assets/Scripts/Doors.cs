@@ -7,14 +7,8 @@ public class Doors : MonoBehaviour
 {
     public Animator door;
     public GameObject openText;
-
     public AudioSource doorSound;
-
-
     public bool inReach;
-
-
-
 
     void Start()
     {
@@ -39,26 +33,16 @@ public class Doors : MonoBehaviour
         }
     }
 
-
-
-
-
     void Update()
     {
-
         if (inReach && Input.GetKeyDown(KeyCode.E))
         {
             DoorOpens();
         }
-
         else
         {
             DoorCloses();
         }
-
-
-
-
     }
     void DoorOpens ()
     {
@@ -66,7 +50,6 @@ public class Doors : MonoBehaviour
         door.SetBool("Open", true);
         door.SetBool("Closed", false);
         //doorSound.Play();
-
     }
 
     void DoorCloses()
@@ -75,6 +58,4 @@ public class Doors : MonoBehaviour
         door.SetBool("Open", false);
         door.SetBool("Closed", true);
     }
-
-
 }
