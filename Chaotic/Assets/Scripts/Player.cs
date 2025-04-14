@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class Player : MonoBehaviour
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
     [SerializeField] private float sanity = 100f;
+    [SerializeField] private Button restartButton;
 
     void Awake()
     {
@@ -32,6 +34,8 @@ public class Player : MonoBehaviour
         actions = new PlayerActions();
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
+        restartButton.onClick.AddListener(Restart);
+        restartButton.gameObject.SetActive(false);
     }
 
    void OnEnable()
@@ -121,6 +125,8 @@ public class Player : MonoBehaviour
         if(sanity < 0)
         {
             OnDisable();
+            restartButton.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -161,6 +167,11 @@ public class Player : MonoBehaviour
     public bool IsHidden()
     {
         return isHidden;
+    }
+
+    private void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
 
