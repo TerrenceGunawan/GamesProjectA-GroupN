@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 
 public class Player : MonoBehaviour
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float hidingSanityMulti = 2f;
     [SerializeField] private float sanity = 100f;
     [SerializeField] private Button restartButton;
+    public List<string> Inventory = new List<string>();
 
     void Awake()
     {
@@ -169,7 +171,13 @@ public class Player : MonoBehaviour
         return isHidden;
     }
 
-    private void Restart()
+    public void AddInventory(string itemName)
+    {
+        Debug.Log(itemName);
+        Inventory.Add(itemName);
+    }
+
+    void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
