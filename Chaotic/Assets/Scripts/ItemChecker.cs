@@ -54,7 +54,7 @@ public class ItemChecker : MonoBehaviour
 
     bool Check(List<string> list1, List<string> list2)
     {
-        return new HashSet<string>(list1).SetEquals(list2);
+        return list1.All(item => list2.Contains(item));
     }
 
     IEnumerator HideTextAfterSeconds(GameObject text, float delay)
