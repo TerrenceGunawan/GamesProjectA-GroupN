@@ -10,6 +10,7 @@ public class ItemChecker : MonoBehaviour
     [SerializeField] private GameObject interactText;
     [SerializeField] private GameObject successText;
     [SerializeField] private GameObject failText;
+    private bool hasSucceeded = false;
     private bool inReach = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,13 +22,15 @@ public class ItemChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E) && Check(itemsNeeded, player.Inventory))
+        if (inReach && Input.GetKeyDown(KeyCode.E) && Check(itemsNeeded, player.Inventory) && !hasSucceeded)
         {
+            hasSucceeded = true; // Mark as done
+            player.RegainSanity();
             interactText.SetActive(false);
             successText.SetActive(true);
             StartCoroutine(HideTextAfterSeconds(successText, 3f));
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory))
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && (!Check(itemsNeeded, player.Inventory) || hasSucceeded))
         {
             interactText.SetActive(false);
             failText.SetActive(true);
@@ -46,7 +49,7 @@ public class ItemChecker : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.gameObject.tag == "Reach" && !hasSucceeded)
         {
             inReach = false;
             interactText.SetActive(false);

@@ -3,29 +3,25 @@ using TMPro; // Add this if you're using TextMeshPro
 
 public class HidingSpot : MonoBehaviour
 {
-    public Transform hidePosition;
-    public Vector3 exitOffset = new Vector3(0, 0, 1f);
-    public GameObject interactionUI; // Canvas object
-    public TextMeshProUGUI interactionText; // Actual text component
-    public KeyCode interactKey = KeyCode.E;
+    [SerializeField] private Transform hidePosition;
+    [SerializeField] private Vector3 exitOffset = new Vector3(0, 0, 1f);
+    [SerializeField] private TextMeshProUGUI interactionText; // Actual text component
 
     private Player player;
     private bool playerInRange = false;
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(interactKey))
+        if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
             if (player.IsHidden())
             {
                 player.ExitHiding(exitOffset);
                 UpdateInteractionText(false);
-                interactionUI.SetActive(true);
             }
             else
             {
                 player.HideAtPosition(hidePosition);
-                interactionUI.SetActive(false); // Hide while hidden
             }
         }
     }
@@ -39,7 +35,7 @@ public class HidingSpot : MonoBehaviour
             {
                 playerInRange = true;
                 UpdateInteractionText(player.IsHidden());
-                interactionUI.SetActive(true);
+                interactionText.enabled = true;
             }
         }
     }
@@ -51,7 +47,7 @@ public class HidingSpot : MonoBehaviour
             if (player != null && !player.IsHidden())
             {
                 playerInRange = false;
-                interactionUI.SetActive(false);
+                interactionText.enabled = false;
                 player = null;
             }
         }

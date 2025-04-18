@@ -132,6 +132,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void RegainSanity()
+    {
+        if(sanity >= 70f)
+        {
+            sanity = 100f;
+        }
+        else
+        {
+            sanity += 30f;
+        }
+    }
+
     public void EnableMovement()
     {
         movementAction.Enable();
@@ -173,7 +185,6 @@ public class Player : MonoBehaviour
 
     public void AddInventory(string itemName)
     {
-        Debug.Log(itemName);
         Inventory.Add(itemName);
     }
 

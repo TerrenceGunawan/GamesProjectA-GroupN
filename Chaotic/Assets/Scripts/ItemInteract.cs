@@ -4,11 +4,11 @@ using TMPro;
 
 public class ItemInteract : MonoBehaviour
 {
-    [SerializeField] private string itemName;
     [SerializeField] private Player player;
     [SerializeField] private GameObject interactText;
     [SerializeField] private GameObject description;
-    [SerializeField] private TextMeshProUGUI gotItem;
+    [SerializeField] private string itemDesc;
+    [SerializeField] private TextMeshProUGUI item;
     [SerializeField] private bool takeAble;
     private bool inReach = false;
 
@@ -26,15 +26,16 @@ public class ItemInteract : MonoBehaviour
         if (takeAble)
         {
             interactText.SetActive(false);
-            gotItem.enabled = true;
-            gotItem.text = "You got " + itemName;
-            player.AddInventory(itemName);
-            StartCoroutine(HideTextAfterSeconds(gotItem, 2f));
+            item.enabled = true;
+            item.text = "You got " + itemDesc;
+            player.AddInventory(itemDesc);
+            StartCoroutine(HideTextAfterSeconds(item, 2f));
         }
         // Not takeable, but has a description
         else if (description != null && !description.activeSelf)
         {
             description.SetActive(true);
+            item.text = itemDesc;
             interactText.SetActive(false);
             player.DisableMovement();
         }
