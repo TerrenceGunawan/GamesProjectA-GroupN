@@ -4425,6 +4425,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 333948422522798375, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: exitOffset.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 333948422522798375, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: exitOffset.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 333948422522798375, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: interactionUI
       value: 
       objectReference: {fileID: 1405831053}
@@ -4443,7 +4451,7 @@ PrefabInstance:
     - target: {fileID: 4035365986250726485, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 300976533}
+      objectReference: {fileID: 477635160}
     - target: {fileID: 5385410646232307666, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -15723,6 +15731,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 333948422522798375, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: exitOffset.z
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 333948422522798375, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: interactionText
       value: 
