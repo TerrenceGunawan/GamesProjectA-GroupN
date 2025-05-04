@@ -15,6 +15,7 @@ public class Keypad : MonoBehaviour
 
     public TextMeshProUGUI textOB;
     public string answer = "12345";
+    public bool Right;
 
     public AudioSource button;
     public AudioSource correct;
@@ -26,13 +27,14 @@ public class Keypad : MonoBehaviour
     void Start()
     {
         keypadOB.SetActive(false);
-
+        Right = false;
     }
 
 
     public void Number(int number)
     {
         textOB.text += number.ToString();
+        Right = true;
         // button.Play();
     }
 
