@@ -22,14 +22,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Transform player;
     
-    [SerializeField] bool patrolPointSet;
-    
-    private Vector3 destPoint;
-
-    [SerializeField] float range = 10;
-
-   [SerializeField]  LayerMask Room;
-
 
     private enum State
     {
@@ -114,20 +106,6 @@ public class Enemy : MonoBehaviour
 
     void Patrol()
     {
-
-        if (!patrolPointSet)
-        {
-            SearchForDest();
-        }
-        if(patrolPointSet)
-        {
-            navAgent.SetDestination(destPoint);
-            
-        }
-        if(Vector3.Distance(transform.position,destPoint) < 1 )
-        {
-            patrolPointSet = false;
-        }
         if (canSeePlayer)  
         {
             currentState = State.Chase;  // Transition to Chase state
@@ -154,26 +132,4 @@ public class Enemy : MonoBehaviour
         Debug.Log("SEARCHING FOR PLAYER NOT YET IMPLEMENTED");
     }
 
-
-    void SearchForDest()
-    {
-        float z = Random.Range(-range,range);
-        float x = Random.Range(-range,range);
-
-        destPoint = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
-
-
-        if(Physics.Raycast(destPoint , Vector3.down, Room))
-        {
-            patrolPointSet = true;
-        }
-    }
-
-        void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            canSeePlayer = true;
-        }
-    }
 }
