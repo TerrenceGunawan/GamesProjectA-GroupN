@@ -8,8 +8,7 @@ public class Flashlight : MonoBehaviour
 
     public AudioSource turnOn;
     public AudioSource turnOff;
-
-    public bool on;
+    
     public bool off;
 
 
@@ -32,15 +31,13 @@ public class Flashlight : MonoBehaviour
             flashlight.SetActive(true);
             turnOn.Play();
             off = false;
-            on = true;
         }
-        else if (on && Input.GetButtonDown("F"))
+        else if (!off && Input.GetButtonDown("F"))
         {
             Debug.Log("Turned Off");
             flashlight.SetActive(false);
             turnOff.Play();
             off = true;
-            on = false;
         }
 
 
