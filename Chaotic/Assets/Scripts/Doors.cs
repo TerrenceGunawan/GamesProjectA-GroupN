@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class Doors : MonoBehaviour
 {
+    [SerializeField] private GameObject lockedText;
+    [SerializeField] private Keypad keypad;
     public Animator door;
     public GameObject openText;
     public AudioSource doorSound;
     public bool inReach;
+    private bool doorIsOpen = false;
 
     void Start()
     {
@@ -35,27 +38,42 @@ public class Doors : MonoBehaviour
 
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E))
+        if (inReach && Input.GetKeyDown(KeyCode.E) && keypad.Right)
         {
-            DoorOpens();
+            if (!doorIsOpen)
+            {
+                DoorOpens();
+            }
+            else
+            {
+                DoorCloses();
+            }
         }
-        else
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && !keypad.Right)
         {
-            DoorCloses();
+            lockedText.SetActive(true); // show "locked" text
+            StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
         }
     }
-    void DoorOpens ()
+
+    void DoorOpens()
     {
-        //Debug.Log("It Opens");
         door.SetBool("Open", true);
-        door.SetBool("Closed", false);
-        //doorSound.Play();
+        doorIsOpen = true;
+        lockedText.SetActive(false);
     }
 
     void DoorCloses()
     {
-        //Debug.Log("It Closes");
         door.SetBool("Open", false);
-        door.SetBool("Closed", true);
+        doorIsOpen = false;
     }
+
+
+    IEnumerator HideLockedTextAfterSeconds(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        lockedText.SetActive(false);
+    }
+
 }
