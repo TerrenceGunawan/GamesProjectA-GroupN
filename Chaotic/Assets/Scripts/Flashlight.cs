@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ public class Flashlight : MonoBehaviour
 
     void Start()
     {
-        flashlight.GetComponent<>(GameObject);
+        //flashlight.GetComponent<>(GameObject);
         off = true;
         flashlight.SetActive(false);
     }
