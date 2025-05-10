@@ -29,6 +29,7 @@ public class ItemChecker : MonoBehaviour
             interactText.SetActive(false);
             successText.SetActive(true);
             StartCoroutine(HideTextAfterSeconds(successText, 3f));
+            MusicManager.Instance.PlaySuccessMusic();
         }
         else if (inReach && Input.GetKeyDown(KeyCode.E) && (!Check(itemsNeeded, player.Inventory)))
         {
