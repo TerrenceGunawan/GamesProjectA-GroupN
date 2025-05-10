@@ -9,7 +9,8 @@ public class Doors : MonoBehaviour
     [SerializeField] private Keypad keypad;
     public Animator door;
     public GameObject openText;
-    public AudioSource doorSound;
+    [SerializeField] private AudioSource lockedSound;
+    [SerializeField] private AudioSource openSound;
     public bool inReach;
     private bool doorIsOpen = false;
 
@@ -53,6 +54,7 @@ public class Doors : MonoBehaviour
         {
             lockedText.SetActive(true); // show "locked" text
             StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
+            if (lockedSound != null) lockedSound.Play();
         }
     }
 
@@ -61,6 +63,8 @@ public class Doors : MonoBehaviour
         door.SetBool("Open", true);
         doorIsOpen = true;
         lockedText.SetActive(false);
+
+        if (openSound != null) openSound.Play();
     }
 
     void DoorCloses()
