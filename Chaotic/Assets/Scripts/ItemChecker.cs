@@ -26,11 +26,14 @@ public class ItemChecker : MonoBehaviour
         {
             HasSucceeded = true; // Mark as done
             interactText.SetActive(false);
-            successText.SetActive(true);
-            StartCoroutine(HideTextAfterSeconds(successText, 3f));
+            if (GetComponent<Doors>() == null)
+            {
+                successText.SetActive(true);
+                StartCoroutine(HideTextAfterSeconds(successText, 3f));            
+            }
             MusicManager.Instance.PlaySuccessMusic();
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && (!Check(itemsNeeded, player.Inventory)))
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory) && GetComponent<Doors>() == null)
         {
             interactText.SetActive(false);
             failText.SetActive(true);
@@ -40,10 +43,13 @@ public class ItemChecker : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach" && !HasSucceeded && GetComponent<Doors>() == null)
+        if (other.gameObject.tag == "Reach" && !HasSucceeded)
         {
             inReach = true;
-            interactText.SetActive(true);
+            if (GetComponent<Doors>() == null)
+            {
+                interactText.SetActive(true);
+            }
         }
     }
 
