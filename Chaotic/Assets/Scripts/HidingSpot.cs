@@ -3,12 +3,17 @@ using TMPro; // Add this if you're using TextMeshPro
 
 public class HidingSpot : MonoBehaviour
 {
-    [SerializeField] private Transform hidePosition;
     [SerializeField] private Vector3 exitOffset = new Vector3(0, 0, 1f);
     [SerializeField] private TextMeshProUGUI interactionText; // Actual text component
 
+    private Transform hidePosition;
     private Player player;
     private bool playerInRange = false;
+
+    void Start()
+    {
+        hidePosition = transform;
+    }
 
     void Update()
     {

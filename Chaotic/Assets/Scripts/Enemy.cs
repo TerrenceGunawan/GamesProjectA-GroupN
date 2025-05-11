@@ -16,38 +16,40 @@ public class Enemy : MonoBehaviour
 
     public bool canSeePlayer;  // Whether the enemy can see the player
 
+    // Enemy state variables
+    public float chaseSpeed = 5f;  // Speed at which the enemy chases the player
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
-
     [SerializeField] private Transform player;
-    
+
     [SerializeField] bool patrolPointSet;
-    
+
     private Vector3 destPoint;
 
     [SerializeField] float range = 10;
 
-   [SerializeField]  LayerMask Room;
+    [SerializeField] LayerMask Room;
 
+    private float lookTimer = 5f;
+
+    // Animator reference
+    private Animator animator;
 
     private enum State
     {
+        Idle,
         Patrol,
         Chase,
-        Search,
     }
 
     void Start()
     {
-        // Initialize the player reference and start the field of view routine
         playerRef = GameObject.FindGameObjectWithTag("Player");
         currentState = State.Patrol;
-
-        // Start the field of view routine
         StartCoroutine(FOVRoutine());
-
-        navAgent = GetComponent<NavMeshAgent>(); 
+        navAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>(); 
     }
 
     void Update()
@@ -55,6 +57,10 @@ public class Enemy : MonoBehaviour
         // State-based behavior
         switch (currentState)
         {
+            case State.Idle:
+                Idle();
+                break;
+
             case State.Patrol:
                 Patrol();
                 break;
@@ -62,12 +68,7 @@ public class Enemy : MonoBehaviour
             case State.Chase:
                 ChasePlayer();
                 break;
-
-            case State.Search:
-                SearchForPlayer();
-                break;
         }
-
     }
 
     // Field of view check - checks if the player is within the enemy's line of sight
@@ -111,69 +112,101 @@ public class Enemy : MonoBehaviour
             canSeePlayer = false;
         }
     }
+    void Idle()
+    {   
+        animator.SetBool("isSearching", false);  
+        lookTimer -= Time.deltaTime;
 
-    void Patrol()
-    {
-
-        if (!patrolPointSet)
+        if(lookTimer < 0 ) 
         {
-            SearchForDest();
+            animator.SetBool("isSearching", true); 
+            currentState = State.Patrol; 
         }
-        if(patrolPointSet)
-        {
-            navAgent.SetDestination(destPoint);
-            
-        }
-        if(Vector3.Distance(transform.position,destPoint) < 1 )
-        {
-            patrolPointSet = false;
-        }
-        if (canSeePlayer)  
+        
+        if (canSeePlayer)
         {
             currentState = State.Chase;  // Transition to Chase state
+            animator.SetBool("isChasing", true);  // Stop walking animation
+            animator.SetBool("isSearching", false);
             Debug.Log("I see you!");
         }
     }
 
-    // Chase logic - move the enemy towards the player
-    void ChasePlayer()
+    // Patrol logic: enemy will move to random points within a defined radius
+    void Patrol()
     {
-        navAgent.SetDestination(player.position);
-
-        
-        if (!canSeePlayer && currentState != State.Patrol)  
+        if (!patrolPointSet)
         {
-            currentState = State.Patrol; 
-            Debug.Log("Where did you go?");
+            SearchForDest();
+        }
+        if (patrolPointSet)
+        {
+            navAgent.speed = 2f; 
+            navAgent.SetDestination(destPoint);
+            animator.SetBool("isSearching", true);  // Set the walking animation
+
+            if (Vector3.Distance(transform.position, destPoint) < 0.2)
+            {
+                lookTimer = Random.Range(3f, 6f); 
+                patrolPointSet = false;
+                animator.SetBool("isSearching", false); 
+                currentState = State.Idle; 
+            }
+        }
+
+        if (canSeePlayer)
+        {
+            currentState = State.Chase;  // Transition to Chase state
+            animator.SetBool("isSearching", false);
+            animator.SetBool("isChasing", true);
+            Debug.Log("I see you!");
         }
     }
 
-    // Search logic (not implemented yet)
-    void SearchForPlayer()
+    void ChasePlayer()
     {
-        Debug.Log("SEARCHING FOR PLAYER NOT YET IMPLEMENTED");
+        navAgent.speed = 3f; 
+        navAgent.SetDestination(player.position);
+
+        if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
+        {
+            destPoint = player.position;
+            currentState = State.Patrol;
+            animator.SetBool("isChasing", false);  
+            Debug.Log("Where did you go?");
+        }
+
+        if (Vector3.Distance(transform.position,player.position) < 5)
+        {
+            animator.SetBool("isAttacking", true); 
+        }
+        else 
+        {
+            animator.SetBool("isAttacking", false); 
+        }
+
+
     }
 
 
     void SearchForDest()
     {
-        float z = Random.Range(-range,range);
-        float x = Random.Range(-range,range);
+        float z = Random.Range(-range, range);
+        float x = Random.Range(-range, range);
 
         destPoint = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
 
-
-        if(Physics.Raycast(destPoint , Vector3.down, Room))
+        if (Physics.Raycast(destPoint, Vector3.down, Room))
         {
             patrolPointSet = true;
         }
     }
 
-        void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            canSeePlayer = true;
+            currentState = State.Chase;
         }
     }
 }

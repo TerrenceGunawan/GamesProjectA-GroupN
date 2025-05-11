@@ -1,24 +1,23 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
-    public GameObject flashlight;
+    private Light flashlight;
 
     public AudioSource turnOn;
     public AudioSource turnOff;
     
-    public bool off;
+    public bool on;
 
 
 
 
     void Start()
     {
-        flashlight.GetComponent<>(GameObject);
-        off = true;
-        flashlight.SetActive(false);
+        flashlight = GetComponent<Light>();
+        on = false;
     }
 
 
@@ -26,22 +25,18 @@ public class Flashlight : MonoBehaviour
 
     void Update()
     {
-        if(off && Input.GetButtonDown("F"))
+        flashlight.enabled = on;
+        if(!on && Input.GetButtonDown("F"))
         {
+            on = true;
             Debug.Log("Turned On");
-            flashlight.SetActive(true);
             turnOn.Play();
-            off = false;
         }
-        else if (!off && Input.GetButtonDown("F"))
+        else if (on && Input.GetButtonDown("F"))
         {
+            on = false;
             Debug.Log("Turned Off");
-            flashlight.SetActive(false);
             turnOff.Play();
-            off = true;
         }
-
-
-
     }
 }

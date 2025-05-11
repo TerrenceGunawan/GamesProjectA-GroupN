@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class Doors : MonoBehaviour
 {
+    [SerializeField] private bool safeRoomDoor;
     [SerializeField] private GameObject lockedText;
     [SerializeField] private Keypad keypad;
+    private ItemChecker itemChecker;
     public Animator door;
     public GameObject openText;
-    public AudioSource doorSound;
+    [SerializeField] private AudioSource lockedSound;
+    [SerializeField] private AudioSource openSound;
     public bool inReach;
     private bool doorIsOpen = false;
+    private bool textShown = false;
 
     void Start()
     {
         inReach = false;
+        itemChecker = GetComponent<ItemChecker>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,21 +43,34 @@ public class Doors : MonoBehaviour
 
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E) && keypad.Right)
+        if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && keypad.Right) || (itemChecker != null && itemChecker.HasSucceeded)))
         {
             if (!doorIsOpen)
             {
                 DoorOpens();
+                if (safeRoomDoor)
+                {
+                    RenderSettings.fog = true;
+                }
+                else
+                {
+                    RenderSettings.fog = false;
+                }
             }
             else
             {
                 DoorCloses();
             }
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && !keypad.Right)
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && ((keypad != null && !keypad.Right) || (itemChecker != null && !itemChecker.HasSucceeded)))
         {
-            lockedText.SetActive(true); // show "locked" text
-            StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
+            if (!textShown)
+            {
+                textShown = true;
+                lockedText.SetActive(true); // show "locked" text
+                StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
+            }
+            if (lockedSound != null) lockedSound.Play();
         }
     }
 
@@ -61,6 +79,8 @@ public class Doors : MonoBehaviour
         door.SetBool("Open", true);
         doorIsOpen = true;
         lockedText.SetActive(false);
+
+        if (openSound != null) openSound.Play();
     }
 
     void DoorCloses()

@@ -25,12 +25,15 @@ public class ItemChecker : MonoBehaviour
         if (inReach && Input.GetKeyDown(KeyCode.E) && Check(itemsNeeded, player.Inventory) && !HasSucceeded)
         {
             HasSucceeded = true; // Mark as done
-            player.RegainSanity();
             interactText.SetActive(false);
-            successText.SetActive(true);
-            StartCoroutine(HideTextAfterSeconds(successText, 3f));
+            if (GetComponent<Doors>() == null)
+            {
+                successText.SetActive(true);
+                StartCoroutine(HideTextAfterSeconds(successText, 3f));            
+            }
+            MusicManager.Instance.PlaySuccessMusic();
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && (!Check(itemsNeeded, player.Inventory)))
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory) && GetComponent<Doors>() == null)
         {
             interactText.SetActive(false);
             failText.SetActive(true);
@@ -43,7 +46,10 @@ public class ItemChecker : MonoBehaviour
         if (other.gameObject.tag == "Reach" && !HasSucceeded)
         {
             inReach = true;
-            interactText.SetActive(true);
+            if (GetComponent<Doors>() == null)
+            {
+                interactText.SetActive(true);
+            }
         }
     }
 
