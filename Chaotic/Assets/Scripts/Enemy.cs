@@ -141,10 +141,11 @@ public class Enemy : MonoBehaviour
         }
         if (patrolPointSet)
         {
+            navAgent.speed = 2f; 
             navAgent.SetDestination(destPoint);
             animator.SetBool("isSearching", true);  // Set the walking animation
 
-            if (Vector3.Distance(transform.position, destPoint) < 1)
+            if (Vector3.Distance(transform.position, destPoint) < 0.2)
             {
                 lookTimer = Random.Range(3f, 6f); 
                 patrolPointSet = false;
@@ -164,6 +165,7 @@ public class Enemy : MonoBehaviour
 
     void ChasePlayer()
     {
+        navAgent.speed = 3f; 
         navAgent.SetDestination(player.position);
 
         if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
@@ -174,14 +176,14 @@ public class Enemy : MonoBehaviour
             Debug.Log("Where did you go?");
         }
 
-        // if (Vector3.Distance(transform.position,player.position) < 2.0 )
-        // {
-        //     animator.SetBool("isAttacking", true); 
-        // }
-        // else 
-        // {
-        //     animator.SetBool("isAttacking", false); 
-        // }
+        if (Vector3.Distance(transform.position,player.position) < 5)
+        {
+            animator.SetBool("isAttacking", true); 
+        }
+        else 
+        {
+            animator.SetBool("isAttacking", false); 
+        }
 
 
     }

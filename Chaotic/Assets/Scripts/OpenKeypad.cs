@@ -12,7 +12,6 @@ public class OpenKeyPad : MonoBehaviour
     void Start()
     {
         inReach = false;  // Initially, the player is not in reach of the keypad
-        keypadOB.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
