@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float hidingSanityMulti = 2f;
     [SerializeField] private float sanity = 100f;
     [SerializeField] private Button restartButton;
+    private float maxSanity;
     public List<string> Inventory = new List<string>();
 
     void Awake()
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
         lookingAction = actions.movement.look;
         restartButton.onClick.AddListener(Restart);
         restartButton.gameObject.SetActive(false);
+        maxSanity = sanity;
     }
 
    void OnEnable()
@@ -63,7 +65,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ReduceSanity();
         HandleMouseLook();
     }
 
@@ -105,6 +106,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "DangerRoom")
+        {
+            ReduceSanity();
+        }
+        if (other.gameObject.tag == "SafeRoom")
+        {
+            RegainSanity();
+        }
+    }
+
     void ReduceSanity()
     {
         damageTimer -= Time.deltaTime;
@@ -132,15 +145,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void RegainSanity()
+    void RegainSanity()
     {
-        if(sanity >= 70f)
+        if(sanity >= maxSanity)
         {
-            sanity = 100f;
+            sanity = maxSanity;
         }
         else
         {
-            sanity += 30f;
+            sanity += Time.deltaTime;
         }
     }
 
@@ -162,7 +175,14 @@ public class Player : MonoBehaviour
         DisableMovement();
 
         rb.isKinematic = true; // Prevent physics from interfering
-        transform.position = hidingSpot.position;
+        if (hidingSpot.position.y < 0f)
+        {
+            transform.position = hidingSpot.position - new Vector3(0f, 1.0f, 0f);
+        } 
+        else
+        {
+            transform.position = hidingSpot.position;
+        }
         transform.rotation = hidingSpot.rotation;
 
         verticalRotation = 0f;
