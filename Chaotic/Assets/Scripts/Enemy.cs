@@ -4,20 +4,10 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    // Field of View variables
-    public float radius;  // The radius of the enemy's field of view
-    [Range(0, 360)]
-    public float angle;  // The angle of the field of view
-
     public GameObject playerRef;  // Reference to the player's GameObject
-
-    public LayerMask targetMask;  // Layer mask for targets (player)
-    public LayerMask obstructionMask;  // Layer mask for obstacles (walls)
 
     public bool canSeePlayer;  // Whether the enemy can see the player
 
-    // Enemy state variables
-    public float chaseSpeed = 5f;  // Speed at which the enemy chases the player
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
@@ -31,30 +21,48 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] LayerMask Room;
 
+    [SerializeField] LayerMask playerLayer;
+
     private float lookTimer = 5f;
 
-    // Animator reference
     private Animator animator;
+
+    [SerializeField] private float sightRange;
+    [SerializeField] private float  attackRange;
+    public bool inAttackRange;
+    
+    public bool hidden;
+
+    [SerializeField] private BoxCollider boxCollider;
+
+    [SerializeField] float temp1, temp2;
 
     private enum State
     {
         Idle,
         Patrol,
         Chase,
+        Attack,
     }
 
     void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
         currentState = State.Patrol;
-        StartCoroutine(FOVRoutine());
         navAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>(); 
+        boxCollider = GetComponentInChildren<BoxCollider>();
+         navAgent.updateRotation = true;  
+        disableAttack();
+        temp1 = sightRange;
+        temp2 = attackRange;
     }
 
     void Update()
     {
-        // State-based behavior
+        canSeePlayer = Physics.CheckSphere(transform.position,sightRange, playerLayer);
+        inAttackRange = Physics.CheckSphere(transform.position, attackRange,playerLayer);
+
         switch (currentState)
         {
             case State.Idle:
@@ -68,50 +76,14 @@ public class Enemy : MonoBehaviour
             case State.Chase:
                 ChasePlayer();
                 break;
+
+            case State.Attack:
+                Attack();
+                break;   
         }
+
     }
 
-    // Field of view check - checks if the player is within the enemy's line of sight
-    private IEnumerator FOVRoutine()
-    {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
-
-        while (true)
-        {
-            yield return wait;
-            FieldOfViewCheck();  // Perform field of view check every 0.2 seconds
-        }
-    }
-
-    // Check if the player is within the field of view and line of sight
-    private void FieldOfViewCheck()
-    {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
-        if (rangeChecks.Length != 0)
-        {
-            Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
-            {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                    canSeePlayer = true;
-                else
-                    canSeePlayer = false;
-            }
-            else
-            {
-                canSeePlayer = false;
-            }
-        }
-        else if (canSeePlayer)
-        {
-            canSeePlayer = false;
-        }
-    }
     void Idle()
     {   
         animator.SetBool("isSearching", false);  
@@ -125,14 +97,12 @@ public class Enemy : MonoBehaviour
         
         if (canSeePlayer)
         {
-            currentState = State.Chase;  // Transition to Chase state
             animator.SetBool("isChasing", true);  // Stop walking animation
             animator.SetBool("isSearching", false);
             Debug.Log("I see you!");
         }
     }
 
-    // Patrol logic: enemy will move to random points within a defined radius
     void Patrol()
     {
         if (!patrolPointSet)
@@ -145,7 +115,7 @@ public class Enemy : MonoBehaviour
             navAgent.SetDestination(destPoint);
             animator.SetBool("isSearching", true);  // Set the walking animation
 
-            if (Vector3.Distance(transform.position, destPoint) < 0.2)
+            if (Vector3.Distance(transform.position, destPoint) < 0.5)
             {
                 lookTimer = Random.Range(3f, 6f); 
                 patrolPointSet = false;
@@ -154,7 +124,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (canSeePlayer)
+        if (canSeePlayer && !hidden)
         {
             currentState = State.Chase;  // Transition to Chase state
             animator.SetBool("isSearching", false);
@@ -165,6 +135,7 @@ public class Enemy : MonoBehaviour
 
     void ChasePlayer()
     {
+        animator.SetBool("isChasing", true); 
         navAgent.speed = 3f; 
         navAgent.SetDestination(player.position);
 
@@ -176,15 +147,31 @@ public class Enemy : MonoBehaviour
             Debug.Log("Where did you go?");
         }
 
-        if (Vector3.Distance(transform.position,player.position) < 5)
+        if (canSeePlayer && inAttackRange)
         {
-            animator.SetBool("isAttacking", true); 
+            currentState = State.Attack;
         }
         else 
         {
             animator.SetBool("isAttacking", false); 
         }
 
+
+    }
+
+
+        void Attack()
+    {
+            animator.SetBool("isAttacking", true); 
+            enableAttack();
+            navAgent.SetDestination(transform.position);
+
+        if (!inAttackRange)
+            {
+                currentState = State.Chase;
+                animator.SetBool("isAttacking", false); 
+                disableAttack();
+            }
 
     }
 
@@ -209,4 +196,15 @@ public class Enemy : MonoBehaviour
             currentState = State.Chase;
         }
     }
+
+    void enableAttack()
+    {
+        boxCollider.enabled = true;
+    }
+
+    void disableAttack()
+    {
+        boxCollider.enabled = false;
+    }
+
 }

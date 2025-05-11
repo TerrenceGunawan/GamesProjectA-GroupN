@@ -10,9 +10,12 @@ public class HidingSpot : MonoBehaviour
     private Player player;
     private bool playerInRange = false;
 
+    private Enemy enemy;
+
     void Start()
     {
         hidePosition = transform;
+        enemy = FindObjectOfType<Enemy>();
     }
 
     void Update()
@@ -27,6 +30,7 @@ public class HidingSpot : MonoBehaviour
             else
             {
                 player.HideAtPosition(hidePosition);
+                
             }
         }
     }
