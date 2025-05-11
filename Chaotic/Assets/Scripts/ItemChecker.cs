@@ -41,7 +41,7 @@ public class ItemChecker : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach" && !HasSucceeded)
+        if (other.gameObject.tag == "Reach" && !HasSucceeded && GetComponent<Doors>() == null)
         {
             inReach = true;
             interactText.SetActive(true);

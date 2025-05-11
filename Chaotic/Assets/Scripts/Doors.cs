@@ -7,6 +7,7 @@ public class Doors : MonoBehaviour
 {
     [SerializeField] private GameObject lockedText;
     [SerializeField] private Keypad keypad;
+    private ItemChecker itemChecker;
     public Animator door;
     public GameObject openText;
     [SerializeField] private AudioSource lockedSound;
@@ -17,6 +18,7 @@ public class Doors : MonoBehaviour
     void Start()
     {
         inReach = false;
+        itemChecker = GetComponent<ItemChecker>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -39,7 +41,7 @@ public class Doors : MonoBehaviour
 
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E) && keypad.Right)
+        if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && keypad.Right) || (itemChecker != null && itemChecker.HasSucceeded)))
         {
             if (!doorIsOpen)
             {
@@ -50,7 +52,7 @@ public class Doors : MonoBehaviour
                 DoorCloses();
             }
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && !keypad.Right)
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && ((keypad != null && !keypad.Right) || (itemChecker != null && !itemChecker.HasSucceeded)))
         {
             lockedText.SetActive(true); // show "locked" text
             StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
