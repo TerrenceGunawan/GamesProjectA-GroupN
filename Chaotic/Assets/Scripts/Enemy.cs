@@ -160,9 +160,10 @@ public class Enemy : MonoBehaviour
     }
 
 
-        void Attack()
+    void Attack()
     {
-            animator.SetBool("isAttacking", true); 
+        
+            animator.SetBool("isAttacking", true);
             enableAttack();
             navAgent.SetDestination(transform.position);
 
@@ -193,7 +194,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            currentState = State.Chase;
+            //currentState = State.Chase;
         }
     }
 
