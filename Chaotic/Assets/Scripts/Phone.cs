@@ -10,6 +10,7 @@ public class Phone : MonoBehaviour
     [SerializeField] private TextMeshProUGUI subtitles;
     [SerializeField] private GameObject interactText;
     private bool inReach = false;
+    private bool pickedUp = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +20,7 @@ public class Phone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E))
+        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp)
         {
             StartCoroutine(ChangeSubtitles());
         }
@@ -27,7 +28,7 @@ public class Phone : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.gameObject.tag == "Reach" && !pickedUp)
         {
             inReach = true;
             interactText.SetActive(true);
@@ -45,6 +46,7 @@ public class Phone : MonoBehaviour
 
     IEnumerator ChangeSubtitles()
     {
+        pickedUp = true;
         for (int i = 0; i < dialogue.Count; i++)
         {
             subtitles.text = dialogue[i];

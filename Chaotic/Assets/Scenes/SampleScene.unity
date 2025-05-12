@@ -18459,8 +18459,8 @@ MonoBehaviour:
   - Hey, it's me your brother
   - I've been trying to get a hold of you for ages dude
   delay:
-  - 0
-  - 0
+  - 5
+  - 4
   subtitles: {fileID: 1896234049}
   interactText: {fileID: 1980203785}
 --- !u!64 &1547245236
