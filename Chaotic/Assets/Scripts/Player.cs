@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private InputAction movementAction;
     private InputAction lookingAction;
     private Rigidbody rb;
+    private AudioSource footstepSound;
     
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float lookSensitivity = 10f;
@@ -24,9 +25,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float damageTimer;
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
-    [SerializeField] private float sanity = 100f;
     [SerializeField] private Button restartButton;
     private float maxSanity;
+    public float Sanity = 100f;
     public List<string> Inventory = new List<string>();
 
     void Awake()
@@ -39,7 +40,8 @@ public class Player : MonoBehaviour
         lookingAction = actions.movement.look;
         restartButton.onClick.AddListener(Restart);
         restartButton.gameObject.SetActive(false);
-        maxSanity = sanity;
+        maxSanity = Sanity;
+        footstepSound = GetComponent<AudioSource>();
     }
 
    void OnEnable()
@@ -58,7 +60,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
-        sanityBar.value = sanity;
+        sanityBar.value = Sanity;
         damageTimer = maxDamageTimer;
     }
 
@@ -81,6 +83,7 @@ public class Player : MonoBehaviour
 
         // Move the player while respecting colliders
         rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
+        footstepSound.enabled = moveInput.magnitude > 0; // Enable footstep sound only when moving
     }
 
     void HandleMouseLook()
@@ -99,7 +102,7 @@ public class Player : MonoBehaviour
         { 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            sanity -=enemySanityDamage;
+            Sanity -=enemySanityDamage;
             damageTimer = maxDamageTimer;
             Debug.Log("You got hit");
         }
@@ -128,16 +131,16 @@ public class Player : MonoBehaviour
 
         if(IsHidden())
         {
-            sanity -= hidingSanityMulti * Time.deltaTime;
+            Sanity -= hidingSanityMulti * Time.deltaTime;
         }
         else
         {
-            sanity -= Time.deltaTime;
+            Sanity -= Time.deltaTime;
         }
 
-        sanityBar.value = sanity;
+        sanityBar.value = Sanity;
 
-        if(sanity < 0)
+        if(Sanity < 0)
         {
             OnDisable();
             restartButton.gameObject.SetActive(true);
@@ -145,15 +148,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    void RegainSanity()
+    public void RegainSanity()
     {
-        if(sanity >= maxSanity)
+        if(Sanity >= maxSanity)
         {
-            sanity = maxSanity;
+            Sanity = maxSanity;
         }
         else
         {
-            sanity += Time.deltaTime;
+            Sanity += Time.deltaTime;
         }
     }
 

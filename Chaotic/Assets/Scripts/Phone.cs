@@ -5,10 +5,15 @@ using TMPro;
 
 public class Phone : MonoBehaviour
 {
+    [SerializeField] private Transform player;
+    [SerializeField] private float ringDistance = 5f;
     [SerializeField] private List<string> dialogue = new List<string>();
     [SerializeField] private List<float> delay = new List<float>();
     [SerializeField] private TextMeshProUGUI subtitles;
     [SerializeField] private GameObject interactText;
+    [SerializeField] private AudioSource phoneRing;
+    [SerializeField] private AudioSource talking;
+
     private bool inReach = false;
     private bool pickedUp = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,8 +25,21 @@ public class Phone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= ringDistance && !pickedUp)
+        {
+            if (!phoneRing.isPlaying)
+            {
+                phoneRing.Play();
+                phoneRing.loop = true;
+            }
+        }
         if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp)
         {
+            pickedUp = true;
+            phoneRing.Stop();
+            talking.Play();
+            interactText.SetActive(false);
             StartCoroutine(ChangeSubtitles());
         }
     }
@@ -46,7 +64,6 @@ public class Phone : MonoBehaviour
 
     IEnumerator ChangeSubtitles()
     {
-        pickedUp = true;
         for (int i = 0; i < dialogue.Count; i++)
         {
             subtitles.text = dialogue[i];

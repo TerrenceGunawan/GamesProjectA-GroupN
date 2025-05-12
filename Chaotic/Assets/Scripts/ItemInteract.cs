@@ -10,6 +10,7 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private string itemDesc;
     [SerializeField] private TextMeshProUGUI item;
     [SerializeField] private bool takeAble;
+    [SerializeField] private bool sanityRegain;
     private bool inReach = false;
 
     void Start()
@@ -27,8 +28,16 @@ public class ItemInteract : MonoBehaviour
         {
             interactText.SetActive(false);
             item.enabled = true;
-            item.text = "You got " + itemDesc;
-            player.AddInventory(itemDesc);
+            if (sanityRegain)
+            {
+                player.Sanity += 15f;
+                item.text = itemDesc;
+            }
+            else
+            {
+                item.text = "You got " + itemDesc;
+                player.AddInventory(itemDesc);
+            }
             StartCoroutine(HideTextAfterSeconds(item, 2f));
         }
         // Not takeable, but has a description
