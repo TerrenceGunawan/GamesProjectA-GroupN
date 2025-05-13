@@ -9,9 +9,9 @@ public class Keypad : MonoBehaviour
 {
     public Player player;
     public GameObject keypadOB;
+    public GameObject keypadText;
     public GameObject animateOB;
     public Animator ANI;
-
 
     public TextMeshProUGUI textOB;
     public string answer = "12345";
@@ -21,7 +21,9 @@ public class Keypad : MonoBehaviour
     public AudioSource correct;
     public AudioSource wrong;
 
+    public bool inReach = false;
     public bool animate;
+    private bool completed = false;
 
 
     void Start()
@@ -30,6 +32,11 @@ public class Keypad : MonoBehaviour
         Right = false;
     }
 
+    void OpenKeypadUI()
+    {
+        keypadOB.SetActive(true);  // Show the keypad UI
+        player.DisableMovement();  // Disable player movement when interacting
+    }
 
     public void Number(int number)
     {
@@ -38,18 +45,20 @@ public class Keypad : MonoBehaviour
         // button.Play();
     }
 
-    public void Execute()
+    public void Enter()
     {
         if (textOB.text == answer)
         {
             // correct.Play();
-            textOB.text = "Right";
-
+            completed = true;
+            textOB.text = "Correct";
+            StartCoroutine(CodeDelay(true, 0.5f));
         }
         else
         {
             // wrong.Play();
-            textOB.text = "Wrong";
+            textOB.text = "X";
+            StartCoroutine(CodeDelay(false, 0.5f));
         }
 
 
@@ -73,6 +82,13 @@ public class Keypad : MonoBehaviour
 
     public void Update()
     {
+        // If the player presses the interact button and is within reach
+        if (Input.GetKeyDown(KeyCode.E) && inReach && !completed) 
+        {
+            OpenKeypadUI();  // Call method to open the keypad UI
+            keypadText.SetActive(false);
+        }
+
         if (textOB.text == "Right" && animate)
         {
             ANI.SetBool("animate", true);
@@ -89,5 +105,34 @@ public class Keypad : MonoBehaviour
 
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Reach") && !completed)  // When the player enters the trigger
+        {
+            inReach = true;
+            keypadText.SetActive(true);  // Show interaction text
+        }
+    }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Reach"))  // When the player exits the trigger
+        {
+            inReach = false;
+            keypadText.SetActive(false);  // Hide interaction text
+        }
+    }
+
+    IEnumerator CodeDelay(bool correct, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (correct)
+        {
+            Exit();
+        }
+        else
+        {
+            textOB.text = "";
+        }
+    }
 }

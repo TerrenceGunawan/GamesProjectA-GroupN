@@ -233,7 +233,6 @@ GameObject:
   - component: {fileID: 4035365986250726485}
   - component: {fileID: 1384299728290063330}
   - component: {fileID: 333948422522798375}
-  - component: {fileID: 790730823170946800}
   - component: {fileID: 785318667261834313}
   m_Layer: 6
   m_Name: Hiding Spot
@@ -385,30 +384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44604c8522aa6df4d9e07ec970f59265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hidePosition: {fileID: 7208223819645316967}
   exitOffset: {x: 0, y: 0, z: 1}
   interactionText: {fileID: 0}
---- !u!65 &790730823170946800
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 583396271673579550}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 1}
 --- !u!114 &785318667261834313
 MonoBehaviour:
   m_ObjectHideFlags: 0

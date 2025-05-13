@@ -5,10 +5,10 @@ public class HidingSpot : MonoBehaviour
 {
     [SerializeField] private Vector3 exitOffset = new Vector3(0, 0, 1f);
     [SerializeField] private TextMeshProUGUI interactionText; // Actual text component
+    [SerializeField] private Player player;
 
     private Transform hidePosition;
-    private Player player;
-    private bool playerInRange = false;
+    private bool inReach = false;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class HidingSpot : MonoBehaviour
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (inReach && Input.GetKeyDown(KeyCode.E))
         {
             if (player.IsHidden())
             {
@@ -33,12 +33,11 @@ public class HidingSpot : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Reach"))
         {
-            player = other.GetComponent<Player>();
             if (player != null)
             {
-                playerInRange = true;
+                inReach = true;
                 UpdateInteractionText(player.IsHidden());
                 interactionText.enabled = true;
             }
@@ -47,11 +46,11 @@ public class HidingSpot : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Reach"))
         {
             if (player != null && !player.IsHidden())
             {
-                playerInRange = false;
+                inReach = false;
                 interactionText.enabled = false;
                 player = null;
             }

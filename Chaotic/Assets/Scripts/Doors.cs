@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Doors : MonoBehaviour
 {
-    [SerializeField] private bool safeRoomDoor;
     [SerializeField] private GameObject lockedText;
     [SerializeField] private Keypad keypad;
     private ItemChecker itemChecker;
@@ -48,14 +47,6 @@ public class Doors : MonoBehaviour
             if (!doorIsOpen)
             {
                 DoorOpens();
-                if (safeRoomDoor)
-                {
-                    RenderSettings.fog = true;
-                }
-                else
-                {
-                    RenderSettings.fog = false;
-                }
             }
             else
             {
