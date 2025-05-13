@@ -8,11 +8,12 @@ using TMPro;
 public class Keypad : MonoBehaviour
 {
     public Player player;
+    public GameObject crosshair;
     public GameObject keypadOB;
-    public GameObject keypadText;
     public GameObject animateOB;
     public Animator ANI;
 
+    public TextMeshProUGUI keypadText;
     public TextMeshProUGUI textOB;
     public string answer = "12345";
     public bool Right;
@@ -34,6 +35,7 @@ public class Keypad : MonoBehaviour
 
     void OpenKeypadUI()
     {
+        crosshair.SetActive(false);  // Hide the crosshair when interacting
         keypadOB.SetActive(true);  // Show the keypad UI
         player.DisableMovement();  // Disable player movement when interacting
     }
@@ -75,6 +77,7 @@ public class Keypad : MonoBehaviour
     public void Exit()
     {
         keypadOB.SetActive(false);
+        crosshair.SetActive(true);  // Show the crosshair again
         player.EnableMovement();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -86,7 +89,7 @@ public class Keypad : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && inReach && !completed) 
         {
             OpenKeypadUI();  // Call method to open the keypad UI
-            keypadText.SetActive(false);
+            keypadText.text = "";
         }
 
         if (textOB.text == "Right" && animate)
@@ -110,7 +113,7 @@ public class Keypad : MonoBehaviour
         if (other.gameObject.CompareTag("Reach") && !completed)  // When the player enters the trigger
         {
             inReach = true;
-            keypadText.SetActive(true);  // Show interaction text
+            keypadText.text = "Interact [E]";  // Show interaction text
         }
     }
 
@@ -119,7 +122,7 @@ public class Keypad : MonoBehaviour
         if (other.gameObject.CompareTag("Reach"))  // When the player exits the trigger
         {
             inReach = false;
-            keypadText.SetActive(false);  // Hide interaction text
+            keypadText.text = "";  // Hide interaction text
         }
     }
 

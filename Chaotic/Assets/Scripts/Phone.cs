@@ -10,7 +10,7 @@ public class Phone : MonoBehaviour
     [SerializeField] private List<string> dialogue = new List<string>();
     [SerializeField] private List<float> delay = new List<float>();
     [SerializeField] private TextMeshProUGUI subtitles;
-    [SerializeField] private GameObject interactText;
+    [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private AudioSource phoneRing;
     [SerializeField] private AudioSource talking;
 
@@ -39,7 +39,7 @@ public class Phone : MonoBehaviour
             pickedUp = true;
             phoneRing.Stop();
             talking.Play();
-            interactText.SetActive(false);
+            interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
     }
@@ -49,7 +49,7 @@ public class Phone : MonoBehaviour
         if (other.gameObject.tag == "Reach" && !pickedUp)
         {
             inReach = true;
-            interactText.SetActive(true);
+            interactText.text = "Interact [E]";
         }
     }
 
@@ -58,7 +58,7 @@ public class Phone : MonoBehaviour
         if (other.gameObject.tag == "Reach")
         {
             inReach = false;
-            interactText.SetActive(false);
+            interactText.text = "";
         }
     }
 

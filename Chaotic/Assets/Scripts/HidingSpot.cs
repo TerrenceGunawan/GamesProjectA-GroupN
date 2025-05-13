@@ -39,7 +39,6 @@ public class HidingSpot : MonoBehaviour
             {
                 inReach = true;
                 UpdateInteractionText(player.IsHidden());
-                interactionText.enabled = true;
             }
         }
     }
@@ -51,7 +50,7 @@ public class HidingSpot : MonoBehaviour
             if (player != null && !player.IsHidden())
             {
                 inReach = false;
-                interactionText.enabled = false;
+                interactionText.text = ""; // Clear the interaction text
                 player = null;
             }
         }
