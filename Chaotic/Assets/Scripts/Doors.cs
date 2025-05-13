@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 public class Doors : MonoBehaviour
 {
-    [SerializeField] private GameObject lockedText;
+    [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private Keypad keypad;
     private ItemChecker itemChecker;
     public Animator door;
-    public GameObject openText;
     [SerializeField] private AudioSource lockedSound;
     [SerializeField] private AudioSource openSound;
     public bool inReach;
     private bool doorIsOpen = false;
-    private bool textShown = false;
 
     void Start()
     {
@@ -27,7 +26,8 @@ public class Doors : MonoBehaviour
         if (other.gameObject.tag == "Reach")
         {
             inReach = true;
-            openText.SetActive(true);
+            interactText.text = doorIsOpen ? "Close [E]" : "Open [E]";
+
         }
     }
 
@@ -36,13 +36,13 @@ public class Doors : MonoBehaviour
         if (other.gameObject.tag == "Reach")
         {
             inReach = false;
-            openText.SetActive(false);
+            interactText.text = ""; // Clear the interaction text
         }
     }
 
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && keypad.Right) || (itemChecker != null && itemChecker.HasSucceeded)))
+        if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded)))
         {
             if (!doorIsOpen)
             {
@@ -53,15 +53,14 @@ public class Doors : MonoBehaviour
                 DoorCloses();
             }
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E)  && ((keypad != null && !keypad.Right) || (itemChecker != null && !itemChecker.HasSucceeded)))
-        {
-            if (!textShown)
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded)))
+        {            
+            interactText.text = "The door is locked."; // show "locked" text
+            StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
+            if (lockedSound != null) 
             {
-                textShown = true;
-                lockedText.SetActive(true); // show "locked" text
-                StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
+                lockedSound.Play();
             }
-            if (lockedSound != null) lockedSound.Play();
         }
     }
 
@@ -69,9 +68,10 @@ public class Doors : MonoBehaviour
     {
         door.SetBool("Open", true);
         doorIsOpen = true;
-        lockedText.SetActive(false);
-
-        if (openSound != null) openSound.Play();
+        if (openSound != null) 
+        {
+            openSound.Play();
+        }
     }
 
     void DoorCloses()
@@ -84,7 +84,6 @@ public class Doors : MonoBehaviour
     IEnumerator HideLockedTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
-        lockedText.SetActive(false);
+        interactText.text = ""; // Clear the interaction text
     }
-
 }

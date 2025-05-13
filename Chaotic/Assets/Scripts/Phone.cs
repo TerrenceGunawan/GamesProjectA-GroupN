@@ -11,15 +11,19 @@ public class Phone : MonoBehaviour
     [SerializeField] private List<float> delay = new List<float>();
     [SerializeField] private TextMeshProUGUI subtitles;
     [SerializeField] private TextMeshProUGUI interactText;
-    [SerializeField] private AudioSource phoneRing;
-    [SerializeField] private AudioSource talking;
+    [SerializeField] private AudioClip phoneRing;
+    [SerializeField] private AudioClip talking;
 
+    private AudioSource audioSource;
     private bool inReach = false;
     private bool pickedUp = false;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = phoneRing;
     }
 
     // Update is called once per frame
@@ -28,17 +32,17 @@ public class Phone : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= ringDistance && !pickedUp)
         {
-            if (!phoneRing.isPlaying)
+            if (!audioSource.isPlaying)
             {
-                phoneRing.Play();
-                phoneRing.loop = true;
+                audioSource.Play();
             }
         }
         if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp)
         {
             pickedUp = true;
-            phoneRing.Stop();
-            talking.Play();
+            audioSource.clip = talking;
+            audioSource.loop = false;
+            audioSource.Play();
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }

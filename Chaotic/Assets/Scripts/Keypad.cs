@@ -16,7 +16,6 @@ public class Keypad : MonoBehaviour
     public TextMeshProUGUI keypadText;
     public TextMeshProUGUI textOB;
     public string answer = "12345";
-    public bool Right;
 
     public AudioSource button;
     public AudioSource correct;
@@ -24,13 +23,12 @@ public class Keypad : MonoBehaviour
 
     public bool inReach = false;
     public bool animate;
-    private bool completed = false;
+    public bool Completed = false;
 
 
     void Start()
     {
         keypadOB.SetActive(false);
-        Right = false;
     }
 
     void OpenKeypadUI()
@@ -43,7 +41,6 @@ public class Keypad : MonoBehaviour
     public void Number(int number)
     {
         textOB.text += number.ToString();
-        Right = true;
         // button.Play();
     }
 
@@ -52,7 +49,7 @@ public class Keypad : MonoBehaviour
         if (textOB.text == answer)
         {
             // correct.Play();
-            completed = true;
+            Completed = true;
             textOB.text = "Correct";
             StartCoroutine(CodeDelay(true, 0.5f));
         }
@@ -86,7 +83,7 @@ public class Keypad : MonoBehaviour
     public void Update()
     {
         // If the player presses the interact button and is within reach
-        if (Input.GetKeyDown(KeyCode.E) && inReach && !completed) 
+        if (Input.GetKeyDown(KeyCode.E) && inReach && !Completed) 
         {
             OpenKeypadUI();  // Call method to open the keypad UI
             keypadText.text = "";
@@ -110,7 +107,7 @@ public class Keypad : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Reach") && !completed)  // When the player enters the trigger
+        if (other.gameObject.CompareTag("Reach") && !Completed)  // When the player enters the trigger
         {
             inReach = true;
             keypadText.text = "Interact [E]";  // Show interaction text
