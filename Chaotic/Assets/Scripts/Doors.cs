@@ -33,7 +33,7 @@ public class Doors : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.gameObject.tag == "Reach" && (((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded))))
         {
             inReach = false;
             interactText.text = ""; // Clear the interaction text
@@ -54,8 +54,15 @@ public class Doors : MonoBehaviour
             }
         }
         else if (inReach && Input.GetKeyDown(KeyCode.E)  && ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded)))
-        {            
-            interactText.text = "The door is locked."; // show "locked" text
+        {
+            if (keypad != null)
+            {
+                interactText.text = "I need to enter a code into the keypad."; // show "locked" text
+            }
+            else if (itemChecker != null)
+            {
+                interactText.text = "I need to find the right key first."; // show "locked" text
+            }        
             StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
             if (lockedSound != null) 
             {

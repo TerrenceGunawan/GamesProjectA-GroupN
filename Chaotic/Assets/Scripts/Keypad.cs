@@ -116,7 +116,7 @@ public class Keypad : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Reach"))  // When the player exits the trigger
+        if (other.gameObject.CompareTag("Reach") && !Completed)  // When the player exits the trigger
         {
             inReach = false;
             keypadText.text = "";  // Hide interaction text

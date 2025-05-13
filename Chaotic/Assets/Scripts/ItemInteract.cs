@@ -12,6 +12,7 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
     [SerializeField] private bool sanityRegain;
+    private bool taken = false;
     private bool inReach = false;
 
     void Start()
@@ -27,6 +28,7 @@ public class ItemInteract : MonoBehaviour
         // Item is takeable
         if (takeAble)
         {
+            taken = true;
             interactText.text = "";
             if (sanityRegain)
             {
@@ -62,7 +64,7 @@ public class ItemInteract : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.gameObject.tag == "Reach" && !taken)
         {
             inReach = true;
             interactText.text = "Interact [E]";
@@ -71,7 +73,7 @@ public class ItemInteract : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.gameObject.tag == "Reach" && !taken)
         {
             inReach = false;
             interactText.text = ""; // Clear the interaction text
