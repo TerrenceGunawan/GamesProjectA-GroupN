@@ -2093,7 +2093,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 19c7efcbfdaa88f4aa34dc0f0529bae6, type: 2}
     - target: {fileID: 11464450, guid: 4073f41b7d930f94d9470df64ec12b53, type: 3}
       propertyPath: hour
-      value: 24
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11464450, guid: 4073f41b7d930f94d9470df64ec12b53, type: 3}
       propertyPath: minutes
