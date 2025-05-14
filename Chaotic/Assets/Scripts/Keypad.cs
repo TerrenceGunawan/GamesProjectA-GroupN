@@ -44,6 +44,7 @@ public class Keypad : MonoBehaviour
         {
             // correct.Play();
             textOB.text = "Right";
+            Exit();
 
         }
         else
