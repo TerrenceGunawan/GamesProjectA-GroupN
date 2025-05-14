@@ -4,38 +4,36 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject playerRef;  // Reference to the player's GameObject
 
-    public bool canSeePlayer;  // Whether the enemy can see the player
+    public float radius;  // The radius of the enemy's field of view
+    [Range(0, 360)]
+    public float angle;  // The angle of the field of view
+    // References and variables for patrol points and player detection
+    public GameObject playerRef;  // Reference to the player's GameObject
+    public bool canSeePlayer;  
 
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private Transform player;
 
-    [SerializeField] bool patrolPointSet;
+    public Vector3 destPoint;
+    private bool patrolPointSet = false;
 
-    private Vector3 destPoint;
+    [SerializeField] private Transform[] patrolPoints;  // Array of patrol points
+    private int currentPatrolIndex = 0;  // To keep track of which patrol point to go to next
+    [SerializeField] LayerMask playerLayer;  // To detect the player
 
-    [SerializeField] float range = 10;
+     [SerializeField] LayerMask obstructionMask; 
 
-    [SerializeField] LayerMask Room;
-
-    [SerializeField] LayerMask playerLayer;
-
-    private float lookTimer = 5f;
-
+    private float lookTimer = 5f;  // Timer for idle states
     private Animator animator;
-
-    [SerializeField] private float sightRange;
-    [SerializeField] private float  attackRange;
+    [SerializeField] private float attackRange;
     public bool inAttackRange;
-    
-    public bool hidden;
+
+    public bool hidden;  // To check if player is hidden (in a hiding spot)
 
     [SerializeField] private BoxCollider boxCollider;
-
-    [SerializeField] float temp1, temp2;
 
     private enum State
     {
@@ -43,25 +41,64 @@ public class Enemy : MonoBehaviour
         Patrol,
         Chase,
         Attack,
-    }
+    }  
 
     void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
         currentState = State.Patrol;
         navAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
         boxCollider = GetComponentInChildren<BoxCollider>();
-         navAgent.updateRotation = true;  
+
+        navAgent.updateRotation = true; 
         disableAttack();
-        temp1 = sightRange;
-        temp2 = attackRange;
+        StartCoroutine(FOVRoutine());
+    }
+
+    private IEnumerator FOVRoutine()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.1f);
+
+        while (true)
+        {
+            yield return wait;
+            FieldOfViewCheck(); 
+        }
+    }
+
+    private void FieldOfViewCheck()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, playerLayer);
+
+        if (rangeChecks.Length != 0)
+        {
+            Transform target = rangeChecks[0].transform;
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
+
+            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
+            {
+                float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                    canSeePlayer = true;
+                else
+                    canSeePlayer = false;
+            }
+            else
+            {
+                canSeePlayer = false;
+            }
+        }
+        else if (canSeePlayer)
+        {
+            canSeePlayer = false;
+        }
     }
 
     void Update()
     {
-        canSeePlayer = Physics.CheckSphere(transform.position,sightRange, playerLayer);
-        inAttackRange = Physics.CheckSphere(transform.position, attackRange,playerLayer);
+        inAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
 
         switch (currentState)
         {
@@ -79,25 +116,25 @@ public class Enemy : MonoBehaviour
 
             case State.Attack:
                 Attack();
-                break;   
+                break;
         }
-
     }
 
     void Idle()
-    {   
-        animator.SetBool("isSearching", false);  
+    {
+        animator.SetBool("isSearching", false);
         lookTimer -= Time.deltaTime;
 
-        if(lookTimer < 0 ) 
+        if (lookTimer < 0)
         {
-            animator.SetBool("isSearching", true); 
-            currentState = State.Patrol; 
+            animator.SetBool("isSearching", true);
+            currentState = State.Patrol;  // Transition to Patrol state
         }
-        
+
         if (canSeePlayer)
         {
-            animator.SetBool("isChasing", true);  // Stop walking animation
+            currentState = State.Chase;
+            animator.SetBool("isChasing", true);
             animator.SetBool("isSearching", false);
             Debug.Log("I see you!");
         }
@@ -105,88 +142,80 @@ public class Enemy : MonoBehaviour
 
     void Patrol()
     {
+        navAgent.speed = 2f;
         if (!patrolPointSet)
         {
-            SearchForDest();
+            SetNextPatrolPoint();
         }
+
         if (patrolPointSet)
         {
-            navAgent.speed = 2f; 
             navAgent.SetDestination(destPoint);
-            animator.SetBool("isSearching", true);  // Set the walking animation
+            animator.SetBool("isSearching", true);
 
-            if (Vector3.Distance(transform.position, destPoint) < 0.5)
+            if (Vector3.Distance(transform.position, destPoint) < 1f)
             {
-                lookTimer = Random.Range(3f, 6f); 
-                patrolPointSet = false;
-                animator.SetBool("isSearching", false); 
-                currentState = State.Idle; 
+                Debug.Log("test");
+                lookTimer = Random.Range(3f, 6f);
+                SetNextPatrolPoint();
+                animator.SetBool("isSearching", false);
+                currentState = State.Idle;  
             }
         }
 
         if (canSeePlayer && !hidden)
         {
-            currentState = State.Chase;  // Transition to Chase state
+            currentState = State.Chase;
             animator.SetBool("isSearching", false);
             animator.SetBool("isChasing", true);
             Debug.Log("I see you!");
         }
     }
 
+    void SetNextPatrolPoint()
+    {
+        currentPatrolIndex = Random.Range(0, patrolPoints.Length);
+        destPoint = patrolPoints[currentPatrolIndex].position;
+        patrolPointSet = true;
+    }
+
     void ChasePlayer()
     {
-        animator.SetBool("isChasing", true); 
-        navAgent.speed = 3f; 
+        navAgent.speed = 1f;
         navAgent.SetDestination(player.position);
+        animator.SetBool("isChasing", true);
 
         if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
         {
+
             destPoint = player.position;
             currentState = State.Patrol;
-            animator.SetBool("isChasing", false);  
-            Debug.Log("Where did you go?");
+            animator.SetBool("isChasing", false);
+            Debug.Log("Lost sight of the player.");
+ 
         }
 
         if (canSeePlayer && inAttackRange)
         {
             currentState = State.Attack;
         }
-        else 
+        else
         {
-            animator.SetBool("isAttacking", false); 
+            animator.SetBool("isAttacking", false);
         }
-
-
     }
-
 
     void Attack()
     {
-        
-            animator.SetBool("isAttacking", true);
-            enableAttack();
-            navAgent.SetDestination(transform.position);
+        animator.SetBool("isAttacking", true);
+        enableAttack();
+        navAgent.SetDestination(transform.position);
 
         if (!inAttackRange)
-            {
-                currentState = State.Chase;
-                animator.SetBool("isAttacking", false); 
-                disableAttack();
-            }
-
-    }
-
-
-    void SearchForDest()
-    {
-        float z = Random.Range(-range, range);
-        float x = Random.Range(-range, range);
-
-        destPoint = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
-
-        if (Physics.Raycast(destPoint, Vector3.down, Room))
         {
-            patrolPointSet = true;
+            currentState = State.Chase;
+            animator.SetBool("isAttacking", false);
+            disableAttack();
         }
     }
 
@@ -194,18 +223,17 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //currentState = State.Chase;
+            // currentState = State.Chase;  // This can be used if you want to immediately chase when colliding
         }
     }
 
     void enableAttack()
     {
-        boxCollider.enabled = true;
+        boxCollider.enabled = true;  // Enable the attack collider
     }
 
     void disableAttack()
     {
-        boxCollider.enabled = false;
+        boxCollider.enabled = false;  // Disable the attack collider
     }
-
 }
