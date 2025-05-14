@@ -17,9 +17,10 @@ public class Keypad : MonoBehaviour
     public TextMeshProUGUI textOB;
     public string answer = "12345";
 
-    public AudioSource button;
-    public AudioSource correct;
-    public AudioSource wrong;
+    public AudioClip button;
+    public AudioClip correct;
+    public AudioClip wrong;
+    private AudioSource audioSource;
 
     public bool inReach = false;
     public bool animate;
@@ -29,6 +30,7 @@ public class Keypad : MonoBehaviour
     void Start()
     {
         keypadOB.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OpenKeypadUI()
@@ -41,21 +43,24 @@ public class Keypad : MonoBehaviour
     public void Number(int number)
     {
         textOB.text += number.ToString();
-        // button.Play();
+        audioSource.clip = button;
+        audioSource.Play();
     }
 
     public void Enter()
     {
         if (textOB.text == answer)
         {
-            // correct.Play();
+            audioSource.clip = correct;
+            audioSource.Play();
             Completed = true;
             textOB.text = "Correct";
             StartCoroutine(CodeDelay(true, 0.5f));
         }
         else
         {
-            // wrong.Play();
+            audioSource.clip = wrong;
+            audioSource.Play();
             textOB.text = "X";
             StartCoroutine(CodeDelay(false, 0.5f));
         }
@@ -67,7 +72,8 @@ public class Keypad : MonoBehaviour
     {
         {
             textOB.text = "";
-            button.Play();
+            audioSource.clip = button;
+            audioSource.Play();
         }
     }
 

@@ -20,15 +20,20 @@ public class Player : MonoBehaviour
     private float verticalRotation = 0f;
     private bool isHidden = false;
 
+    [SerializeField] private GameObject monster;
+    private Vector3 monsterStartPosition;
     [SerializeField] private Slider sanityBar;
     [SerializeField] private float maxDamageTimer = 2f;
     [SerializeField] private float damageTimer;
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
     [SerializeField] private Button restartButton;
+    [SerializeField] private GameObject crosshair;
     private float maxSanity;
     public float Sanity = 100f;
     public List<string> Inventory = new List<string>();
+    private List<Transform> checkpoints = new List<Transform>();
+    private GameObject[] items;
 
     void Awake()
     {
@@ -62,6 +67,8 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
         sanityBar.value = Sanity;
         damageTimer = maxDamageTimer;
+        monsterStartPosition = monster.transform.position;
+        items = GameObject.FindGameObjectsWithTag("Takeable");
     }
 
     // Update is called once per frame
@@ -100,12 +107,20 @@ public class Player : MonoBehaviour
     {
         if(damageTimer == 0)
         { 
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject == monster)
         {
-            Sanity -=enemySanityDamage;
+            Sanity -= enemySanityDamage;
             damageTimer = maxDamageTimer;
             Debug.Log("You got hit");
         }
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Checkpoint")
+        {
+            checkpoints.Add(other.gameObject.transform);
         }
     }
 
@@ -115,7 +130,7 @@ public class Player : MonoBehaviour
         {
             ReduceSanity();
         }
-        if (other.gameObject.tag == "SafeRoom")
+        else
         {
             RegainSanity();
         }
@@ -143,7 +158,9 @@ public class Player : MonoBehaviour
         if(Sanity < 0)
         {
             OnDisable();
+            crosshair.SetActive(false);
             restartButton.gameObject.SetActive(true);
+            Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
     }
@@ -213,7 +230,19 @@ public class Player : MonoBehaviour
 
     void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+        // Sanity = maxSanity;
+        // Inventory.Clear();
+        // foreach (GameObject item in items)
+        // {
+        //     item.SetActive(true);
+        // }
+        // gameObject.transform.position = checkpoints[checkpoints.Count - 1].position;
+        // monster.transform.position = monsterStartPosition;
+        // OnEnable();
+        // crosshair.SetActive(true);
+        // Cursor.lockState = CursorLockMode.Locked;
+        // restartButton.gameObject.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);    
+        }
 }
 

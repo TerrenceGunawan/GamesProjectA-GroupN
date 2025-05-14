@@ -10,14 +10,12 @@ public class ItemChecker : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private string successText;
-    [SerializeField] private GameObject reward;
     public bool HasSucceeded = false;
     private bool inReach = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        reward.SetActive(false); // Hide the reward at the start
     }
 
     // Update is called once per frame
@@ -27,7 +25,6 @@ public class ItemChecker : MonoBehaviour
         {
             HasSucceeded = true; // Mark as done
             interactText.text = "";
-            reward.SetActive(true); // Show the reward
             GetComponent<GameObject>().SetActive(false); // Hide the item checker
             if (GetComponent<Doors>() == null)
             {
