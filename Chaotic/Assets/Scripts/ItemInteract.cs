@@ -5,11 +5,14 @@ using TMPro;
 public class ItemInteract : MonoBehaviour
 {
     [SerializeField] private Player player;
-    [SerializeField] private GameObject interactText;
+    [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject description;
+    [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private string itemDesc;
-    [SerializeField] private TextMeshProUGUI item;
     [SerializeField] private bool takeAble;
+    [SerializeField] private bool sanityRegain;
+    public bool Taken = false;
     private bool inReach = false;
 
     void Start()
@@ -21,56 +24,67 @@ public class ItemInteract : MonoBehaviour
     void Update()
     {
         if (inReach && Input.GetKeyDown(KeyCode.E))
-    {
-        // Item is takeable
-        if (takeAble)
         {
-            interactText.SetActive(false);
-            item.enabled = true;
-            item.text = "You got " + itemDesc;
-            player.AddInventory(itemDesc);
-            StartCoroutine(HideTextAfterSeconds(item, 2f));
+            // Item is takeable
+            if (takeAble)
+            {
+                Taken = true;
+                inReach = false;
+                interactText.text = "";
+                if (sanityRegain)
+                {
+                    player.Sanity += 15f;
+                    interactText.text = itemDesc;
+                }
+                else
+                {
+                    interactText.text = "You got " + itemDesc;
+                    player.AddInventory(itemDesc);
+                }
+                StartCoroutine(HideTextAfterSeconds(2f));
+            }
+            // Not takeable, but has a description
+            else if (description != null && !description.activeSelf)
+            {
+                crosshair.SetActive(false);  // Hide the crosshair when interacting
+                description.SetActive(true);
+                descriptionText.text = itemDesc;
+                interactText.text = "";
+                player.DisableMovement();
+            }
+            // Description is currently active, so hide it
+            else if (description != null && description.activeSelf)
+            {
+                crosshair.SetActive(true);  // Show the crosshair again
+                description.SetActive(false);
+                interactText.text = "Interact [E]";
+                player.EnableMovement();
+            }
         }
-        // Not takeable, but has a description
-        else if (description != null && !description.activeSelf)
-        {
-            description.SetActive(true);
-            item.text = itemDesc;
-            interactText.SetActive(false);
-            player.DisableMovement();
-        }
-        // Description is currently active, so hide it
-        else if (description != null && description.activeSelf)
-        {
-            description.SetActive(false);
-            interactText.SetActive(true);
-            player.EnableMovement();
-        }
-    }
     }
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.gameObject.tag == "Reach" && !Taken)
         {
             inReach = true;
-            interactText.SetActive(true);
+            interactText.text = "Interact [E]";
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.gameObject.tag == "Reach" && !Taken)
         {
             inReach = false;
-            interactText.SetActive(false);
+            interactText.text = ""; // Clear the interaction text
         }
     }
 
-    IEnumerator HideTextAfterSeconds(TextMeshProUGUI text, float delay)
+    IEnumerator HideTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
-        text.enabled =false;
+        interactText.text = "";
         gameObject.SetActive(false);
     }
 }

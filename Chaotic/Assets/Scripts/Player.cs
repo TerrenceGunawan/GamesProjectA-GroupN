@@ -12,22 +12,32 @@ public class Player : MonoBehaviour
     private InputAction movementAction;
     private InputAction lookingAction;
     private Rigidbody rb;
-    
+    private AudioSource footstepSound;
+
+    [SerializeField] private GameObject monster;
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float lookSensitivity = 10f;
     [SerializeField] private float maxLookAngle = 90f;
     private float verticalRotation = 0f;
-    private bool isHidden = false;
+    private Vector3 beforeHidingPosition;
+    private bool limitVerticalLook = false;
+    public bool IsHidden = false;
 
+    private Vector3 monsterStartPosition;
+    [SerializeField] private RawImage sanityOverlay;
     [SerializeField] private Slider sanityBar;
     [SerializeField] private float maxDamageTimer = 2f;
     [SerializeField] private float damageTimer;
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
-    [SerializeField] private float sanity = 100f;
+    [SerializeField] private float sanityRegained = 20f;
     [SerializeField] private Button restartButton;
+    [SerializeField] private GameObject crosshair;
     private float maxSanity;
+    public float Sanity = 100f;
     public List<string> Inventory = new List<string>();
+    private List<Transform> checkpoints = new List<Transform>();
+    private ItemInteract[] items;
 
     void Awake()
     {
@@ -39,7 +49,8 @@ public class Player : MonoBehaviour
         lookingAction = actions.movement.look;
         restartButton.onClick.AddListener(Restart);
         restartButton.gameObject.SetActive(false);
-        maxSanity = sanity;
+        maxSanity = Sanity;
+        footstepSound = GetComponent<AudioSource>();
     }
 
    void OnEnable()
@@ -58,14 +69,20 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
-        sanityBar.value = sanity;
+        sanityBar.value = Sanity;
         damageTimer = maxDamageTimer;
+        monsterStartPosition = monster.transform.position;
+        items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
     }
 
     // Update is called once per frame
     void Update()
     {
         HandleMouseLook();
+        float darkness = 1f - (Sanity / maxSanity); // 0 (normal) to 1 (fully insane)
+        Color overlayColor = sanityOverlay.color;
+        overlayColor.a = Mathf.Lerp(0f, 0.2f, darkness); // max 70% opacity
+        sanityOverlay.color = overlayColor;
     }
 
     void FixedUpdate() // Use FixedUpdate for physics-based movement
@@ -81,28 +98,48 @@ public class Player : MonoBehaviour
 
         // Move the player while respecting colliders
         rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
+        footstepSound.enabled = moveInput.magnitude > 0; // Enable footstep sound only when moving
     }
 
     void HandleMouseLook()
     {
         Vector2 lookInput = lookingAction.ReadValue<Vector2>() * lookSensitivity;
 
-        transform.Rotate(Vector3.up * lookInput.x * Time.deltaTime); // Rotate player horizontally
+        // Always allow horizontal look
+        transform.Rotate(Vector3.up * lookInput.x * Time.deltaTime);
 
-        verticalRotation -= lookInput.y * Time.deltaTime;
-        verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
-        camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0); // Rotate camera for vertical look
+        // Only allow vertical look if not limited
+        if (!limitVerticalLook)
+        {
+            verticalRotation -= lookInput.y * Time.deltaTime;
+            verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
+            camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+        }
+        else
+        {
+            camera.transform.localRotation = Quaternion.Euler(0, 0, 0); // Lock to forward
+        }
     }
+
+
     void OnCollisionEnter(Collision other)
     {
         if(damageTimer == 0)
         { 
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject == monster)
         {
-            sanity -=enemySanityDamage;
+            Sanity -= enemySanityDamage;
             damageTimer = maxDamageTimer;
             Debug.Log("You got hit");
         }
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Checkpoint")
+        {
+            checkpoints.Add(other.gameObject.transform);
         }
     }
 
@@ -111,10 +148,6 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "DangerRoom")
         {
             ReduceSanity();
-        }
-        if (other.gameObject.tag == "SafeRoom")
-        {
-            RegainSanity();
         }
     }
 
@@ -126,34 +159,36 @@ public class Player : MonoBehaviour
             damageTimer = 0;
         }
 
-        if(IsHidden())
+        if(IsHidden)
         {
-            sanity -= hidingSanityMulti * Time.deltaTime;
+            Sanity -= hidingSanityMulti * Time.deltaTime;
         }
         else
         {
-            sanity -= Time.deltaTime;
+            Sanity -= Time.deltaTime;
         }
 
-        sanityBar.value = sanity;
+        sanityBar.value = Sanity;
 
-        if(sanity < 0)
+        if(Sanity < 0)
         {
             OnDisable();
+            crosshair.SetActive(false);
             restartButton.gameObject.SetActive(true);
+            Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
     }
 
-    void RegainSanity()
+    public void RegainSanity()
     {
-        if(sanity >= maxSanity)
+        if(Sanity >= maxSanity)
         {
-            sanity = maxSanity;
+            Sanity = maxSanity;
         }
         else
         {
-            sanity += Time.deltaTime;
+            Sanity += sanityRegained;
         }
     }
 
@@ -171,46 +206,57 @@ public class Player : MonoBehaviour
 
     public void HideAtPosition(Transform hidingSpot)
     {
-        isHidden = true;
-        DisableMovement();
-
+        IsHidden = true;
+        beforeHidingPosition = transform.position;
         rb.isKinematic = true; // Prevent physics from interfering
-        if (hidingSpot.position.y < 0f)
+        verticalRotation = 0f;
+        camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        if (hidingSpot.position.y < 1f)
         {
-            transform.position = hidingSpot.position - new Vector3(0f, 1.0f, 0f);
+            limitVerticalLook = true;
+            movementAction.Disable();
+            transform.position = hidingSpot.position - new Vector3(0f, 1f, 0f);
         } 
         else
         {
+            OnDisable();
             transform.position = hidingSpot.position;
+            transform.rotation = hidingSpot.rotation;
         }
-        transform.rotation = hidingSpot.rotation;
-
-        verticalRotation = 0f;
-        camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
-    public void ExitHiding(Vector3 exitOffset)
+    public void ExitHiding()
     {
-        isHidden = false;
-        EnableMovement();
+        limitVerticalLook = false;
+        IsHidden = false;
+        OnEnable();
 
         rb.isKinematic = false;
-        transform.position += exitOffset;
-    }
-
-    public bool IsHidden()
-    {
-        return isHidden;
+        transform.position = beforeHidingPosition;
     }
 
     public void AddInventory(string itemName)
     {
         Inventory.Add(itemName);
+        Debug.Log("You got " + itemName);
     }
 
     void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+        rb.isKinematic = false;
+        Sanity = maxSanity;
+        foreach (ItemInteract item in items)
+        {
+            item.gameObject.SetActive(true);
+            item.Taken = false;
+        }
+        Inventory.Clear();
+        gameObject.transform.position = checkpoints[checkpoints.Count - 1].position;
+        monster.transform.position = monsterStartPosition;
+        OnEnable();
+        crosshair.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        restartButton.gameObject.SetActive(false);
+        }
 }
 

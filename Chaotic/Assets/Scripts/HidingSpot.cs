@@ -3,12 +3,11 @@ using TMPro; // Add this if you're using TextMeshPro
 
 public class HidingSpot : MonoBehaviour
 {
-    [SerializeField] private Vector3 exitOffset = new Vector3(0, 0, 1f);
     [SerializeField] private TextMeshProUGUI interactionText; // Actual text component
+    [SerializeField] private Player player;
 
     private Transform hidePosition;
-    private Player player;
-    private bool playerInRange = false;
+    private bool inReach = false;
 
     private Enemy enemy;
 
@@ -20,53 +19,48 @@ public class HidingSpot : MonoBehaviour
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (inReach && Input.GetKeyDown(KeyCode.E))
         {
-            if (player.IsHidden())
+            if (player.IsHidden)
             {
-                player.ExitHiding(exitOffset);
-                UpdateInteractionText(false);
+                player.ExitHiding();
+                inReach = false;
+                interactionText.text = ""; // Clear the interaction text
             }
             else
             {
                 player.HideAtPosition(hidePosition);
-                
+                UpdateInteractionText();
             }
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Reach"))
         {
-            player = other.GetComponent<Player>();
-            if (player != null)
-            {
-                playerInRange = true;
-                UpdateInteractionText(player.IsHidden());
-                interactionText.enabled = true;
-            }
+            inReach = true;
+            UpdateInteractionText();
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Reach"))
         {
-            if (player != null && !player.IsHidden())
+            if (player != null && !player.IsHidden)
             {
-                playerInRange = false;
-                interactionText.enabled = false;
-                player = null;
+                inReach = false;
+                interactionText.text = ""; // Clear the interaction text
             }
         }
     }
 
-    void UpdateInteractionText(bool isHiding)
+    void UpdateInteractionText()
     {
         if (interactionText != null)
         {
-            interactionText.text = isHiding ? "Exit [E]" : "Hide [E]";
+            interactionText.text = player.IsHidden ? "Exit [E]" : "Hide [E]";
         }
     }
 }

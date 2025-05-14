@@ -8,49 +8,61 @@ using TMPro;
 public class Keypad : MonoBehaviour
 {
     public Player player;
+    public GameObject crosshair;
     public GameObject keypadOB;
     public GameObject animateOB;
     public Animator ANI;
 
-
+    public TextMeshProUGUI keypadText;
     public TextMeshProUGUI textOB;
     public string answer = "12345";
-    public bool Right;
 
-    public AudioSource button;
-    public AudioSource correct;
-    public AudioSource wrong;
+    public AudioClip button;
+    public AudioClip correct;
+    public AudioClip wrong;
+    private AudioSource audioSource;
 
+    public bool inReach = false;
     public bool animate;
+    public bool Completed = false;
 
 
     void Start()
     {
         keypadOB.SetActive(false);
-        Right = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
+    void OpenKeypadUI()
+    {
+        crosshair.SetActive(false);  // Hide the crosshair when interacting
+        keypadOB.SetActive(true);  // Show the keypad UI
+        player.DisableMovement();  // Disable player movement when interacting
+    }
 
     public void Number(int number)
     {
         textOB.text += number.ToString();
-        Right = true;
-        // button.Play();
+        audioSource.clip = button;
+        audioSource.Play();
     }
 
-    public void Execute()
+    public void Enter()
     {
         if (textOB.text == answer)
         {
-            // correct.Play();
-            textOB.text = "Right";
-            Exit();
-
+            audioSource.clip = correct;
+            audioSource.Play();
+            Completed = true;
+            textOB.text = "Correct";
+            StartCoroutine(CodeDelay(true, 0.5f));
         }
         else
         {
-            // wrong.Play();
-            textOB.text = "Wrong";
+            audioSource.clip = wrong;
+            audioSource.Play();
+            textOB.text = "X";
+            StartCoroutine(CodeDelay(false, 0.5f));
         }
 
 
@@ -60,13 +72,15 @@ public class Keypad : MonoBehaviour
     {
         {
             textOB.text = "";
-            button.Play();
+            audioSource.clip = button;
+            audioSource.Play();
         }
     }
 
     public void Exit()
     {
         keypadOB.SetActive(false);
+        crosshair.SetActive(true);  // Show the crosshair again
         player.EnableMovement();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -74,6 +88,13 @@ public class Keypad : MonoBehaviour
 
     public void Update()
     {
+        // If the player presses the interact button and is within reach
+        if (Input.GetKeyDown(KeyCode.E) && inReach && !Completed) 
+        {
+            OpenKeypadUI();  // Call method to open the keypad UI
+            keypadText.text = "";
+        }
+
         if (textOB.text == "Right" && animate)
         {
             ANI.SetBool("animate", true);
@@ -90,5 +111,34 @@ public class Keypad : MonoBehaviour
 
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Reach") && !Completed)  // When the player enters the trigger
+        {
+            inReach = true;
+            keypadText.text = "Interact [E]";  // Show interaction text
+        }
+    }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Reach") && !Completed)  // When the player exits the trigger
+        {
+            inReach = false;
+            keypadText.text = "";  // Hide interaction text
+        }
+    }
+
+    IEnumerator CodeDelay(bool correct, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (correct)
+        {
+            Exit();
+        }
+        else
+        {
+            textOB.text = "";
+        }
+    }
 }

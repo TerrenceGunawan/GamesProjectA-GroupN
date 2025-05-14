@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Enemy
   - Reach
   - DangerRoom
+  - Checkpoint
+  - Enemy
   layers:
   - Default
   - TransparentFX

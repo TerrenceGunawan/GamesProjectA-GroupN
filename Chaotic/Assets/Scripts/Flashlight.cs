@@ -5,23 +5,14 @@ using UnityEngine;
 public class Flashlight : MonoBehaviour
 {
     private Light flashlight;
-
-    public AudioSource turnOn;
-    public AudioSource turnOff;
-    
+    public AudioSource button;
     public bool on;
-
-
-
 
     void Start()
     {
         flashlight = GetComponent<Light>();
         on = false;
     }
-
-
-
 
     void Update()
     {
@@ -30,13 +21,13 @@ public class Flashlight : MonoBehaviour
         {
             on = true;
             Debug.Log("Turned On");
-            turnOn.Play();
+            button.Play();
         }
         else if (on && Input.GetButtonDown("F"))
         {
             on = false;
             Debug.Log("Turned Off");
-            turnOff.Play();
+            button.Play();
         }
     }
 }

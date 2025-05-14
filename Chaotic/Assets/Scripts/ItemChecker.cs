@@ -2,21 +2,22 @@ using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class ItemChecker : MonoBehaviour
 {
     [SerializeField] private List<string> itemsNeeded = new List<string>();
     [SerializeField] private Player player;
-    [SerializeField] private GameObject interactText;
-    [SerializeField] private GameObject successText;
-    [SerializeField] private GameObject failText;
+    [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private string successText;
     public bool HasSucceeded = false;
     private bool inReach = false;
+    private Doors door;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        door = GetComponent<Doors>();
     }
 
     // Update is called once per frame
@@ -25,19 +26,22 @@ public class ItemChecker : MonoBehaviour
         if (inReach && Input.GetKeyDown(KeyCode.E) && Check(itemsNeeded, player.Inventory) && !HasSucceeded)
         {
             HasSucceeded = true; // Mark as done
-            interactText.SetActive(false);
-            if (GetComponent<Doors>() == null)
+            if (door == null)
             {
-                successText.SetActive(true);
-                StartCoroutine(HideTextAfterSeconds(successText, 3f));            
+                interactText.text = successText;
+                StartCoroutine(HideTextAfterSeconds(3f));            
+            }
+            else
+            {
+                interactText.text = "";
+                door.DoorOpens();
             }
             MusicManager.Instance.PlaySuccessMusic();
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory) && GetComponent<Doors>() == null)
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory) && door == null)
         {
-            interactText.SetActive(false);
-            failText.SetActive(true);
-            StartCoroutine(HideTextAfterSeconds(failText, 3f));
+            interactText.text = "You don't have the right items.";
+            StartCoroutine(HideTextAfterSeconds(3f));
         }
     }
 
@@ -46,9 +50,9 @@ public class ItemChecker : MonoBehaviour
         if (other.gameObject.tag == "Reach" && !HasSucceeded)
         {
             inReach = true;
-            if (GetComponent<Doors>() == null)
+            if (door == null)
             {
-                interactText.SetActive(true);
+                interactText.text = "Interact [E]";
             }
         }
     }
@@ -58,7 +62,7 @@ public class ItemChecker : MonoBehaviour
         if (other.gameObject.tag == "Reach" && !HasSucceeded)
         {
             inReach = false;
-            interactText.SetActive(false);
+            interactText.text = ""; // Clear the interaction text
         }
     }
 
@@ -67,9 +71,9 @@ public class ItemChecker : MonoBehaviour
         return list1.All(item => list2.Contains(item));
     }
 
-    IEnumerator HideTextAfterSeconds(GameObject text, float delay)
+    IEnumerator HideTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
-        text.SetActive(false);
+        interactText.text = "";
     }
 }
