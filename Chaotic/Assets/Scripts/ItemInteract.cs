@@ -12,7 +12,7 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
     [SerializeField] private bool sanityRegain;
-    private bool taken = false;
+    public bool Taken = false;
     private bool inReach = false;
 
     void Start()
@@ -24,47 +24,48 @@ public class ItemInteract : MonoBehaviour
     void Update()
     {
         if (inReach && Input.GetKeyDown(KeyCode.E))
-    {
-        // Item is takeable
-        if (takeAble)
         {
-            taken = true;
-            interactText.text = "";
-            if (sanityRegain)
+            // Item is takeable
+            if (takeAble)
             {
-                player.Sanity += 15f;
-                interactText.text = itemDesc;
+                Taken = true;
+                inReach = false;
+                interactText.text = "";
+                if (sanityRegain)
+                {
+                    player.Sanity += 15f;
+                    interactText.text = itemDesc;
+                }
+                else
+                {
+                    interactText.text = "You got " + itemDesc;
+                    player.AddInventory(itemDesc);
+                }
+                StartCoroutine(HideTextAfterSeconds(2f));
             }
-            else
+            // Not takeable, but has a description
+            else if (description != null && !description.activeSelf)
             {
-                interactText.text = "You got " + itemDesc;
-                player.AddInventory(itemDesc);
+                crosshair.SetActive(false);  // Hide the crosshair when interacting
+                description.SetActive(true);
+                descriptionText.text = itemDesc;
+                interactText.text = "";
+                player.DisableMovement();
             }
-            StartCoroutine(HideTextAfterSeconds(2f));
+            // Description is currently active, so hide it
+            else if (description != null && description.activeSelf)
+            {
+                crosshair.SetActive(true);  // Show the crosshair again
+                description.SetActive(false);
+                interactText.text = "Interact [E]";
+                player.EnableMovement();
+            }
         }
-        // Not takeable, but has a description
-        else if (description != null && !description.activeSelf)
-        {
-            crosshair.SetActive(false);  // Hide the crosshair when interacting
-            description.SetActive(true);
-            descriptionText.text = itemDesc;
-            interactText.text = "";
-            player.DisableMovement();
-        }
-        // Description is currently active, so hide it
-        else if (description != null && description.activeSelf)
-        {
-            crosshair.SetActive(true);  // Show the crosshair again
-            description.SetActive(false);
-            interactText.text = "Interact [E]";
-            player.EnableMovement();
-        }
-    }
     }
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach" && !taken)
+        if (other.gameObject.tag == "Reach" && !Taken)
         {
             inReach = true;
             interactText.text = "Interact [E]";
@@ -73,7 +74,7 @@ public class ItemInteract : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach" && !taken)
+        if (other.gameObject.tag == "Reach" && !Taken)
         {
             inReach = false;
             interactText.text = ""; // Clear the interaction text

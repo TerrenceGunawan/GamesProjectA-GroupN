@@ -12,10 +12,12 @@ public class ItemChecker : MonoBehaviour
     [SerializeField] private string successText;
     public bool HasSucceeded = false;
     private bool inReach = false;
+    private Doors door;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        door = GetComponent<Doors>();
     }
 
     // Update is called once per frame
@@ -24,16 +26,19 @@ public class ItemChecker : MonoBehaviour
         if (inReach && Input.GetKeyDown(KeyCode.E) && Check(itemsNeeded, player.Inventory) && !HasSucceeded)
         {
             HasSucceeded = true; // Mark as done
-            interactText.text = "";
-            GetComponent<GameObject>().SetActive(false); // Hide the item checker
-            if (GetComponent<Doors>() == null)
+            if (door == null)
             {
                 interactText.text = successText;
                 StartCoroutine(HideTextAfterSeconds(3f));            
             }
+            else
+            {
+                interactText.text = "";
+                door.DoorOpens();
+            }
             MusicManager.Instance.PlaySuccessMusic();
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory) && GetComponent<Doors>() == null)
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory) && door == null)
         {
             interactText.text = "You don't have the right items.";
             StartCoroutine(HideTextAfterSeconds(3f));
@@ -45,7 +50,7 @@ public class ItemChecker : MonoBehaviour
         if (other.gameObject.tag == "Reach" && !HasSucceeded)
         {
             inReach = true;
-            if (GetComponent<Doors>() == null)
+            if (door == null)
             {
                 interactText.text = "Interact [E]";
             }

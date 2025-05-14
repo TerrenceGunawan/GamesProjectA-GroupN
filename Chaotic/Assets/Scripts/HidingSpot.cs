@@ -3,7 +3,6 @@ using TMPro; // Add this if you're using TextMeshPro
 
 public class HidingSpot : MonoBehaviour
 {
-    [SerializeField] private Vector3 exitOffset = new Vector3(0, 0, 1f);
     [SerializeField] private TextMeshProUGUI interactionText; // Actual text component
     [SerializeField] private Player player;
 
@@ -19,14 +18,16 @@ public class HidingSpot : MonoBehaviour
     {
         if (inReach && Input.GetKeyDown(KeyCode.E))
         {
-            if (player.IsHidden())
+            if (player.IsHidden)
             {
-                player.ExitHiding(exitOffset);
-                UpdateInteractionText(false);
+                player.ExitHiding();
+                inReach = false;
+                interactionText.text = ""; // Clear the interaction text
             }
             else
             {
                 player.HideAtPosition(hidePosition);
+                UpdateInteractionText();
             }
         }
     }
@@ -35,11 +36,8 @@ public class HidingSpot : MonoBehaviour
     {
         if (other.CompareTag("Reach"))
         {
-            if (player != null)
-            {
-                inReach = true;
-                UpdateInteractionText(player.IsHidden());
-            }
+            inReach = true;
+            UpdateInteractionText();
         }
     }
 
@@ -47,20 +45,19 @@ public class HidingSpot : MonoBehaviour
     {
         if (other.CompareTag("Reach"))
         {
-            if (player != null && !player.IsHidden())
+            if (player != null && !player.IsHidden)
             {
                 inReach = false;
                 interactionText.text = ""; // Clear the interaction text
-                player = null;
             }
         }
     }
 
-    void UpdateInteractionText(bool isHiding)
+    void UpdateInteractionText()
     {
         if (interactionText != null)
         {
-            interactionText.text = isHiding ? "Exit [E]" : "Hide [E]";
+            interactionText.text = player.IsHidden ? "Exit [E]" : "Hide [E]";
         }
     }
 }

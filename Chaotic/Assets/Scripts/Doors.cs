@@ -71,7 +71,7 @@ public class Doors : MonoBehaviour
         }
     }
 
-    void DoorOpens()
+    public void DoorOpens()
     {
         door.SetBool("Open", true);
         doorIsOpen = true;
