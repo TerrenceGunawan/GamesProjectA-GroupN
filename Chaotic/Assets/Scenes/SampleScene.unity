@@ -12233,6 +12233,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 3471729bff8e6414c80c1b981d4f859b, type: 2}
+    - target: {fileID: 7094993642615296518, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15052,6 +15056,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 3471729bff8e6414c80c1b981d4f859b, type: 2}
+    - target: {fileID: 7094993642615296518, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8546659908553225158, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
       propertyPath: m_Name
       value: Door
