@@ -73,7 +73,7 @@ public class Doors : MonoBehaviour
 
     public void DoorOpens()
     {
-        door.Play("DoorOpen");
+        door.SetBool("Open", true);
         doorIsOpen = true;
         if (openSound != null) 
         {
@@ -83,7 +83,7 @@ public class Doors : MonoBehaviour
 
     void DoorCloses()
     {
-        door.Play("DoorClose");
+        door.SetBool("Open", false);
         doorIsOpen = false;
     }
 
