@@ -8,6 +8,7 @@ TagManager:
   - DangerRoom
   - Checkpoint
   - Enemy
+  - SafeRoom
   layers:
   - Default
   - TransparentFX

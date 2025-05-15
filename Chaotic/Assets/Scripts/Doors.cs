@@ -42,6 +42,7 @@ public class Doors : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(keypad.Completed);
         if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded)))
         {
             if (!doorIsOpen)
