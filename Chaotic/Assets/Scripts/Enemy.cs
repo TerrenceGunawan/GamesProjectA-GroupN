@@ -4,89 +4,72 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    // Field of View variables
+
     public float radius;  // The radius of the enemy's field of view
     [Range(0, 360)]
     public float angle;  // The angle of the field of view
-
+    // References and variables for patrol points and player detection
     public GameObject playerRef;  // Reference to the player's GameObject
+    public bool canSeePlayer;  
 
-    public LayerMask targetMask;  // Layer mask for targets (player)
-    public LayerMask obstructionMask;  // Layer mask for obstacles (walls)
-
-    public bool canSeePlayer;  // Whether the enemy can see the player
-
-    // Enemy state variables
-    public float chaseSpeed = 5f;  // Speed at which the enemy chases the player
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private Transform player;
 
-    [SerializeField] bool patrolPointSet;
+    public Vector3 destPoint;
+    private bool patrolPointSet = false;
 
-    private Vector3 destPoint;
+    [SerializeField] private Transform[] patrolPoints;  // Array of patrol points
+    private int currentPatrolIndex = 0;  // To keep track of which patrol point to go to next
+    [SerializeField] LayerMask playerLayer;  // To detect the player
 
-    [SerializeField] float range = 10;
+     [SerializeField] LayerMask obstructionMask; 
 
-    [SerializeField] LayerMask Room;
-
-    private float lookTimer = 5f;
-
-    // Animator reference
+    private float lookTimer = 5f;  // Timer for idle states
     private Animator animator;
+    [SerializeField] private float attackRange;
+    public bool inAttackRange;
+
+    public bool hidden;  // To check if player is hidden (in a hiding spot)
+
+    [SerializeField] private BoxCollider boxCollider;
 
     private enum State
     {
         Idle,
         Patrol,
         Chase,
-    }
+        Attack,
+    }  
 
     void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
         currentState = State.Patrol;
-        StartCoroutine(FOVRoutine());
         navAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
+        boxCollider = GetComponentInChildren<BoxCollider>();
+
+        navAgent.updateRotation = true; 
+        disableAttack();
+        StartCoroutine(FOVRoutine());
     }
 
-    void Update()
-    {
-        // State-based behavior
-        switch (currentState)
-        {
-            case State.Idle:
-                Idle();
-                break;
-
-            case State.Patrol:
-                Patrol();
-                break;
-
-            case State.Chase:
-                ChasePlayer();
-                break;
-        }
-    }
-
-    // Field of view check - checks if the player is within the enemy's line of sight
     private IEnumerator FOVRoutine()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
+        WaitForSeconds wait = new WaitForSeconds(0.1f);
 
         while (true)
         {
             yield return wait;
-            FieldOfViewCheck();  // Perform field of view check every 0.2 seconds
+            FieldOfViewCheck(); 
         }
     }
 
-    // Check if the player is within the field of view and line of sight
     private void FieldOfViewCheck()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, playerLayer);
 
         if (rangeChecks.Length != 0)
         {
@@ -112,93 +95,127 @@ public class Enemy : MonoBehaviour
             canSeePlayer = false;
         }
     }
+
+    void Update()
+    {
+        inAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+
+        switch (currentState)
+        {
+            case State.Idle:
+                Idle();
+                break;
+
+            case State.Patrol:
+                Patrol();
+                break;
+
+            case State.Chase:
+                ChasePlayer();
+                break;
+
+            case State.Attack:
+                Attack();
+                break;
+        }
+    }
+
     void Idle()
-    {   
-        animator.SetBool("isSearching", false);  
+    {
+        animator.SetBool("isSearching", false);
         lookTimer -= Time.deltaTime;
 
-        if(lookTimer < 0 ) 
+        if (lookTimer < 0)
         {
-            animator.SetBool("isSearching", true); 
-            currentState = State.Patrol; 
+            animator.SetBool("isSearching", true);
+            currentState = State.Patrol;  // Transition to Patrol state
         }
-        
+
         if (canSeePlayer)
         {
-            currentState = State.Chase;  // Transition to Chase state
-            animator.SetBool("isChasing", true);  // Stop walking animation
+            currentState = State.Chase;
+            animator.SetBool("isChasing", true);
             animator.SetBool("isSearching", false);
             Debug.Log("I see you!");
         }
     }
 
-    // Patrol logic: enemy will move to random points within a defined radius
     void Patrol()
     {
+        navAgent.speed = 2f;
         if (!patrolPointSet)
         {
-            SearchForDest();
+            SetNextPatrolPoint();
         }
+
         if (patrolPointSet)
         {
-            navAgent.speed = 2f; 
             navAgent.SetDestination(destPoint);
-            animator.SetBool("isSearching", true);  // Set the walking animation
+            animator.SetBool("isSearching", true);
 
-            if (Vector3.Distance(transform.position, destPoint) < 0.2)
+            if (Vector3.Distance(transform.position, destPoint) < 1f)
             {
-                lookTimer = Random.Range(3f, 6f); 
-                patrolPointSet = false;
-                animator.SetBool("isSearching", false); 
-                currentState = State.Idle; 
+                Debug.Log("test");
+                lookTimer = Random.Range(3f, 6f);
+                SetNextPatrolPoint();
+                animator.SetBool("isSearching", false);
+                currentState = State.Idle;  
             }
         }
 
-        if (canSeePlayer)
+        if (canSeePlayer && !hidden)
         {
-            currentState = State.Chase;  // Transition to Chase state
+            currentState = State.Chase;
             animator.SetBool("isSearching", false);
             animator.SetBool("isChasing", true);
             Debug.Log("I see you!");
         }
     }
 
+    void SetNextPatrolPoint()
+    {
+        currentPatrolIndex = Random.Range(0, patrolPoints.Length);
+        destPoint = patrolPoints[currentPatrolIndex].position;
+        patrolPointSet = true;
+    }
+
     void ChasePlayer()
     {
-        navAgent.speed = 3f; 
+        navAgent.speed = 1f;
         navAgent.SetDestination(player.position);
+        animator.SetBool("isChasing", true);
 
         if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
         {
+
             destPoint = player.position;
             currentState = State.Patrol;
-            animator.SetBool("isChasing", false);  
-            Debug.Log("Where did you go?");
+            animator.SetBool("isChasing", false);
+            Debug.Log("Lost sight of the player.");
+ 
         }
 
-        if (Vector3.Distance(transform.position,player.position) < 5)
+        if (canSeePlayer && inAttackRange)
         {
-            animator.SetBool("isAttacking", true); 
+            currentState = State.Attack;
         }
-        else 
+        else
         {
-            animator.SetBool("isAttacking", false); 
+            animator.SetBool("isAttacking", false);
         }
-
-
     }
 
-
-    void SearchForDest()
+    void Attack()
     {
-        float z = Random.Range(-range, range);
-        float x = Random.Range(-range, range);
+        animator.SetBool("isAttacking", true);
+        enableAttack();
+        navAgent.SetDestination(transform.position);
 
-        destPoint = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
-
-        if (Physics.Raycast(destPoint, Vector3.down, Room))
+        if (!inAttackRange)
         {
-            patrolPointSet = true;
+            currentState = State.Chase;
+            animator.SetBool("isAttacking", false);
+            disableAttack();
         }
     }
 
@@ -206,7 +223,17 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            currentState = State.Chase;
+            // currentState = State.Chase;  // This can be used if you want to immediately chase when colliding
         }
+    }
+
+    void enableAttack()
+    {
+        boxCollider.enabled = true;  // Enable the attack collider
+    }
+
+    void disableAttack()
+    {
+        boxCollider.enabled = false;  // Disable the attack collider
     }
 }
