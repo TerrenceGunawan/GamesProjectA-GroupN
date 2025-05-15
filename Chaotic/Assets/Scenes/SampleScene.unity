@@ -16829,29 +16829,9 @@ MonoBehaviour:
   m_Mesh: {fileID: 1515279070}
   m_VersionIndex: 56
   m_IsSelectable: 1
-  m_SelectedFaces: 24000000
-  m_SelectedEdges:
-  - a: 87
-    b: 85
-  - a: 88
-    b: 87
-  - a: 60
-    b: 61
-  - a: 85
-    b: 60
-  - a: 61
-    b: 70
-  - a: 97
-    b: 88
-  - a: 102
-    b: 103
-  - a: 103
-    b: 97
-  - a: 70
-    b: 76
-  - a: 76
-    b: 102
-  m_SelectedVertices: 550000005600000057000000580000003c0000003d00000046000000470000006100000066000000670000004c000000
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!208 &1264851394
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -20413,7 +20393,7 @@ MonoBehaviour:
   ANI: {fileID: 0}
   keypadText: {fileID: 1980203787}
   textOB: {fileID: 479564857}
-  answer: 2729
+  answer: 2829
   button: {fileID: 8300000, guid: c4a258fdae8bc8f418149ed0a88518ae, type: 3}
   correct: {fileID: 8300000, guid: e7bcdec0fbe09cb45b7c780506bbb07f, type: 3}
   wrong: {fileID: 8300000, guid: 2916b42d45e4a57438817b4ffdcdf7b7, type: 3}
