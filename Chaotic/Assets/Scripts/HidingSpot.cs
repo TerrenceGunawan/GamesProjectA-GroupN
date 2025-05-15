@@ -9,9 +9,12 @@ public class HidingSpot : MonoBehaviour
     private Transform hidePosition;
     private bool inReach = false;
 
+    private Enemy enemy;
+
     void Start()
     {
         hidePosition = transform;
+        enemy = FindObjectOfType<Enemy>();
     }
 
     void Update()

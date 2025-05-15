@@ -81,7 +81,14 @@ public class Player : MonoBehaviour
         HandleMouseLook();
         float darkness = 1f - (Sanity / maxSanity); // 0 (normal) to 1 (fully insane)
         Color overlayColor = sanityOverlay.color;
-        overlayColor.a = Mathf.Lerp(0f, 0.2f, darkness); // max 70% opacity
+        if (IsHidden)
+        {
+            overlayColor.a = 0.6f; // No overlay when hidden
+        }
+        else
+        {
+            overlayColor.a = Mathf.Lerp(0f, 0.2f, darkness); // max 70% opacity
+        }
         sanityOverlay.color = overlayColor;
     }
 
@@ -148,6 +155,10 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "DangerRoom")
         {
             ReduceSanity();
+        }
+        else if (other.gameObject.tag == "SafeRoom")
+        {
+            RegainSanity();
         }
     }
 

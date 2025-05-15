@@ -42,6 +42,7 @@ public class Doors : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(keypad.Completed);
         if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded)))
         {
             if (!doorIsOpen)
@@ -53,7 +54,7 @@ public class Doors : MonoBehaviour
                 DoorCloses();
             }
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E)  && ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded)))
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded)))
         {
             if (keypad != null)
             {
@@ -62,9 +63,9 @@ public class Doors : MonoBehaviour
             else if (itemChecker != null)
             {
                 interactText.text = "I need to find the right key first."; // show "locked" text
-            }        
+            }
             StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
-            if (lockedSound != null) 
+            if (lockedSound != null)
             {
                 lockedSound.Play();
             }

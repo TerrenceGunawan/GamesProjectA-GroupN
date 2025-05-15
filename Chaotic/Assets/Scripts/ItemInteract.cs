@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 
@@ -7,8 +8,12 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject description;
+    [SerializeField] private GameObject sanityBar;
+    [SerializeField] private GameObject objective;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private TextMeshProUGUI descriptionText;
+    [SerializeField] private RawImage image;
+    [SerializeField] private Texture itemTexture;
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
     [SerializeField] private bool sanityRegain;
@@ -47,15 +52,48 @@ public class ItemInteract : MonoBehaviour
             else if (description != null && !description.activeSelf)
             {
                 crosshair.SetActive(false);  // Hide the crosshair when interacting
+                objective.SetActive(false);
+                sanityBar.SetActive(false);
                 description.SetActive(true);
                 descriptionText.text = itemDesc;
                 interactText.text = "";
+                if (image != null && itemTexture != null)
+                {
+                    image.texture = itemTexture;
+
+                    // Get parent size (the container the image is in)
+                    RectTransform parent = image.transform.parent.GetComponent<RectTransform>();
+                    RectTransform rt = image.GetComponent<RectTransform>();
+
+                    float parentWidth = parent.rect.width;
+                    float parentHeight = parent.rect.height;
+
+                    float textureRatio = (float)itemTexture.width / itemTexture.height;
+                    float parentRatio = parentWidth / parentHeight;
+
+                    Vector2 newSize;
+
+                    if (textureRatio > parentRatio)
+                    {
+                        // Fit to width
+                        newSize = new Vector2(parentWidth, parentWidth / textureRatio);
+                    }
+                    else
+                    {
+                        // Fit to height
+                        newSize = new Vector2(parentHeight * textureRatio, parentHeight);
+                    }
+
+                    rt.sizeDelta = newSize;
+                }
                 player.DisableMovement();
             }
             // Description is currently active, so hide it
             else if (description != null && description.activeSelf)
             {
                 crosshair.SetActive(true);  // Show the crosshair again
+                objective.SetActive(true);
+                sanityBar.SetActive(true);
                 description.SetActive(false);
                 interactText.text = "Interact [E]";
                 player.EnableMovement();
