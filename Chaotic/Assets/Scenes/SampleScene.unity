@@ -18215,7 +18215,7 @@ MonoBehaviour:
   subtitles: {fileID: 1896234049}
   interactText: {fileID: 1980203787}
   phoneRing: {fileID: 8300000, guid: ceb1e467a573b1e458be7b5413dfbdba, type: 3}
-  talking: {fileID: 8300000, guid: 2df7aede0f2a788469191229f2bd8f2d, type: 3}
+  talking: {fileID: 8300000, guid: 7649a4383234dcc41802a540d382b5c3, type: 3}
 --- !u!64 &1547245236
 MeshCollider:
   m_ObjectHideFlags: 0
