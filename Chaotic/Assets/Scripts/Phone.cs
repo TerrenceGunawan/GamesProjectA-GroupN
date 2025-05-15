@@ -8,11 +8,13 @@ public class Phone : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private float ringDistance = 5f;
     [SerializeField] private List<string> dialogue = new List<string>();
+    [SerializeField] private List<AudioClip> talking = new List<AudioClip>();
     [SerializeField] private List<float> delay = new List<float>();
+    [SerializeField] private int dialogueLineStop;
     [SerializeField] private TextMeshProUGUI subtitles;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private AudioClip phoneRing;
-    [SerializeField] private AudioClip talking;
+    [SerializeField] private Keypad keypad;
 
     private AudioSource audioSource;
     private bool inReach = false;
@@ -40,11 +42,24 @@ public class Phone : MonoBehaviour
         if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp)
         {
             pickedUp = true;
-            audioSource.clip = talking;
+            audioSource.clip = talking[0];
             audioSource.loop = false;
             audioSource.Play();
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
+        }
+        if (keypad.Completed && pickedUp)
+        {
+            pickedUp = false;
+            if (inReach && Input.GetKeyDown(KeyCode.E))
+            {
+                pickedUp = true;
+                audioSource.clip = talking[1];
+                audioSource.loop = false;
+                audioSource.Play();
+                interactText.text = "";
+                StartCoroutine(ChangeSubtitles());
+            }
         }
     }
 
@@ -68,11 +83,24 @@ public class Phone : MonoBehaviour
 
     IEnumerator ChangeSubtitles()
     {
-        for (int i = 0; i < dialogue.Count; i++)
+        if (audioSource.clip == talking[0])
         {
-            subtitles.text = dialogue[i];
-            yield return new WaitForSeconds(delay[i]);
+            for (int i = 0; i < dialogueLineStop; i++)
+            {
+                subtitles.text = dialogue[i];
+                yield return new WaitForSeconds(delay[i]);
+            }
+            subtitles.text = "";
         }
-        subtitles.text = "";
+        else
+        {
+            for (int i = dialogueLineStop; i < dialogue.Count; i++)
+            {
+                subtitles.text = dialogue[i];
+                yield return new WaitForSeconds(delay[i]);
+            }
+            subtitles.text = "";
+        }
+        
     }
 }
