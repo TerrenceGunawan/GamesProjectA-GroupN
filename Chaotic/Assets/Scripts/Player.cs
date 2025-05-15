@@ -156,10 +156,6 @@ public class Player : MonoBehaviour
         {
             ReduceSanity();
         }
-        else if (other.gameObject.tag == "SafeRoom")
-        {
-            RegainSanity();
-        }
     }
 
     void ReduceSanity()
