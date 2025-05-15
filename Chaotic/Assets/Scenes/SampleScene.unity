@@ -18205,25 +18205,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1003410458}
-  ringDistance: 4
+  ringDistance: 5
   dialogue:
-  - Lucian? Is that you...?
-  - "You\u2019re awake? Do you remember anything...?"
-  - " Don\u2019t be afraid. It\u2019s me, your brother\u2026"
-  - "You\u2019re in shock. I\u2019ll help you."
-  - "We\u2019ll figure it out together."
-  - But first, you have to find the clues around the room and leave that room.
+  - 
+  - '??? : Lucian? Is that you...?'
+  - "??? : You\u2019re awake? Do you remember anything...?"
+  - "??? : Don\u2019t be afraid. It\u2019s me, your brother\u2026"
+  - "??? : You\u2019re in shock. I\u2019ll help you."
+  - "??? : We\u2019ll figure it out together."
+  - '??? : But first, you have to find the clues around the room and leave that room.'
+  - 
+  - '??? : Well done Lucian. You did very well.'
+  - "Lucian : That picture... The news... I saw it. I\u2014"
+  - '??? : Don''t believe everything you read. The press only writes what they want
+    to hear.'
+  - '??? : They don''t know... how the people inside felt, it was the last day.'
+  - '??? : The day everything fell apart. Mom, Dad... blood... screaming... and you,
+    I remember you screaming.'
+  - '??? : You stood there, shaking with the knife... '
+  - '??? : But it wasn''t your fault. It wasn''t... your fault....'
+  - '??? : Go through the basement, Lucian.'
+  - '??? : First you have to find the 3 keys.'
+  - '??? : You''ll find another room where you feel safe and I''ll contact you there.'
   talking:
   - {fileID: 8300000, guid: 7649a4383234dcc41802a540d382b5c3, type: 3}
   - {fileID: 8300000, guid: 9179c15a594da1f459701407ee3ab3b9, type: 3}
   delay:
-  - 6
+  - 3
+  - 3
   - 4.5
   - 3
-  - 2
+  - 2.3
   - 3
   - 4
-  dialogueLineStop: 6
+  - 3
+  - 2
+  - 7
+  - 6
+  - 5
+  - 10
+  - 3.5
+  - 5
+  - 2
+  - 3
+  - 5
+  dialogueLineStop: 7
   subtitles: {fileID: 1896234049}
   interactText: {fileID: 1980203787}
   phoneRing: {fileID: 8300000, guid: ceb1e467a573b1e458be7b5413dfbdba, type: 3}

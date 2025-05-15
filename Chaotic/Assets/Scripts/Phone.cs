@@ -6,7 +6,7 @@ using TMPro;
 public class Phone : MonoBehaviour
 {
     [SerializeField] private Transform player;
-    [SerializeField] private float ringDistance = 5f;
+    [SerializeField] private float ringDistance = 6f;
     [SerializeField] private List<string> dialogue = new List<string>();
     [SerializeField] private List<AudioClip> talking = new List<AudioClip>();
     [SerializeField] private List<float> delay = new List<float>();
@@ -36,10 +36,12 @@ public class Phone : MonoBehaviour
         {
             if (!audioSource.isPlaying)
             {
+                audioSource.clip = phoneRing;
                 audioSource.Play();
+                
             }
         }
-        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp)
+        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp && !keypad.Completed)
         {
             pickedUp = true;
             audioSource.clip = talking[0];
@@ -48,18 +50,19 @@ public class Phone : MonoBehaviour
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        if (keypad.Completed && pickedUp)
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && keypad.Completed)
+        {
+            pickedUp = true;
+            audioSource.clip = talking[1];
+            audioSource.loop = false;
+            audioSource.Play();
+            interactText.text = "";
+            StartCoroutine(ChangeSubtitles());
+        }
+        if (keypad.Completed)
         {
             pickedUp = false;
-            if (inReach && Input.GetKeyDown(KeyCode.E))
-            {
-                pickedUp = true;
-                audioSource.clip = talking[1];
-                audioSource.loop = false;
-                audioSource.Play();
-                interactText.text = "";
-                StartCoroutine(ChangeSubtitles());
-            }
+
         }
     }
 
