@@ -15,6 +15,7 @@ public class Phone : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private AudioClip phoneRing;
     [SerializeField] private Keypad keypad;
+    [SerializeField] private ItemChecker itemChecker;
 
     private AudioSource audioSource;
     private bool inReach = false;
@@ -41,7 +42,7 @@ public class Phone : MonoBehaviour
                 
             }
         }
-        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp && (keypad != null && !keypad.Completed))
+        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded))
         {
             pickedUp = true;
             audioSource.clip = talking[0];
@@ -50,7 +51,7 @@ public class Phone : MonoBehaviour
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && (keypad != null && keypad.Completed))
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded))
         {
             pickedUp = true;
             audioSource.clip = talking[1];
@@ -59,7 +60,7 @@ public class Phone : MonoBehaviour
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        if (keypad.Completed)
+        if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded))
         {
             pickedUp = false;
 
