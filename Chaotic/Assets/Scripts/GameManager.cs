@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Keypad keypad;
     [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI objectivesText;
     private bool done = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
             done = true;
             StartCoroutine(Timer(true, 1f));
             StartCoroutine(Timer(false, 2.5f));
+            objectivesText.text = "Find 3 keys";
         }
     }
 
