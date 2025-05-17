@@ -35,9 +35,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private BoxCollider boxCollider;
 
-    [SerializeField] private AudioClip chasingSound; 
-    private AudioSource audioSource;
-
     private enum State
     {
         Idle,
@@ -57,8 +54,6 @@ public class Enemy : MonoBehaviour
         navAgent.updateRotation = true; 
         disableAttack();
         StartCoroutine(FOVRoutine());
-        audioSource = GetComponent<AudioSource>();
-        audioSource.clip = chasingSound;
     }
 
     private IEnumerator FOVRoutine()
@@ -170,15 +165,18 @@ public class Enemy : MonoBehaviour
 
         if (canSeePlayer && !hidden)
         {
-            if(!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(chasingSound);
-            }
             currentState = State.Chase;
             animator.SetBool("isSearching", false);
             animator.SetBool("isChasing", true);
             Debug.Log("I see you!");
         }
+    }
+
+    void SetNextPatrolPoint()
+    {
+        currentPatrolIndex = Random.Range(0, patrolPoints.Length);
+        destPoint = patrolPoints[currentPatrolIndex].position;
+        patrolPointSet = true;
     }
 
     void ChasePlayer()
@@ -227,13 +225,6 @@ public class Enemy : MonoBehaviour
         {
             // currentState = State.Chase;  // This can be used if you want to immediately chase when colliding
         }
-    }
-
-    void SetNextPatrolPoint()
-    {
-        currentPatrolIndex = Random.Range(0, patrolPoints.Length);
-        destPoint = patrolPoints[currentPatrolIndex].position;
-        patrolPointSet = true;
     }
 
     void enableAttack()
