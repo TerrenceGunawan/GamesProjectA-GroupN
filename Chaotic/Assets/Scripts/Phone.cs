@@ -34,7 +34,7 @@ public class Phone : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= ringDistance && !pickedUp)
         {
-            if (!audioSource.isPlaying)
+            if (!audioSource.isPlaying && HasLineOfSightToPlayer())
             {
                 audioSource.clip = phoneRing;
                 audioSource.Play();
@@ -83,6 +83,23 @@ public class Phone : MonoBehaviour
             interactText.text = "";
         }
     }
+
+    private bool HasLineOfSightToPlayer()
+    {
+        Vector3 directionToPlayer = player.position - transform.position;
+        Ray ray = new Ray(transform.position, directionToPlayer.normalized);
+        RaycastHit hit;
+
+        // Check if ray hits anything between phone and player
+        if (Physics.Raycast(ray, out hit, ringDistance))
+        {
+            // Only true if the player is what was hit
+            return hit.transform == player;
+        }
+
+        return false;
+    }
+
 
     IEnumerator ChangeSubtitles()
     {
