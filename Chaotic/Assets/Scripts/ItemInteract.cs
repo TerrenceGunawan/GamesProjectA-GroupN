@@ -19,6 +19,7 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private bool sanityRegain;
     public bool Taken = false;
     private bool inReach = false;
+    private bool regainCheck = false;
 
     void Start()
     {
@@ -35,17 +36,8 @@ public class ItemInteract : MonoBehaviour
             {
                 Taken = true;
                 inReach = false;
-                interactText.text = "";
-                if (sanityRegain)
-                {
-                    player.Sanity += 15f;
-                    interactText.text = itemDesc;
-                }
-                else
-                {
-                    interactText.text = "You got " + itemDesc;
-                    player.AddInventory(itemDesc);
-                }
+                interactText.text = "You got " + gameObject.name;
+                player.AddInventory(gameObject.name);
                 StartCoroutine(HideTextAfterSeconds(2f));
             }
             // Not takeable, but has a description
@@ -53,8 +45,12 @@ public class ItemInteract : MonoBehaviour
             {
                 crosshair.SetActive(false);  // Hide the crosshair when interacting
                 objective.SetActive(false);
-                sanityBar.SetActive(false);
                 description.SetActive(true);
+                if (!regainCheck && sanityRegain)
+                {
+                    regainCheck = true;
+                    player.Sanity += 15;
+                }
                 descriptionText.text = itemDesc;
                 interactText.text = "";
                 if (image != null && itemTexture != null)
@@ -93,7 +89,6 @@ public class ItemInteract : MonoBehaviour
             {
                 crosshair.SetActive(true);  // Show the crosshair again
                 objective.SetActive(true);
-                sanityBar.SetActive(true);
                 description.SetActive(false);
                 interactText.text = "Interact [E]";
                 player.EnableMovement();
