@@ -41,7 +41,7 @@ public class Phone : MonoBehaviour
                 
             }
         }
-        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp && !keypad.Completed)
+        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp && (keypad != null && !keypad.Completed))
         {
             pickedUp = true;
             audioSource.clip = talking[0];
@@ -50,7 +50,7 @@ public class Phone : MonoBehaviour
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && keypad.Completed)
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && (keypad != null && keypad.Completed))
         {
             pickedUp = true;
             audioSource.clip = talking[1];
