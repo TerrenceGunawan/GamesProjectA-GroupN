@@ -17,6 +17,7 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
     [SerializeField] private bool sanityRegain;
+    [SerializeField] private float sanityAmount;
     public bool Taken = false;
     private bool inReach = false;
     private bool regainCheck = false;
@@ -49,7 +50,7 @@ public class ItemInteract : MonoBehaviour
                 if (!regainCheck && sanityRegain)
                 {
                     regainCheck = true;
-                    player.Sanity += 15;
+                    player.Sanity += sanityAmount;
                 }
                 descriptionText.text = itemDesc;
                 interactText.text = "";
