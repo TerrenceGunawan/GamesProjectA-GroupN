@@ -26,13 +26,11 @@ public class HidingSpot : MonoBehaviour
                 player.ExitHiding();
                 inReach = false;
                 interactionText.text = ""; // Clear the interaction text
-                enemy.hidden = false;
             }
             else
             {
                 player.HideAtPosition(hidePosition);
                 UpdateInteractionText();
-                enemy.hidden = true;
             }
         }
     }
