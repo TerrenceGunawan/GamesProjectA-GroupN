@@ -6,7 +6,7 @@ using TMPro;
 
 public class ItemChecker : MonoBehaviour
 {
-    [SerializeField] private List<string> itemsNeeded = new List<string>();
+    public List<string> ItemsNeeded = new List<string>();
     [SerializeField] private Player player;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private string successText;
@@ -23,7 +23,7 @@ public class ItemChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inReach && Input.GetKeyDown(KeyCode.E) && Check(itemsNeeded, player.Inventory) && !HasSucceeded)
+        if (inReach && Input.GetKeyDown(KeyCode.E) && Check() && !HasSucceeded)
         {
             HasSucceeded = true; // Mark as done
             if (door == null)
@@ -38,7 +38,7 @@ public class ItemChecker : MonoBehaviour
             }
             MusicManager.Instance.PlaySuccessMusic();
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check(itemsNeeded, player.Inventory) && door == null)
+        else if (inReach && Input.GetKeyDown(KeyCode.E) && !Check() && door == null)
         {
             interactText.text = "You don't have the right items.";
             StartCoroutine(HideTextAfterSeconds(3f));
@@ -66,9 +66,9 @@ public class ItemChecker : MonoBehaviour
         }
     }
 
-    bool Check(List<string> list1, List<string> list2)
+    bool Check()
     {
-        return list1.All(item => list2.Contains(item));
+        return ItemsNeeded.All(item => player.Inventory.Contains(item));
     }
 
     IEnumerator HideTextAfterSeconds(float delay)

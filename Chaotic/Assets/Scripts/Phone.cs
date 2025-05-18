@@ -6,13 +6,16 @@ using TMPro;
 public class Phone : MonoBehaviour
 {
     [SerializeField] private Transform player;
-    [SerializeField] private float ringDistance = 5f;
+    [SerializeField] private float ringDistance = 6f;
     [SerializeField] private List<string> dialogue = new List<string>();
+    [SerializeField] private List<AudioClip> talking = new List<AudioClip>();
     [SerializeField] private List<float> delay = new List<float>();
+    [SerializeField] private int dialogueLineStop;
     [SerializeField] private TextMeshProUGUI subtitles;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private AudioClip phoneRing;
-    [SerializeField] private AudioClip talking;
+    [SerializeField] private Keypad keypad;
+    [SerializeField] private ItemChecker itemChecker;
 
     private AudioSource audioSource;
     private bool inReach = false;
@@ -32,19 +35,35 @@ public class Phone : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= ringDistance && !pickedUp)
         {
-            if (!audioSource.isPlaying)
+            if (!audioSource.isPlaying && HasLineOfSightToPlayer())
             {
+                audioSource.clip = phoneRing;
                 audioSource.Play();
+                
             }
         }
-        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp)
+        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded))
         {
             pickedUp = true;
-            audioSource.clip = talking;
+            audioSource.clip = talking[0];
             audioSource.loop = false;
             audioSource.Play();
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
+        }
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded))
+        {
+            pickedUp = true;
+            audioSource.clip = talking[1];
+            audioSource.loop = false;
+            audioSource.Play();
+            interactText.text = "";
+            StartCoroutine(ChangeSubtitles());
+        }
+        if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded))
+        {
+            pickedUp = false;
+
         }
     }
 
@@ -66,13 +85,43 @@ public class Phone : MonoBehaviour
         }
     }
 
+    private bool HasLineOfSightToPlayer()
+    {
+        Vector3 directionToPlayer = player.position - transform.position;
+        Ray ray = new Ray(transform.position, directionToPlayer.normalized);
+        RaycastHit hit;
+
+        // Check if ray hits anything between phone and player
+        if (Physics.Raycast(ray, out hit, ringDistance))
+        {
+            // Only true if the player is what was hit
+            return hit.transform == player;
+        }
+
+        return false;
+    }
+
+
     IEnumerator ChangeSubtitles()
     {
-        for (int i = 0; i < dialogue.Count; i++)
+        if (audioSource.clip == talking[0])
         {
-            subtitles.text = dialogue[i];
-            yield return new WaitForSeconds(delay[i]);
+            for (int i = 0; i < dialogueLineStop; i++)
+            {
+                subtitles.text = dialogue[i];
+                yield return new WaitForSeconds(delay[i]);
+            }
+            subtitles.text = "";
         }
-        subtitles.text = "";
+        else
+        {
+            for (int i = dialogueLineStop; i < dialogue.Count; i++)
+            {
+                subtitles.text = dialogue[i];
+                yield return new WaitForSeconds(delay[i]);
+            }
+            subtitles.text = "";
+        }
+        
     }
 }

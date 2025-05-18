@@ -33,7 +33,7 @@ public class Doors : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach" && (((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded))))
+        if (other.gameObject.tag == "Reach")
         {
             inReach = false;
             interactText.text = ""; // Clear the interaction text
@@ -61,9 +61,9 @@ public class Doors : MonoBehaviour
             }
             else if (itemChecker != null)
             {
-                interactText.text = "I need to find the right key first."; // show "locked" text
+                interactText.text = "I still need the " + FormatItemList(itemChecker.ItemsNeeded); // show "locked" text and missing items
             }
-            StartCoroutine(HideLockedTextAfterSeconds(2f)); // hide after a short delay
+            StartCoroutine(HideLockedTextAfterSeconds(3f)); // hide after a short delay
             if (lockedSound != null)
             {
                 lockedSound.Play();
@@ -87,6 +87,19 @@ public class Doors : MonoBehaviour
         doorIsOpen = false;
     }
 
+    private string FormatItemList(List<string> items)
+    {
+        if (items.Count == 1)
+        {
+            return items[0];
+        }
+        else
+        {
+            string allButLast = string.Join(", ", items.GetRange(0, items.Count - 1));
+            string last = items[items.Count - 1];
+            return allButLast + ", and " + last;
+        }
+    }
 
     IEnumerator HideLockedTextAfterSeconds(float delay)
     {
