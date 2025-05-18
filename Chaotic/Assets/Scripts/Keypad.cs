@@ -11,6 +11,7 @@ public class Keypad : MonoBehaviour
     public GameObject crosshair;
     public GameObject keypadOB;
     public GameObject animateOB;
+    public GameObject reward;
     public Animator ANI;
 
     public TextMeshProUGUI keypadText;
@@ -25,6 +26,7 @@ public class Keypad : MonoBehaviour
     public bool inReach = false;
     public bool animate;
     public bool Completed = false;
+    public bool rewardCheck = false;
 
 
     void Start()
@@ -51,6 +53,10 @@ public class Keypad : MonoBehaviour
     {
         if (textOB.text == answer)
         {
+            if (rewardCheck)
+            {
+                reward.SetActive(true);
+            }
             audioSource.clip = correct;
             audioSource.Play();
             Completed = true;
