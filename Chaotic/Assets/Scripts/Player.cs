@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     private Vector3 monsterStartPosition;
     [SerializeField] private RawImage sanityOverlay;
     [SerializeField] private Slider sanityBar;
-    [SerializeField] private float maxDamageTimer = 2f;
+    [SerializeField] private float maxDamageTimer = 1f;
     [SerializeField] private float damageTimer;
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
     {
         if(damageTimer == 0)
         { 
-        if (other.gameObject == monster)
+        if (other.gameObject.tag == "Enemy")
         {
             Sanity -= enemySanityDamage;
             damageTimer = maxDamageTimer;

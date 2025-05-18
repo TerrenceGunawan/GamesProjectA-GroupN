@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private AudioClip chasingSound; 
     private AudioSource audioSource;
+    private bool lostPlayer;
 
     private enum State
     {
@@ -103,6 +104,19 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+
+        if (lostPlayer)
+        {
+            SetNextPatrolPoint();
+            lostPlayer = false;
+        }
+        
+        if (hidden)
+        {
+            currentState = State.Patrol;  // If the player is hidden, go back to patrolling
+            animator.SetBool("isChasing", false);  // Stop chasing animation
+        }
+
         inAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
 
         switch (currentState)
@@ -147,7 +161,8 @@ public class Enemy : MonoBehaviour
 
     void Patrol()
     {
-        navAgent.speed = 2f;
+        navAgent.speed = 1f;
+        
         if (!patrolPointSet)
         {
             SetNextPatrolPoint();
@@ -168,7 +183,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (canSeePlayer && !hidden)
+        if (canSeePlayer)
         {
             if(!audioSource.isPlaying)
             {
@@ -183,13 +198,13 @@ public class Enemy : MonoBehaviour
 
     void ChasePlayer()
     {
-        navAgent.speed = 1f;
+        navAgent.speed = 2f;
         navAgent.SetDestination(player.position);
         animator.SetBool("isChasing", true);
 
         if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
         {
-
+            lostPlayer = true;
             destPoint = player.position;
             currentState = State.Patrol;
             animator.SetBool("isChasing", false);
