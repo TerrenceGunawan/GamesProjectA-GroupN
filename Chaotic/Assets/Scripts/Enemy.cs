@@ -54,11 +54,14 @@ public class Enemy : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponentInChildren<BoxCollider>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = chasingSound;
 
         navAgent.updateRotation = true; 
         disableAttack();
         StartCoroutine(FOVRoutine());
     }
+    
 
     private IEnumerator FOVRoutine()
     {
@@ -202,6 +205,12 @@ public class Enemy : MonoBehaviour
         navAgent.speed = 3f;
         navAgent.SetDestination(player.position);
         animator.SetBool("isChasing", true);
+
+            if(!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(chasingSound);
+            }
+
 
         if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
         {
