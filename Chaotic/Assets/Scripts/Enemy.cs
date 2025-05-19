@@ -159,7 +159,7 @@ public class Enemy : MonoBehaviour
 
     void Patrol()
     {
-        navAgent.speed = 1f;
+        navAgent.speed = 2f;
         
         if (!patrolPointSet)
         {
@@ -199,7 +199,7 @@ public class Enemy : MonoBehaviour
 
     void ChasePlayer()
     {
-        navAgent.speed = 2f;
+        navAgent.speed = 3f;
         navAgent.SetDestination(player.position);
         animator.SetBool("isChasing", true);
 

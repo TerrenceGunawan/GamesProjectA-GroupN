@@ -460,7 +460,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
   sanityBar: {fileID: 74165165}
-  objective: {fileID: 0}
+  objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
   image: {fileID: 196892052}
@@ -7242,6 +7242,103 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 71914787385059811, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
   m_PrefabInstance: {fileID: 9059425583529150304}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &175247197
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175247196}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: da2b5043168b0d14db0f8273a4a18bb5, type: 3}
+  m_Resource: {fileID: 8300000, guid: da2b5043168b0d14db0f8273a4a18bb5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &175266335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7590,7 +7687,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
   sanityBar: {fileID: 74165165}
-  objective: {fileID: 0}
+  objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
   image: {fileID: 196892052}
@@ -12999,7 +13096,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
   sanityBar: {fileID: 74165165}
-  objective: {fileID: 0}
+  objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
   image: {fileID: 196892052}
@@ -16265,7 +16362,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
   sanityBar: {fileID: 74165165}
-  objective: {fileID: 0}
+  objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
   image: {fileID: 196892052}
@@ -35633,7 +35730,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
   sanityBar: {fileID: 74165165}
-  objective: {fileID: 0}
+  objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
   image: {fileID: 196892052}
@@ -73737,7 +73834,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
   sanityBar: {fileID: 74165165}
-  objective: {fileID: 0}
+  objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
   image: {fileID: 196892052}
@@ -78173,6 +78270,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   keypadOB: {fileID: 1124785903}
   animateOB: {fileID: 0}
+  reward: {fileID: 0}
   ANI: {fileID: 0}
   keypadText: {fileID: 1980203787}
   textOB: {fileID: 479564857}
@@ -78183,6 +78281,7 @@ MonoBehaviour:
   inReach: 0
   animate: 0
   Completed: 0
+  rewardCheck: 0
 --- !u!82 &1843665356
 AudioSource:
   m_ObjectHideFlags: 0
@@ -84904,7 +85003,7 @@ MonoBehaviour:
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
   sanityBar: {fileID: 74165165}
-  objective: {fileID: 0}
+  objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
   image: {fileID: 196892052}
@@ -88974,7 +89073,7 @@ PrefabInstance:
       objectReference: {fileID: 618947724}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: lookSensitivity
-      value: 5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3535308996250757931, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: m_Range
@@ -89176,6 +89275,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 546031913}
     - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+      propertyPath: chasingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: da2b5043168b0d14db0f8273a4a18bb5, type: 3}
+    - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: inAttackRange
       value: 0
       objectReference: {fileID: 0}
@@ -89249,7 +89352,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3558727074721441431, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 546031912}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 71914787385059811, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 175247197}
   m_SourcePrefab: {fileID: 100100000, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
