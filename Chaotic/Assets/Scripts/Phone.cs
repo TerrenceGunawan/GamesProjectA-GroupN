@@ -20,7 +20,7 @@ public class Phone : MonoBehaviour
     private AudioSource audioSource;
     private bool inReach = false;
     private bool pickedUp = false;
-
+    private bool pickedUpTwice = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,7 +33,7 @@ public class Phone : MonoBehaviour
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= ringDistance && !pickedUp)
+        if (distanceToPlayer <= ringDistance && !pickedUp && !pickedUpTwice)
         {
             if (!audioSource.isPlaying)
             {
@@ -51,8 +51,9 @@ public class Phone : MonoBehaviour
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded))
+        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && !pickedUpTwice && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded))
         {
+            pickedUpTwice = true;
             pickedUp = true;
             audioSource.clip = talking[1];
             audioSource.loop = false;
