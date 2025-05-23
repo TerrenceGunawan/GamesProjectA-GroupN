@@ -7,6 +7,7 @@ public class HidingSpot : MonoBehaviour
     [SerializeField] private Player player;
 
     private Transform hidePosition;
+    private AudioSource audio;
     private bool inReach = false;
 
     private Enemy enemy;
@@ -24,6 +25,7 @@ public class HidingSpot : MonoBehaviour
             if (player.IsHidden)
             {
                 player.ExitHiding();
+                audio.Pause();
                 inReach = false;
                 interactionText.text = ""; // Clear the interaction text
                 enemy.hidden = false;
@@ -31,6 +33,7 @@ public class HidingSpot : MonoBehaviour
             else
             {
                 player.HideAtPosition(hidePosition);
+                audio.Play();
                 UpdateInteractionText();
                 enemy.hidden = true;
             }
