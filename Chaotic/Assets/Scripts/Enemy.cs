@@ -15,7 +15,8 @@ public class Enemy : MonoBehaviour
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
-    [SerializeField] private Transform player;
+    [SerializeField] private Player player;
+    [SerializeField] private Flashlight flashlight;
 
     public Vector3 destPoint;
     private bool patrolPointSet = false;
@@ -30,8 +31,6 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     [SerializeField] private float attackRange;
     public bool inAttackRange;
-
-    public bool hidden;  // To check if player is hidden (in a hiding spot)
 
     [SerializeField] private BoxCollider boxCollider;
 
@@ -105,6 +104,14 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (flashlight.On)
+        {
+            radius = 15f;
+        }
+        else
+        {
+            radius = 11f;
+        }
 
         if (lostPlayer)
         {
@@ -112,7 +119,7 @@ public class Enemy : MonoBehaviour
             lostPlayer = false;
         }
         
-        if (hidden)
+        if (player.IsHidden)
         {
             currentState = State.Patrol;  // If the player is hidden, go back to patrolling
             animator.SetBool("isChasing", false);  // Stop chasing animation
@@ -203,7 +210,7 @@ public class Enemy : MonoBehaviour
     void ChasePlayer()
     {
         navAgent.speed = 3f;
-        navAgent.SetDestination(player.position);
+        navAgent.SetDestination(player.transform.position);
         animator.SetBool("isChasing", true);
 
             if(!audioSource.isPlaying)
@@ -215,7 +222,7 @@ public class Enemy : MonoBehaviour
         if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
         {
             lostPlayer = true;
-            destPoint = player.position;
+            destPoint = player.transform.position;
             currentState = State.Patrol;
             animator.SetBool("isChasing", false);
             Debug.Log("Lost sight of the player.");

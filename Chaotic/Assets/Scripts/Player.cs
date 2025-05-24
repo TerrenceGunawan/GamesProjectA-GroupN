@@ -31,12 +31,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
     [SerializeField] private float sanityRegained = 20f;
-    [SerializeField] private Button restartButton;
+    [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     private float maxSanity;
     public float Sanity = 100f;
     public List<string> Inventory = new List<string>();
-    private List<Transform> checkpoints = new List<Transform>();
     private ItemInteract[] items;
 
     void Awake()
@@ -47,8 +46,6 @@ public class Player : MonoBehaviour
         actions = new PlayerActions();
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
-        restartButton.onClick.AddListener(Restart);
-        restartButton.gameObject.SetActive(false);
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
     }
@@ -142,14 +139,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Checkpoint")
-        {
-            checkpoints.Add(other.gameObject.transform);
-        }
-    }
-
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "DangerRoom")
@@ -184,8 +173,9 @@ public class Player : MonoBehaviour
         if(Sanity < 0)
         {
             OnDisable();
+            Time.timeScale = 0f;
             crosshair.SetActive(false);
-            restartButton.gameObject.SetActive(true);
+            gameOver.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -251,23 +241,5 @@ public class Player : MonoBehaviour
         Inventory.Add(itemName);
         Debug.Log("You got " + itemName);
     }
-
-    void Restart()
-    {
-        rb.isKinematic = false;
-        Sanity = maxSanity;
-        foreach (ItemInteract item in items)
-        {
-            item.gameObject.SetActive(true);
-            item.Taken = false;
-        }
-        Inventory.Clear();
-        gameObject.transform.position = checkpoints[checkpoints.Count - 1].position;
-        monster.transform.position = monsterStartPosition;
-        OnEnable();
-        crosshair.SetActive(true);
-        Cursor.lockState = CursorLockMode.Locked;
-        restartButton.gameObject.SetActive(false);
-        }
 }
 

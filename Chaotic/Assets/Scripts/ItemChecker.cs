@@ -7,6 +7,7 @@ using TMPro;
 public class ItemChecker : MonoBehaviour
 {
     public List<string> ItemsNeeded = new List<string>();
+    public List<string> RemainingItems;
     [SerializeField] private Player player;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private string successText;
@@ -23,13 +24,21 @@ public class ItemChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RemainingItems = new List<string>();
+        foreach (string item in ItemsNeeded)
+        {
+            if (!player.Inventory.Contains(item))
+            {
+                RemainingItems.Add(item);
+            }
+        }
         if (inReach && Input.GetKeyDown(KeyCode.E) && Check() && !HasSucceeded)
         {
             HasSucceeded = true; // Mark as done
             if (door == null)
             {
                 interactText.text = successText;
-                StartCoroutine(HideTextAfterSeconds(3f));            
+                StartCoroutine(HideTextAfterSeconds(3f));
             }
             else
             {

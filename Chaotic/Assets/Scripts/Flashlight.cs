@@ -6,27 +6,25 @@ public class Flashlight : MonoBehaviour
 {
     private Light flashlight;
     public AudioSource button;
-    public bool on;
+    public bool On;
 
     void Start()
     {
         flashlight = GetComponent<Light>();
-        on = false;
+        On = false;
     }
 
     void Update()
     {
-        flashlight.enabled = on;
-        if(!on && Input.GetButtonDown("F"))
+        flashlight.enabled = On;
+        if(!On && Input.GetButtonDown("F"))
         {
-            on = true;
-            Debug.Log("Turned On");
+            On = !On;
             button.Play();
         }
-        else if (on && Input.GetButtonDown("F"))
+        else if (On && Input.GetButtonDown("F"))
         {
-            on = false;
-            Debug.Log("Turned Off");
+            On = !On;
             button.Play();
         }
     }

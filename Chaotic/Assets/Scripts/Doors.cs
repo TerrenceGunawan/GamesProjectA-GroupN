@@ -61,7 +61,7 @@ public class Doors : MonoBehaviour
             }
             else if (itemChecker != null)
             {
-                interactText.text = "I still need the " + FormatItemList(itemChecker.ItemsNeeded); // show "locked" text and missing items
+                interactText.text = "I still need the " + FormatItemList(itemChecker.RemainingItems); // show "locked" text and missing items
             }
             StartCoroutine(HideLockedTextAfterSeconds(3f)); // hide after a short delay
             if (lockedSound != null)

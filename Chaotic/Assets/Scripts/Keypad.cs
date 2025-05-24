@@ -10,7 +10,6 @@ public class Keypad : MonoBehaviour
     public Player player;
     public GameObject crosshair;
     public GameObject keypadOB;
-    public GameObject animateOB;
     public GameObject reward;
     public Animator ANI;
 
@@ -55,6 +54,7 @@ public class Keypad : MonoBehaviour
         {
             if (rewardCheck)
             {
+                animate = true;
                 reward.SetActive(true);
             }
             audioSource.clip = correct;
@@ -101,10 +101,9 @@ public class Keypad : MonoBehaviour
             keypadText.text = "";
         }
 
-        if (textOB.text == "Right" && animate)
+        if (animate)
         {
             ANI.SetBool("animate", true);
-            Debug.Log("its open");
         }
 
 

@@ -28,14 +28,12 @@ public class HidingSpot : MonoBehaviour
                 audio.Pause();
                 inReach = false;
                 interactionText.text = ""; // Clear the interaction text
-                enemy.hidden = false;
             }
             else
             {
                 player.HideAtPosition(hidePosition);
                 audio.Play();
                 UpdateInteractionText();
-                enemy.hidden = true;
             }
         }
     }
