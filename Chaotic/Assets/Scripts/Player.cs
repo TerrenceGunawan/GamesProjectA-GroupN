@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
     private Vector3 monsterStartPosition;
     [SerializeField] private RawImage sanityOverlay;
-    [SerializeField] private Slider sanityBar;
+    [SerializeField] private Image sanityBar;
     [SerializeField] private float maxDamageTimer = 1f;
     [SerializeField] private float damageTimer;
     [SerializeField] private float enemySanityDamage = 30f;
@@ -66,7 +66,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
-        sanityBar.value = Sanity;
         damageTimer = maxDamageTimer;
         monsterStartPosition = monster.transform.position;
         items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
@@ -87,6 +86,9 @@ public class Player : MonoBehaviour
             overlayColor.a = Mathf.Lerp(0f, 0.2f, darkness); // max 70% opacity
         }
         sanityOverlay.color = overlayColor;
+        float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
+        sanityBar.fillAmount = sanityPercent;
+        sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
     }
 
     void FixedUpdate() // Use FixedUpdate for physics-based movement
@@ -167,8 +169,6 @@ public class Player : MonoBehaviour
         {
             Sanity -= Time.deltaTime;
         }
-
-        sanityBar.value = Sanity;
 
         if(Sanity < 0)
         {
