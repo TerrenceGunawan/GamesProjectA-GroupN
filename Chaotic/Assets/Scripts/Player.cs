@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private AudioSource footstepSound;
 
     [SerializeField] private GameObject monster;
+    [SerializeField] private Enemy enemy;
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float lookSensitivity = 10f;
     [SerializeField] private float maxLookAngle = 90f;
@@ -136,6 +137,7 @@ public class Player : MonoBehaviour
         {
             Sanity -= enemySanityDamage;
             damageTimer = maxDamageTimer;
+            enemy.TeleportToFurthestPatrolPoint();
             Debug.Log("You got hit");
         }
         }

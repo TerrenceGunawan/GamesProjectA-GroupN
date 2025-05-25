@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float angle;  // The angle of the field of view
     // References and variables for patrol points and player detection
     public GameObject playerRef;  // Reference to the player's GameObject
-    public bool canSeePlayer;  
+    public bool canSeePlayer;
 
     private State currentState;  // Current state of the enemy
 
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     private int currentPatrolIndex = 0;  // To keep track of which patrol point to go to next
     [SerializeField] LayerMask playerLayer;  // To detect the player
 
-     [SerializeField] LayerMask obstructionMask; 
+    [SerializeField] LayerMask obstructionMask;
 
     private float lookTimer = 5f;  // Timer for idle states
     private Animator animator;
@@ -34,9 +34,12 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private BoxCollider boxCollider;
 
-    [SerializeField] private AudioClip chasingSound; 
+    [SerializeField] private AudioClip chasingSound;
     private AudioSource audioSource;
     private bool lostPlayer;
+    private bool chaseSound;
+
+    public float proximity;
 
     private enum State
     {
@@ -44,7 +47,7 @@ public class Enemy : MonoBehaviour
         Patrol,
         Chase,
         Attack,
-    }  
+    }
 
     void Start()
     {
@@ -56,51 +59,59 @@ public class Enemy : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = chasingSound;
 
-        navAgent.updateRotation = true; 
+        navAgent.updateRotation = true;
         disableAttack();
         StartCoroutine(FOVRoutine());
     }
-    
+
 
     private IEnumerator FOVRoutine()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.1f);
+        WaitForSeconds wait = new WaitForSeconds(0.05f);
 
         while (true)
         {
             yield return wait;
-            FieldOfViewCheck(); 
+            FieldOfViewCheck();
         }
     }
 
-    private void FieldOfViewCheck()
+private void FieldOfViewCheck()
+{
+    float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);  // Calculate the distance to the player
+
+    Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, playerLayer);
+
+    if (rangeChecks.Length != 0) 
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, playerLayer);
+        Transform target = rangeChecks[0].transform;
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-        if (rangeChecks.Length != 0)
+        if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
         {
-            Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
-            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
+            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
             {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                    canSeePlayer = true;
-                else
-                    canSeePlayer = false;
+                canSeePlayer = true;
             }
             else
             {
                 canSeePlayer = false;
             }
         }
-        else if (canSeePlayer)
+        else
         {
             canSeePlayer = false;
         }
     }
+
+    if (distanceToPlayer < proximity)
+    {
+        Debug.Log("You are way too close to me right now!");
+        canSeePlayer = true;  
+    }
+}
 
     void Update()
     {
@@ -118,7 +129,7 @@ public class Enemy : MonoBehaviour
             SetNextPatrolPoint();
             lostPlayer = false;
         }
-        
+
         if (player.IsHidden)
         {
             currentState = State.Patrol;  // If the player is hidden, go back to patrolling
@@ -170,7 +181,8 @@ public class Enemy : MonoBehaviour
     void Patrol()
     {
         navAgent.speed = 2f;
-        
+        chaseSound = true;
+
         if (!patrolPointSet)
         {
             SetNextPatrolPoint();
@@ -183,11 +195,10 @@ public class Enemy : MonoBehaviour
 
             if (Vector3.Distance(transform.position, destPoint) < 1f)
             {
-                Debug.Log("test");
                 lookTimer = Random.Range(3f, 6f);
                 SetNextPatrolPoint();
                 animator.SetBool("isSearching", false);
-                currentState = State.Idle;  
+                currentState = State.Idle;
             }
         }
 
@@ -209,14 +220,18 @@ public class Enemy : MonoBehaviour
 
     void ChasePlayer()
     {
-        navAgent.speed = 3f;
+        navAgent.speed = 4f;
+              Vector3 directionToPlayer = player.transform.position - transform.position;
+        directionToPlayer.y = 0f;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(directionToPlayer), 300f * Time.deltaTime);
         navAgent.SetDestination(player.transform.position);
         animator.SetBool("isChasing", true);
 
-            if(!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(chasingSound);
-            }
+        if (!audioSource.isPlaying && chaseSound)
+        {
+            audioSource.PlayOneShot(chasingSound);
+            chaseSound = false;
+        }
 
 
         if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
@@ -226,7 +241,7 @@ public class Enemy : MonoBehaviour
             currentState = State.Patrol;
             animator.SetBool("isChasing", false);
             Debug.Log("Lost sight of the player.");
- 
+
         }
 
         if (canSeePlayer && inAttackRange)
@@ -241,6 +256,9 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        directionToPlayer.y = 0f;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(directionToPlayer), 360f * Time.deltaTime);
         animator.SetBool("isAttacking", true);
         enableAttack();
         navAgent.SetDestination(transform.position);
@@ -252,12 +270,11 @@ public class Enemy : MonoBehaviour
             disableAttack();
         }
     }
-
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            // currentState = State.Chase;  // This can be used if you want to immediately chase when colliding
+            TeleportToFurthestPatrolPoint();
         }
     }
 
@@ -269,5 +286,22 @@ public class Enemy : MonoBehaviour
     void disableAttack()
     {
         boxCollider.enabled = false;  // Disable the attack collider
+    }
+    public void TeleportToFurthestPatrolPoint()
+    {
+         float maxDistance = 0f;
+        Vector3 furthestPoint = transform.position;
+        
+        foreach (Transform point in patrolPoints)
+        {
+            float distance = Vector3.Distance(transform.position, point.position);
+            if (distance > maxDistance)
+            {
+                maxDistance = distance;
+                furthestPoint = point.position;
+            }
+        }
+        navAgent.Warp(furthestPoint);
+        Debug.Log("Enemy teleported to patrol point");
     }
 }

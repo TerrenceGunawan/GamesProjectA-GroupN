@@ -5632,6 +5632,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &175247200 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+  m_PrefabInstance: {fileID: 9059425583529150304}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175247196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd957d9903ff35408ba7dd566a5df6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &175266335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5988,12 +5999,12 @@ MonoBehaviour:
   itemDesc: "This ship is not mine. It was there before \u2013 neat, complete, without
     a scratch.\u201D He always said, \u2018Don\u2019t touch it. It\u2019s my first
     achievement. The only thing my parents ever praised.\u2019 Many times, I secretly
-    opened the cupboard to get a better look. I didn\u2019t dare touch it. I just
-    wanted to understand why he valued it so much. Until one day, the cupboard was
-    wide open. The ship was upside down. One sail was broken, and I was the only
-    one standing there. I don\u2019t remember doing it. But he looked at me like
-    I was the one who destroyed everything. And for the first time\u2026 I began
-    to believe that I really was that kind of person. "
+    opened the cupboard to get a better look. I didn\u2019t dare touch it. I wanted
+    to understand why it was valuable to him. One day, the cupboard was wide open.
+    The ship was upside down with one sail was broken, and I was the only one standing
+    there. I don\u2019t remember doing it. But he looked at me like I was the one
+    who destroyed everything. And for the first time\u2026 I began to believe that
+    I really was that kind of person. "
   takeAble: 0
   sanityRegain: 1
   sanityAmount: 15
@@ -65175,6 +65186,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 175247200}
+    - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: monster
       value: 
       objectReference: {fileID: 175247196}
@@ -65339,7 +65354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 71914787385059811, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 843491112548004697, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65394,9 +65409,21 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+      propertyPath: proxAngle
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+      propertyPath: proximity
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: flashlight
       value: 
       objectReference: {fileID: 80416299}
+    - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+      propertyPath: proxRadius
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: sightRange
       value: 11.21
@@ -65472,6 +65499,10 @@ PrefabInstance:
     - target: {fileID: 6754901013312942921, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: m_Radius
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6754901013312942921, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+      propertyPath: m_Acceleration
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6754901013312942921, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: m_AngularSpeed
