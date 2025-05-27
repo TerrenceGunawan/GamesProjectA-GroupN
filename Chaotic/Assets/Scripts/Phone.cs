@@ -59,6 +59,7 @@ public class Phone : MonoBehaviour
             audioSource.loop = false;
             audioSource.Play();
             interactText.text = "";
+            GetComponent<Collider>().enabled = false;
             StartCoroutine(ChangeSubtitles());
         }
         if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded))
