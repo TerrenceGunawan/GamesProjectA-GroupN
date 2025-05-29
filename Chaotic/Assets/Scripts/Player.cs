@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
     public bool IsHidden = false;
 
     private Vector3 monsterStartPosition;
-    [SerializeField] private RawImage sanityOverlay;
     [SerializeField] private Image sanityBar;
     [SerializeField] private float maxDamageTimer = 1f;
     [SerializeField] private float damageTimer;
@@ -76,17 +75,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         HandleMouseLook();
-        float darkness = 1f - (Sanity / maxSanity); // 0 (normal) to 1 (fully insane)
-        Color overlayColor = sanityOverlay.color;
-        if (IsHidden)
-        {
-            overlayColor.a = 0.6f; // No overlay when hidden
-        }
-        else
-        {
-            overlayColor.a = Mathf.Lerp(0f, 0.2f, darkness); // max 70% opacity
-        }
-        sanityOverlay.color = overlayColor;
         float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
         sanityBar.fillAmount = sanityPercent;
         sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);

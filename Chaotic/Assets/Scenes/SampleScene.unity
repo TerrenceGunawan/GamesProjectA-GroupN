@@ -146,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 1654111407225665096, guid: e117716ca788a1946bcded432c0e4982, type: 3}
       propertyPath: sanityBar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1916862088}
     - target: {fileID: 1654111407225665096, guid: e117716ca788a1946bcded432c0e4982, type: 3}
       propertyPath: description
       value: 
@@ -216,6 +216,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7973148958364194717, guid: e117716ca788a1946bcded432c0e4982, type: 3}
+      propertyPath: sanityBar
+      value: 
+      objectReference: {fileID: 1916862088}
+    - target: {fileID: 7973148958364194717, guid: e117716ca788a1946bcded432c0e4982, type: 3}
       propertyPath: interactText
       value: 
       objectReference: {fileID: 1980203787}
@@ -238,7 +242,7 @@ PrefabInstance:
     - target: {fileID: 8051166065886536478, guid: e117716ca788a1946bcded432c0e4982, type: 3}
       propertyPath: sanityBar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1916862088}
     - target: {fileID: 8051166065886536478, guid: e117716ca788a1946bcded432c0e4982, type: 3}
       propertyPath: description
       value: 
@@ -314,7 +318,7 @@ PrefabInstance:
     - target: {fileID: 9141432855215087761, guid: e117716ca788a1946bcded432c0e4982, type: 3}
       propertyPath: sanityBar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1916862088}
     - target: {fileID: 9141432855215087761, guid: e117716ca788a1946bcded432c0e4982, type: 3}
       propertyPath: description
       value: 
@@ -548,7 +552,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -5990,7 +5994,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -8764,7 +8768,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 0}
   description: {fileID: 0}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 0}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 0}
@@ -9192,7 +9196,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -11603,7 +11607,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 0}
   description: {fileID: 0}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 0}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 0}
@@ -11762,7 +11766,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -12306,7 +12310,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 0}
   description: {fileID: 0}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 0}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 0}
@@ -14613,7 +14617,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -15937,7 +15941,7 @@ MonoBehaviour:
   m_text: 'Exit [E]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 92c8317cf3456574d9b71267579cff5a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -2282149019420180755, guid: 92c8317cf3456574d9b71267579cff5a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -21454,78 +21458,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 209356805d5463645afee2f420b120bf, type: 2}
   m_BuildHeightMesh: 0
---- !u!1 &618947722
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 618947723}
-  - component: {fileID: 618947725}
-  - component: {fileID: 618947724}
-  m_Layer: 5
-  m_Name: Blood Frame
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &618947723
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618947722}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1922439650}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &618947724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618947722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 2800000, guid: facb60ec1e4413146af5f3e4e0131fc7, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
---- !u!222 &618947725
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618947722}
-  m_CullTransparentMesh: 1
 --- !u!1001 &634690936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23564,7 +23496,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 0}
   description: {fileID: 0}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 0}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 0}
@@ -26286,7 +26218,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -29502,7 +29434,7 @@ MonoBehaviour:
   ANI: {fileID: 164681655}
   keypadText: {fileID: 1980203787}
   textOB: {fileID: 1009579030}
-  answer: 8405
+  answer: 8504
   button: {fileID: 8300000, guid: c4a258fdae8bc8f418149ed0a88518ae, type: 3}
   correct: {fileID: 8300000, guid: e7bcdec0fbe09cb45b7c780506bbb07f, type: 3}
   wrong: {fileID: 8300000, guid: 2916b42d45e4a57438817b4ffdcdf7b7, type: 3}
@@ -40379,7 +40311,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 71a790a4370ff174e97a51ddc4e6a831, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -6917128021376574873, guid: 71a790a4370ff174e97a51ddc4e6a831, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -44422,7 +44354,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -45371,7 +45303,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -50350,26 +50282,28 @@ MonoBehaviour:
   ringDistance: 10
   dialogue:
   - 
-  - "??? : You\u2019re here\u2026now go back to the basement there are clues that
-    will help you open the safe."
-  - '??? : In the safe there will be a key that will help you escape this basement'
-  - "??? : and clues about everything about the case that will help you remember\u2026 "
-  - '??? : what you did..'
-  - '??? : We have to do this together, okay?'
+  - "Brother : You\u2019re here\u2026now go back to the basement there are clues
+    that will help you open the safe."
+  - 'Brother : In the safe there will be a key that will help you escape this basement'
+  - "Brother : and clues about everything about the case that will help you remember\u2026 "
+  - 'Brother : what you did..'
+  - 'Brother : We have to do this together, okay?'
   - 'Lucian: What I did?'
-  - "??? : I know it\u2019s hard to face."
-  - '??? : But you have to look straight at the truth, even if it hurts.'
+  - "Brother : I know it\u2019s hard to face."
+  - 'Brother : But you have to look straight at the truth, even if it hurts.'
   - 
-  - '??? : Don''t believe everything you read. The press only writes what they want
-    to hear.'
-  - '??? : They don''t know... how the people inside felt, it was the last day.'
-  - '??? : The day everything fell apart. Mom, Dad... blood... screaming... and you,
-    I remember you screaming.'
-  - '??? : You stood there, shaking with the knife... '
-  - '??? : But it wasn''t your fault. It wasn''t... your fault....'
-  - '??? : Go through the basement, Lucian.'
-  - '??? : First you have to find the 3 keys.'
-  - '??? : You''ll find another room where you feel safe and I''ll contact you there.'
+  - "Brother : You did well\u2026 That\u2019s the key to the basement. You\u2019re
+    almost there. Just one more step\u2026 and you\u2019ll remember everything."
+  - "Lucian :  \u2026 This file\u2026 it says you\u2019ve been taken to a psychiatrist?
+    That you\u2019re dangerous\u2026 out of control?\u201D"
+  - "Brother : They just need an explanation. But they weren\u2019t there like I
+    was. They didn\u2019t see you shaking, panicking, holding a knife\u2026 They
+    don\u2019t understand\u2026"
+  - "Lucian : But\u2026 the drawings, the confessions, the newspaper clippings\u2026
+    why don\u2019t you remember anything? Why does everything seem\u2026 wrong?\u201D"
+  - 'Brother : Because your mind is damaged. It erased that part of your memory to
+    protect you. But it''s time to face it... you need to know the truth. '
+  - 'Brother : No matter what you do, you are still my beloved brother.'
   talking:
   - {fileID: 8300000, guid: e6a397522bb25154ab3dc0cc909ff4b4, type: 3}
   - {fileID: 8300000, guid: c5ed7bc54bf0433478d0b4ae4a18be96, type: 3}
@@ -50384,14 +50318,12 @@ MonoBehaviour:
   - 3
   - 4
   - 3
-  - 6
-  - 5
+  - 9
+  - 7
+  - 11
+  - 12
   - 10
-  - 3.5
-  - 5
-  - 2
   - 3
-  - 5
   dialogueLineStop: 9
   subtitles: {fileID: 1896234049}
   interactText: {fileID: 1980203787}
@@ -50932,23 +50864,25 @@ MonoBehaviour:
   - 
   - '??? : Lucian? Is that you...?'
   - "??? : You\u2019re awake? Do you remember anything...?"
-  - "??? : Don\u2019t be afraid. It\u2019s me, your brother\u2026"
-  - "??? : You\u2019re in shock. I\u2019ll help you."
-  - "??? : We\u2019ll figure it out together."
-  - '??? : But first, you have to find the clues around the room and leave that room.'
+  - "Brother : Don\u2019t be afraid. It\u2019s me, your brother\u2026"
+  - "Brother : You\u2019re in shock. I\u2019ll help you."
+  - "Brother : We\u2019ll figure it out together."
+  - 'Brother : But first, you have to find the clues around the room and leave that
+    room.'
   - 
-  - '??? : Well done Lucian. You did very well.'
+  - 'Brother : Well done Lucian. You did very well.'
   - "Lucian : That picture... The news... I saw it. I\u2014"
-  - '??? : Don''t believe everything you read. The press only writes what they want
-    to hear.'
-  - '??? : They don''t know... how the people inside felt, it was the last day.'
-  - '??? : The day everything fell apart. Mom, Dad... blood... screaming... and you,
-    I remember you screaming.'
-  - '??? : You stood there, shaking with the knife... '
-  - '??? : But it wasn''t your fault. It wasn''t... your fault....'
-  - '??? : Go through the basement, Lucian.'
-  - '??? : First you have to find the 3 keys.'
-  - '??? : You''ll find another room where you feel safe and I''ll contact you there.'
+  - 'Brother : Don''t believe everything you read. The press only writes what they
+    want to hear.'
+  - 'Brother : They don''t know... how the people inside felt, it was the last day.'
+  - 'Brother : The day everything fell apart. Mom, Dad... blood... screaming... and
+    you, I remember you screaming.'
+  - 'Brother : You stood there, shaking with the knife... '
+  - 'Brother : But it wasn''t your fault. It wasn''t... your fault....'
+  - 'Brother : Go through the basement, Lucian.'
+  - 'Brother : First you have to find the 3 keys.'
+  - 'Brother : You''ll find another room where you feel safe and I''ll contact you
+    there.'
   talking:
   - {fileID: 8300000, guid: 7649a4383234dcc41802a540d382b5c3, type: 3}
   - {fileID: 8300000, guid: 9179c15a594da1f459701407ee3ab3b9, type: 3}
@@ -50963,13 +50897,13 @@ MonoBehaviour:
   - 3
   - 2
   - 7
-  - 6
+  - 5.5
   - 5
   - 10
   - 3.5
   - 5
   - 2
-  - 3
+  - 2.5
   - 5
   dialogueLineStop: 7
   subtitles: {fileID: 1896234049}
@@ -54679,7 +54613,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -55135,10 +55069,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e4b4670d1c1292545982235bcf42f22e, type: 3}
-  m_Resource: {fileID: 8300000, guid: e4b4670d1c1292545982235bcf42f22e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 09dc0311297899b469158b083af62950, type: 3}
+  m_Resource: {fileID: 8300000, guid: 09dc0311297899b469158b083af62950, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -59390,12 +59324,24 @@ PrefabInstance:
       objectReference: {fileID: 663117324}
     - target: {fileID: 785318667261834313, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_VersionIndex
-      value: 39
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 1125122315566712968, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 663117324}
+    - target: {fileID: 1636780348880670209, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636780348880670209, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 09dc0311297899b469158b083af62950, type: 3}
+    - target: {fileID: 1636780348880670209, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 09dc0311297899b469158b083af62950, type: 3}
     - target: {fileID: 7208223819645316967, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.409
@@ -59909,7 +59855,6 @@ RectTransform:
   - {fileID: 1916862089}
   - {fileID: 1896234048}
   - {fileID: 512219789}
-  - {fileID: 618947723}
   - {fileID: 509781746}
   - {fileID: 1980203786}
   - {fileID: 2018117932}
@@ -62281,7 +62226,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   description: {fileID: 94095381}
-  sanityBar: {fileID: 0}
+  sanityBar: {fileID: 1916862088}
   objective: {fileID: 509781745}
   interactText: {fileID: 1980203787}
   descriptionText: {fileID: 1149395171}
@@ -64989,7 +64934,7 @@ PrefabInstance:
       objectReference: {fileID: 1190703847}
     - target: {fileID: 785318667261834313, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_VersionIndex
-      value: 42
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 1125122315566712968, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_Mesh
@@ -64999,6 +64944,14 @@ PrefabInstance:
       propertyPath: m_Carve
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1636780348880670209, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636780348880670209, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 09dc0311297899b469158b083af62950, type: 3}
     - target: {fileID: 4035365986250726485, guid: 8db3f2a408ed8de47bfff6460504f378, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -65216,7 +65169,7 @@ PrefabInstance:
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: sanityOverlay
       value: 
-      objectReference: {fileID: 618947724}
+      objectReference: {fileID: 0}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: lookSensitivity
       value: 25

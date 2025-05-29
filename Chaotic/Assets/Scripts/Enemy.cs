@@ -174,7 +174,6 @@ private void FieldOfViewCheck()
             currentState = State.Chase;
             animator.SetBool("isChasing", true);
             animator.SetBool("isSearching", false);
-            Debug.Log("I see you!");
         }
     }
 
@@ -207,7 +206,6 @@ private void FieldOfViewCheck()
             currentState = State.Chase;
             animator.SetBool("isSearching", false);
             animator.SetBool("isChasing", true);
-            Debug.Log("I see you!");
         }
     }
 

@@ -10,12 +10,10 @@ public class HidingSpot : MonoBehaviour
     private AudioSource audio;
     private bool inReach = false;
 
-    private Enemy enemy;
-
     void Start()
     {
         hidePosition = transform;
-        enemy = FindObjectOfType<Enemy>();
+        audio = GetComponent<AudioSource>();
     }
 
     void Update()
