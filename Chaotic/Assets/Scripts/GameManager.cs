@@ -25,10 +25,10 @@ public class GameManager : MonoBehaviour
             StartCoroutine(Timer(false, 2.5f));
             objectivesText.text = "Find 3 keys";
         }
-        if (groundDoorKey.HasSucceeded)
-        {
+        // if (groundDoorKey.HasSucceeded)
+        // {
             
-        }
+        // }
     }
 
     IEnumerator Timer(bool started, float seconds)

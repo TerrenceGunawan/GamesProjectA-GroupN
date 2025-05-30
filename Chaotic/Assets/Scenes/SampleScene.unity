@@ -25658,7 +25658,7 @@ PrefabInstance:
     - target: {fileID: 4642792939477822384, guid: a2367509797dfa54fbc1c51ac35ed341, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+      objectReference: {fileID: 1003410459}
     - target: {fileID: 4642792939477822384, guid: a2367509797dfa54fbc1c51ac35ed341, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -36659,6 +36659,7 @@ MonoBehaviour:
   keypad: {fileID: 1843665355}
   interactText: {fileID: 1980203787}
   objectivesText: {fileID: 1624224822}
+  groundDoorKey: {fileID: 0}
 --- !u!4 &1077060023
 Transform:
   m_ObjectHideFlags: 0
@@ -46639,6 +46640,11 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
   m_PrefabInstance: {fileID: 1377488222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1378139932 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5957867706043118565, guid: a2367509797dfa54fbc1c51ac35ed341, type: 3}
+  m_PrefabInstance: {fileID: 769768978}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &1384494741
 Mesh:
@@ -65334,6 +65340,10 @@ PrefabInstance:
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 512219788}
+    - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 1378139932}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: sanityBar
       value: 
