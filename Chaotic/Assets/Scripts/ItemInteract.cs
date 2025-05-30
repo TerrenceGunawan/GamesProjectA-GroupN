@@ -23,14 +23,20 @@ public class ItemInteract : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && description.activeInHierarchy)
+        {
+            Exit();
+        }
+
         if (inReach && Input.GetKeyDown(KeyCode.E))
         {
+            player.setPause = true;
             // Item is takeable
             if (takeAble)
             {
@@ -89,17 +95,21 @@ public class ItemInteract : MonoBehaviour
             // Description is currently active, so hide it
             else if (description != null && description.activeSelf)
             {
-                crosshair.SetActive(true);  // Show the crosshair again
-                objective.SetActive(true);
-                sanityBar.SetActive(true);
-                description.SetActive(false);
-                sanityBar.SetActive(true);
-                interactText.text = "Interact [E]";
-                player.EnableMovement();
+                Exit();
             }
         }
     }
-    
+
+    void Exit()
+    {
+        crosshair.SetActive(true);  // Show the crosshair again
+        objective.SetActive(true);
+        sanityBar.SetActive(true);
+        description.SetActive(false);
+        sanityBar.SetActive(true);
+        interactText.text = "Interact [E]";
+        player.EnableMovement();
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Reach" && !Taken)
