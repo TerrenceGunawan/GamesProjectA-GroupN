@@ -45,6 +45,7 @@ public class ItemInteract : MonoBehaviour
             {
                 crosshair.SetActive(false);  // Hide the crosshair when interacting
                 objective.SetActive(false);
+                sanityBar.SetActive(false);
                 description.SetActive(true);
                 sanityBar.SetActive(false);
                 if (!regainCheck && sanityRegain)
@@ -90,6 +91,7 @@ public class ItemInteract : MonoBehaviour
             {
                 crosshair.SetActive(true);  // Show the crosshair again
                 objective.SetActive(true);
+                sanityBar.SetActive(true);
                 description.SetActive(false);
                 sanityBar.SetActive(true);
                 interactText.text = "Interact [E]";
