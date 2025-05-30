@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private TextMeshProUGUI objectivesText;
     [SerializeField] private ItemChecker groundDoorKey;
+    [SerializeField] private GameObject endPanel;
     private bool done = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,10 +26,10 @@ public class GameManager : MonoBehaviour
             StartCoroutine(Timer(false, 2.5f));
             objectivesText.text = "Find 3 keys";
         }
-        // if (groundDoorKey.HasSucceeded)
-        // {
-            
-        // }
+        if (groundDoorKey.HasSucceeded)
+        {
+            endPanel.SetActive(true);
+        }
     }
 
     IEnumerator Timer(bool started, float seconds)
