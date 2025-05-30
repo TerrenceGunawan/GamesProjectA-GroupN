@@ -100,8 +100,9 @@ public class ItemInteract : MonoBehaviour
         }
     }
 
-    void Exit()
+        void Exit()
     {
+        player.setPauseFunction();
         crosshair.SetActive(true);  // Show the crosshair again
         objective.SetActive(true);
         sanityBar.SetActive(true);
@@ -110,6 +111,8 @@ public class ItemInteract : MonoBehaviour
         interactText.text = "Interact [E]";
         player.EnableMovement();
     }
+
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Reach" && !Taken)

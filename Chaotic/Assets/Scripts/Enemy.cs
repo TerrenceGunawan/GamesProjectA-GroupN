@@ -35,9 +35,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private BoxCollider boxCollider;
 
     [SerializeField] private AudioClip chasingSound;
-    private AudioSource audioSource;
+    [SerializeField] private AudioClip walkingSound;
+    [SerializeField] private AudioClip runningSound;
+    [SerializeField] private AudioClip attackSound;
+    private AudioSource walkingAudioSource;
+
+    private AudioSource chasingAudioSource;
+    private AudioSource runningAudioSource;
+    private AudioSource attackAudioSource;
     private bool lostPlayer;
     private bool chaseSound;
+    private bool attackSoundPlayed = false;
 
     public float proximity;
 
@@ -56,8 +64,32 @@ public class Enemy : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponentInChildren<BoxCollider>();
-        audioSource = GetComponent<AudioSource>();
-        audioSource.clip = chasingSound;
+
+        chasingAudioSource = gameObject.AddComponent<AudioSource>();
+        chasingAudioSource.clip = chasingSound;
+        chasingAudioSource.loop = false;
+        chasingAudioSource.playOnAwake = false;
+
+        runningAudioSource = gameObject.AddComponent<AudioSource>();
+        runningAudioSource.clip = runningSound;
+        runningAudioSource.loop = true;
+        runningAudioSource.playOnAwake = false;
+        runningAudioSource.pitch = 1f;
+        runningAudioSource.volume = 0f;
+        runningAudioSource.Play();
+
+        walkingAudioSource = gameObject.AddComponent<AudioSource>();
+        walkingAudioSource.clip = walkingSound;
+        walkingAudioSource.loop = true;
+        walkingAudioSource.playOnAwake = false;
+        walkingAudioSource.pitch = 0.7f;
+        walkingAudioSource.volume = 0f;
+        walkingAudioSource.Play();
+
+        attackAudioSource = gameObject.AddComponent<AudioSource>();
+        attackAudioSource.clip = attackSound;
+        attackAudioSource.loop = false;
+        attackAudioSource.playOnAwake = false;
 
         navAgent.updateRotation = true;
         disableAttack();
@@ -76,181 +108,202 @@ public class Enemy : MonoBehaviour
         }
     }
 
-private void FieldOfViewCheck()
-{
-    float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);  // Calculate the distance to the player
-
-    Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, playerLayer);
-
-    if (rangeChecks.Length != 0) 
+    private void FieldOfViewCheck()
     {
-        Transform target = rangeChecks[0].transform;
-        Vector3 directionToTarget = (target.position - transform.position).normalized;
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);  // Calculate the distance to the player
 
-        if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, playerLayer);
+
+        if (rangeChecks.Length != 0)
         {
-            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            Transform target = rangeChecks[0].transform;
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
-                CanSeePlayer = true;
+                float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                {
+                    CanSeePlayer = true;
+                }
+                else
+                {
+                    CanSeePlayer = false;
+                }
             }
             else
             {
                 CanSeePlayer = false;
             }
         }
-        else
+
+        if (distanceToPlayer < proximity)
         {
-            CanSeePlayer = false;
+            CanSeePlayer = true;
         }
     }
 
-    if (distanceToPlayer < proximity)
+void Update()
+{
+    if (flashlight.On)
+        radius = 15f;
+    else
+        radius = 11f;
+
+    float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+    float maxRunningSoundDistance = 17f;
+    float maxRunningSoundVolume = 1f;
+    float volume = Mathf.Clamp01(1 - (distanceToPlayer / maxRunningSoundDistance));
+    runningAudioSource.volume = volume * maxRunningSoundVolume;
+    walkingAudioSource.volume = volume * maxRunningSoundVolume;
+
+    if (lostPlayer)
     {
-        Debug.Log("You are way too close to me right now!");
-        CanSeePlayer = true;  
+        SetNextPatrolPoint();
+        lostPlayer = false;
+    }
+
+    if (player.IsHidden)
+    {
+        currentState = State.Patrol;
+        animator.SetBool("isChasing", false);
+    }
+
+    inAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+
+    switch (currentState)
+    {
+        case State.Idle:
+            Idle();
+            break;
+        case State.Patrol:
+            Patrol();
+            break;
+        case State.Chase:
+            ChasePlayer();
+            break;
+        case State.Attack:
+            Attack();
+            break;
     }
 }
 
-    void Update()
+void Idle()
+{
+    animator.SetBool("isSearching", false);
+    lookTimer -= Time.deltaTime;
+
+    if (runningAudioSource.isPlaying)
+        runningAudioSource.Pause();
+    if (walkingAudioSource.isPlaying)
+        walkingAudioSource.Pause();
+
+    if (lookTimer < 0)
     {
-        if (flashlight.On)
-        {
-            radius = 15f;
-        }
-        else
-        {
-            radius = 11f;
-        }
+        animator.SetBool("isSearching", true);
+        currentState = State.Patrol;
 
-        if (lostPlayer)
-        {
-            SetNextPatrolPoint();
-            lostPlayer = false;
-        }
-
-        if (player.IsHidden)
-        {
-            currentState = State.Patrol;  // If the player is hidden, go back to patrolling
-            animator.SetBool("isChasing", false);  // Stop chasing animation
-        }
-
-        inAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-
-        switch (currentState)
-        {
-            case State.Idle:
-                Idle();
-                break;
-
-            case State.Patrol:
-                Patrol();
-                break;
-
-            case State.Chase:
-                ChasePlayer();
-                break;
-
-            case State.Attack:
-                Attack();
-                break;
-        }
+        if (!runningAudioSource.isPlaying)
+            runningAudioSource.UnPause();
+        if (!walkingAudioSource.isPlaying)
+            walkingAudioSource.UnPause();
     }
 
-    void Idle()
+    if (CanSeePlayer)
     {
-        animator.SetBool("isSearching", false);
-        lookTimer -= Time.deltaTime;
-
-        if (lookTimer < 0)
-        {
-            animator.SetBool("isSearching", true);
-            currentState = State.Patrol;  // Transition to Patrol state
-        }
-
-        if (CanSeePlayer)
-        {
-            currentState = State.Chase;
-            animator.SetBool("isChasing", true);
-            animator.SetBool("isSearching", false);
-        }
-    }
-
-    void Patrol()
-    {
-        navAgent.speed = 2f;
-        chaseSound = true;
-
-        if (!patrolPointSet)
-        {
-            SetNextPatrolPoint();
-        }
-
-        if (patrolPointSet)
-        {
-            navAgent.SetDestination(destPoint);
-            animator.SetBool("isSearching", true);
-
-            if (Vector3.Distance(transform.position, destPoint) < 1f)
-            {
-                lookTimer = Random.Range(3f, 6f);
-                SetNextPatrolPoint();
-                animator.SetBool("isSearching", false);
-                currentState = State.Idle;
-            }
-        }
-
-        if (CanSeePlayer)
-        {
-            currentState = State.Chase;
-            animator.SetBool("isSearching", false);
-            animator.SetBool("isChasing", true);
-        }
-    }
-
-    void SetNextPatrolPoint()
-    {
-        currentPatrolIndex = Random.Range(0, patrolPoints.Length);
-        destPoint = patrolPoints[currentPatrolIndex].position;
-        patrolPointSet = true;
-    }
-
-    void ChasePlayer()
-    {
-        navAgent.speed = 4f;
-              Vector3 directionToPlayer = player.transform.position - transform.position;
-        directionToPlayer.y = 0f;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(directionToPlayer), 300f * Time.deltaTime);
-        navAgent.SetDestination(player.transform.position);
+        currentState = State.Chase;
         animator.SetBool("isChasing", true);
+        animator.SetBool("isSearching", false);
+    }
+}
 
-        if (!audioSource.isPlaying && chaseSound)
+void Patrol()
+{
+    navAgent.speed = 2f;
+    chaseSound = true;
+
+    // Play walking audio only, stop running and chasing
+    walkingAudioSource.pitch = 0.7f;
+    if (!walkingAudioSource.isPlaying)
+        walkingAudioSource.Play();
+
+    if (runningAudioSource.isPlaying)
+        runningAudioSource.Pause();
+    if (chasingAudioSource.isPlaying)
+        chasingAudioSource.Stop();
+
+    if (!patrolPointSet)
+        SetNextPatrolPoint();
+
+    if (patrolPointSet)
+    {
+        navAgent.SetDestination(destPoint);
+        animator.SetBool("isSearching", true);
+
+        if (Vector3.Distance(transform.position, destPoint) < 1f)
         {
-            audioSource.PlayOneShot(chasingSound);
-            chaseSound = false;
+            lookTimer = Random.Range(3f, 6f);
+            SetNextPatrolPoint();
+            animator.SetBool("isSearching", false);
+            currentState = State.Idle;
         }
+    }
 
+    if (CanSeePlayer)
+    {
+        currentState = State.Chase;
+        animator.SetBool("isSearching", false);
+        animator.SetBool("isChasing", true);
+    }
+}
 
-        if (!CanSeePlayer && currentState != State.Patrol && currentState != State.Idle)
-        {
-            lostPlayer = true;
-            destPoint = player.transform.position;
-            currentState = State.Patrol;
-            animator.SetBool("isChasing", false);
-            Debug.Log("Lost sight of the player.");
+void ChasePlayer()
+{
+    navAgent.speed = 4f;
 
-        }
+    // Play running audio only, stop walking
+    runningAudioSource.pitch = 1f;
+    if (!runningAudioSource.isPlaying)
+        runningAudioSource.Play();
+
+    if (walkingAudioSource.isPlaying)
+        walkingAudioSource.Pause();
+
+    // Play chasing sound once at start of chase
+    if (!chasingAudioSource.isPlaying && chaseSound)
+    {
+        chasingAudioSource.PlayOneShot(chasingSound);
+        chaseSound = false;
+    }
+
+    Vector3 directionToPlayer = player.transform.position - transform.position;
+    directionToPlayer.y = 0f;
+    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(directionToPlayer), 300f * Time.deltaTime);
+    navAgent.SetDestination(player.transform.position);
+    animator.SetBool("isChasing", true);
+
+    if (!CanSeePlayer && currentState != State.Patrol && currentState != State.Idle)
+    {
+        lostPlayer = true;
+        destPoint = player.transform.position;
+        currentState = State.Patrol;
+        animator.SetBool("isChasing", false);
+        chaseSound = true; // reset chase sound for next time
+    }
 
         if (CanSeePlayer && inAttackRange)
         {
             currentState = State.Attack;
-        }
+            attackSoundPlayed = false;
+    }
         else
         {
             animator.SetBool("isAttacking", false);
         }
-    }
+}
+
+
 
     void Attack()
     {
@@ -259,7 +312,12 @@ private void FieldOfViewCheck()
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(directionToPlayer), 360f * Time.deltaTime);
         animator.SetBool("isAttacking", true);
         enableAttack();
-        navAgent.SetDestination(transform.position);
+
+        if (!attackSoundPlayed && !attackAudioSource.isPlaying)
+        {
+        attackAudioSource.PlayOneShot(attackSound);
+        attackSoundPlayed = true;
+        }
 
         if (!inAttackRange)
         {
@@ -268,6 +326,14 @@ private void FieldOfViewCheck()
             disableAttack();
         }
     }
+
+        void SetNextPatrolPoint()
+    {
+        currentPatrolIndex = Random.Range(0, patrolPoints.Length);
+        destPoint = patrolPoints[currentPatrolIndex].position;
+        patrolPointSet = true;
+    }
+
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -287,9 +353,9 @@ private void FieldOfViewCheck()
     }
     public void TeleportToFurthestPatrolPoint()
     {
-         float maxDistance = 0f;
+        float maxDistance = 0f;
         Vector3 furthestPoint = transform.position;
-        
+
         foreach (Transform point in patrolPoints)
         {
             float distance = Vector3.Distance(transform.position, point.position);
@@ -300,6 +366,5 @@ private void FieldOfViewCheck()
             }
         }
         navAgent.Warp(furthestPoint);
-        Debug.Log("Enemy teleported to patrol point");
     }
 }

@@ -35,9 +35,13 @@ public class Player : MonoBehaviour
     private bool isPaused;
     private float maxSanity;
     public float Sanity = 100f;
+
+    public bool setPause;
+    public bool timerStart;
+    public float timer = 0.1f;
     public List<string> Inventory = new List<string>();
     private ItemInteract[] items;
-    public bool setPause;
+   
 
     void Awake()
     {
@@ -74,6 +78,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (timerStart)
+        {
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                setPause = false;
+                timerStart = false;
+            }
+        }
         HandleMouseLook();
         float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
         sanityBar.fillAmount = sanityPercent;
@@ -81,7 +94,7 @@ public class Player : MonoBehaviour
         ReduceSanity();
         if (Input.GetKeyDown(KeyCode.Escape) && !setPause)
         {
-            if (isPaused)
+            if (isPaused && !setPause)
             {
                 ResumeGame();
             }
@@ -135,7 +148,6 @@ public class Player : MonoBehaviour
         {
             Sanity -= enemySanityDamage;
             enemy.TeleportToFurthestPatrolPoint();
-            Debug.Log("You got hit");
         }
     }
 
@@ -228,7 +240,7 @@ public class Player : MonoBehaviour
         Inventory.Add(itemName);
         Debug.Log("You got " + itemName);
     }
-    
+
     void PauseGame()
     {
         footstepSound.enabled = false;
@@ -247,7 +259,6 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         setPause = false;
-        Debug.Log("yooo gurt");
     }
 
     public void Restart()
@@ -257,11 +268,16 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    
+
     public void Quit()
     {
         Time.timeScale = 1f;
         Application.Quit();
+    }
+
+    public void setPauseFunction()
+    {
+        timerStart = true;
     }
 }
 
