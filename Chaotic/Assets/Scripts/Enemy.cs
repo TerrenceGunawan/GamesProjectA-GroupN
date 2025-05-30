@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float angle;  // The angle of the field of view
     // References and variables for patrol points and player detection
     public GameObject playerRef;  // Reference to the player's GameObject
-    public bool canSeePlayer;
+    public bool CanSeePlayer;
 
     private State currentState;  // Current state of the enemy
 
@@ -93,23 +93,23 @@ private void FieldOfViewCheck()
 
             if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
             {
-                canSeePlayer = true;
+                CanSeePlayer = true;
             }
             else
             {
-                canSeePlayer = false;
+                CanSeePlayer = false;
             }
         }
         else
         {
-            canSeePlayer = false;
+            CanSeePlayer = false;
         }
     }
 
     if (distanceToPlayer < proximity)
     {
         Debug.Log("You are way too close to me right now!");
-        canSeePlayer = true;  
+        CanSeePlayer = true;  
     }
 }
 
@@ -169,7 +169,7 @@ private void FieldOfViewCheck()
             currentState = State.Patrol;  // Transition to Patrol state
         }
 
-        if (canSeePlayer)
+        if (CanSeePlayer)
         {
             currentState = State.Chase;
             animator.SetBool("isChasing", true);
@@ -201,7 +201,7 @@ private void FieldOfViewCheck()
             }
         }
 
-        if (canSeePlayer)
+        if (CanSeePlayer)
         {
             currentState = State.Chase;
             animator.SetBool("isSearching", false);
@@ -232,7 +232,7 @@ private void FieldOfViewCheck()
         }
 
 
-        if (!canSeePlayer && currentState != State.Patrol && currentState != State.Idle)
+        if (!CanSeePlayer && currentState != State.Patrol && currentState != State.Idle)
         {
             lostPlayer = true;
             destPoint = player.transform.position;
@@ -242,7 +242,7 @@ private void FieldOfViewCheck()
 
         }
 
-        if (canSeePlayer && inAttackRange)
+        if (CanSeePlayer && inAttackRange)
         {
             currentState = State.Attack;
         }

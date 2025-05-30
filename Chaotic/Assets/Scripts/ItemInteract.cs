@@ -17,7 +17,6 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
     [SerializeField] private bool sanityRegain;
-    [SerializeField] private float sanityAmount;
     public bool Taken = false;
     private bool inReach = false;
     private bool regainCheck = false;
@@ -47,10 +46,11 @@ public class ItemInteract : MonoBehaviour
                 crosshair.SetActive(false);  // Hide the crosshair when interacting
                 objective.SetActive(false);
                 description.SetActive(true);
+                sanityBar.SetActive(false);
                 if (!regainCheck && sanityRegain)
                 {
                     regainCheck = true;
-                    player.Sanity += sanityAmount;
+                    player.RegainSanity();
                 }
                 descriptionText.text = itemDesc;
                 interactText.text = "";
@@ -91,6 +91,7 @@ public class ItemInteract : MonoBehaviour
                 crosshair.SetActive(true);  // Show the crosshair again
                 objective.SetActive(true);
                 description.SetActive(false);
+                sanityBar.SetActive(true);
                 interactText.text = "Interact [E]";
                 player.EnableMovement();
             }

@@ -24,7 +24,7 @@ public class FieldOfViewEditor : Editor
         Handles.DrawLine(enemy.transform.position, enemy.transform.position + viewAngle02 * enemy.radius);
 
         // If the enemy can see the player, draw a green line to the player's position
-        if (enemy.canSeePlayer)
+        if (enemy.CanSeePlayer)
         {
             Handles.color = Color.green;
             Handles.DrawLine(enemy.transform.position, enemy.playerRef.transform.position);

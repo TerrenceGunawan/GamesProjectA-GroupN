@@ -26,13 +26,13 @@ public class Player : MonoBehaviour
 
     private Vector3 monsterStartPosition;
     [SerializeField] private Image sanityBar;
-    [SerializeField] private float maxDamageTimer = 1f;
-    [SerializeField] private float damageTimer;
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
     [SerializeField] private float sanityRegained = 20f;
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
+    [SerializeField] private GameObject pauseMenu;
+    private bool isPaused;
     private float maxSanity;
     public float Sanity = 100f;
     public List<string> Inventory = new List<string>();
@@ -50,23 +50,22 @@ public class Player : MonoBehaviour
         footstepSound = GetComponent<AudioSource>();
     }
 
-   void OnEnable()
+    void OnEnable()
     {
         movementAction.Enable();
         lookingAction.Enable();
     }
-    
+
     void OnDisable()
     {
         movementAction.Disable();
-        lookingAction.Disable();    
+        lookingAction.Disable();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
-        damageTimer = maxDamageTimer;
         monsterStartPosition = monster.transform.position;
         items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
     }
@@ -78,6 +77,18 @@ public class Player : MonoBehaviour
         float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
         sanityBar.fillAmount = sanityPercent;
         sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
+        ReduceSanity();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
+        }
     }
 
     void FixedUpdate() // Use FixedUpdate for physics-based movement
@@ -119,25 +130,17 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if(damageTimer == 0)
-        { 
         if (other.gameObject.tag == "Enemy")
         {
             Sanity -= enemySanityDamage;
-            damageTimer = maxDamageTimer;
             enemy.TeleportToFurthestPatrolPoint();
             Debug.Log("You got hit");
-        }
         }
     }
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "DangerRoom")
-        {
-            ReduceSanity();
-        }
-        else if (other.gameObject.tag == "SafeRoom")
+        if (other.gameObject.tag == "SafeRoom")
         {
             RegainSanity();
         }
@@ -145,22 +148,15 @@ public class Player : MonoBehaviour
 
     void ReduceSanity()
     {
-        damageTimer -= Time.deltaTime;
-        if(damageTimer < 0)
-        {
-            damageTimer = 0;
-        }
-
-        if(IsHidden)
-        {
-            Sanity -= hidingSanityMulti * Time.deltaTime;
-        }
-        else
+        if (enemy.CanSeePlayer)
         {
             Sanity -= Time.deltaTime;
         }
-
-        if(Sanity < 0)
+        if (IsHidden)
+        {
+            Sanity -= hidingSanityMulti * Time.deltaTime;
+        }
+        if (Sanity < 0)
         {
             OnDisable();
             Time.timeScale = 0f;
@@ -173,7 +169,7 @@ public class Player : MonoBehaviour
 
     public void RegainSanity()
     {
-        if(Sanity >= maxSanity)
+        if (Sanity >= maxSanity)
         {
             Sanity = maxSanity;
         }
@@ -207,7 +203,7 @@ public class Player : MonoBehaviour
             limitVerticalLook = true;
             movementAction.Disable();
             transform.position = hidingSpot.position - new Vector3(0f, 1f, 0f);
-        } 
+        }
         else
         {
             OnDisable();
@@ -230,6 +226,39 @@ public class Player : MonoBehaviour
     {
         Inventory.Add(itemName);
         Debug.Log("You got " + itemName);
+    }
+    
+    void PauseGame()
+    {
+        footstepSound.enabled = false;
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+        isPaused = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+        isPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("SampleScene");
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    
+    public void Quit()
+    {
+        Time.timeScale = 1f;
+        Application.Quit();
     }
 }
 

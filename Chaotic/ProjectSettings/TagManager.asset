@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - Reach
-  - DangerRoom
   - Checkpoint
   - Enemy
   - SafeRoom
@@ -19,7 +18,7 @@ TagManager:
   - Environment
   - Player
   - Room
-  - 
+  - vlight
   - 
   - 
   - 
