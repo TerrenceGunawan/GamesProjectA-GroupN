@@ -95,7 +95,7 @@ public class Keypad : MonoBehaviour
     public void Update()
     {
         // If the player presses the interact button and is within reach
-        if (Input.GetKeyDown(KeyCode.E) && inReach && !Completed) 
+        if (Input.GetKeyDown(KeyCode.E) && inReach && !Completed)
         {
             OpenKeypadUI();  // Call method to open the keypad UI
             keypadText.text = "";
@@ -107,13 +107,18 @@ public class Keypad : MonoBehaviour
         }
 
 
-        if(keypadOB.activeInHierarchy)
+        if (keypadOB.activeInHierarchy)
         {
             player.DisableMovement();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape) && keypadOB.activeInHierarchy)
+        {
+            Exit();
+            player.ResumeGame();
+        }
     }
 
     void OnTriggerEnter(Collider other)

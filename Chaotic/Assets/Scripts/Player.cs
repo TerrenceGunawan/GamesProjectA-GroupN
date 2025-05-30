@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public float Sanity = 100f;
     public List<string> Inventory = new List<string>();
     private ItemInteract[] items;
+    public bool setPause;
 
     void Awake()
     {
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour
         sanityBar.fillAmount = sanityPercent;
         sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
         ReduceSanity();
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !setPause)
         {
             if (isPaused)
             {
@@ -245,6 +246,8 @@ public class Player : MonoBehaviour
         isPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        setPause = false;
+        Debug.Log("yooo gurt");
     }
 
     public void Restart()
