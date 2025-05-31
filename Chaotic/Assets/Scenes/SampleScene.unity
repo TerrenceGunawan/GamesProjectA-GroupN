@@ -54399,9 +54399,9 @@ MonoBehaviour:
   - 3
   - 4
   - 3
-  - 2
-  - 7
-  - 5.5
+  - 2.5
+  - 6.5
+  - 6
   - 5
   - 10
   - 3.5
@@ -68514,10 +68514,6 @@ PrefabInstance:
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: acc164bd9659ce04f96745c1c86840e3, type: 2}
-    - target: {fileID: 7495398256662819817, guid: 7821572ff63d87a44a5a1c41f3832d20, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 7495398256662819817, guid: 7821572ff63d87a44a5a1c41f3832d20, type: 3}
       propertyPath: m_fontSizeBase
       value: 35
