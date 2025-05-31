@@ -21,22 +21,16 @@ public class ItemInteract : MonoBehaviour
     private bool inReach = false;
     private bool regainCheck = false;
 
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && description.activeInHierarchy)
+        if (Input.GetKeyDown(KeyCode.Escape) && description != null && description.activeInHierarchy)
         {
             Exit();
         }
 
         if (inReach && Input.GetKeyDown(KeyCode.E))
         {
-            player.setPause = true;
             // Item is takeable
             if (takeAble)
             {
@@ -49,6 +43,7 @@ public class ItemInteract : MonoBehaviour
             // Not takeable, but has a description
             else if (description != null && !description.activeSelf)
             {
+                player.setPause = true;
                 crosshair.SetActive(false);  // Hide the crosshair when interacting
                 objective.SetActive(false);
                 sanityBar.SetActive(false);

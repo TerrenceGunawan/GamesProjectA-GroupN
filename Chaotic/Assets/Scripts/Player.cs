@@ -277,6 +277,7 @@ public class Player : MonoBehaviour
 
     public void setPauseFunction()
     {
+        timer = 0.1f;
         timerStart = true;
     }
 }

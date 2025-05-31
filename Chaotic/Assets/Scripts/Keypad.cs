@@ -10,7 +10,7 @@ public class Keypad : MonoBehaviour
     public Player player;
     public GameObject crosshair;
     public GameObject keypadOB;
-    public GameObject reward;
+    public List<GameObject> rewards = new List<GameObject>();
     public Animator ANI;
 
     public TextMeshProUGUI keypadText;
@@ -55,7 +55,10 @@ public class Keypad : MonoBehaviour
             if (rewardCheck)
             {
                 animate = true;
-                reward.SetActive(true);
+                foreach (GameObject reward in rewards)
+                {
+                    reward.SetActive(true);
+                }
             }
             audioSource.clip = correct;
             audioSource.Play();

@@ -353,6 +353,7 @@ void ChasePlayer()
     }
     public void TeleportToFurthestPatrolPoint()
     {
+        CanSeePlayer = false;
         float maxDistance = 0f;
         Vector3 furthestPoint = transform.position;
 
