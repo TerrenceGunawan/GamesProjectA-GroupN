@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - Reach
-  - Checkpoint
   - Enemy
   - SafeRoom
   layers:
@@ -18,7 +17,7 @@ TagManager:
   - Environment
   - Player
   - Room
-  - vlight
+  - 
   - 
   - 
   - 

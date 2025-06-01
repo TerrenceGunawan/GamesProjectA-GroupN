@@ -12954,7 +12954,7 @@ Transform:
   m_GameObject: {fileID: 396945519}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.8, y: -1.5, z: -10.73}
+  m_LocalPosition: {x: -6.37, y: -1.5, z: 10.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28399,7 +28399,7 @@ Transform:
   m_GameObject: {fileID: 793589581}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7, y: -1.5, z: 11}
+  m_LocalPosition: {x: 10.41, y: -1.5, z: 11.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31134,114 +31134,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896641535}
   m_CullTransparentMesh: 1
---- !u!1 &899609849
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 899609850}
-  - component: {fileID: 899609853}
-  - component: {fileID: 899609852}
-  - component: {fileID: 899609851}
-  m_Layer: 0
-  m_Name: Checkpoint 1
-  m_TagString: Checkpoint
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &899609850
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899609849}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -24.879, y: 1.25, z: -10.565}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1470707088}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!65 &899609851
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899609849}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &899609852
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899609849}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 00c935705bffefd4398526a556f89e64, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &899609853
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899609849}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &903493507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44423,6 +44315,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2182938889882449427, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.0095024
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182938889882449427, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.9502665
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182938889882449427, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0197
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182938889882449427, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.33501
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182938889882449427, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0285
+      objectReference: {fileID: 0}
     - target: {fileID: 2422826507549550364, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
       propertyPath: m_Name
       value: Safe Room 1 Door
@@ -51690,38 +51602,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
   m_PrefabInstance: {fileID: 1469988714}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1470707087
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1470707088}
-  m_Layer: 0
-  m_Name: Checkpoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1470707088
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470707087}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 899609850}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1474171483
 GameObject:
   m_ObjectHideFlags: 0
@@ -53783,7 +53663,7 @@ MonoBehaviour:
     was. They didn\u2019t see you shaking, panicking, holding a knife\u2026 They
     don\u2019t understand\u2026"
   - "Lucian : But\u2026 the drawings, the confessions, the newspaper clippings\u2026
-    why don\u2019t you remember anything? Why does everything seem\u2026 wrong?\u201D"
+    why don\u2019t you remember anything? Why does everything seem\u2026 so wrong?"
   - 'Brother : Because your mind is damaged. It erased that part of your memory to
     protect you. But it''s time to face it... you need to know the truth. '
   - 'Brother : No matter what you do, you are still my beloved brother.'
@@ -53804,8 +53684,8 @@ MonoBehaviour:
   - 9
   - 7
   - 11
-  - 12
-  - 10
+  - 12.5
+  - 9.5
   - 3
   dialogueLineStop: 9
   subtitles: {fileID: 1896234049}
@@ -54396,19 +54276,19 @@ MonoBehaviour:
   - 4.5
   - 3
   - 2.3
-  - 3
+  - 2.6
   - 4
   - 3
   - 2.5
   - 6.5
-  - 6
-  - 5
+  - 4.5
+  - 5.5
   - 10
-  - 3.5
-  - 5
+  - 3
+  - 4
   - 2
   - 2.5
-  - 5
+  - 4
   dialogueLineStop: 7
   subtitles: {fileID: 1896234049}
   interactText: {fileID: 1980203787}
@@ -58503,7 +58383,7 @@ Transform:
   m_GameObject: {fileID: 1713649842}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: -1.5, z: -1}
+  m_LocalPosition: {x: 10.36, y: -1.5, z: 2.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -70077,6 +69957,10 @@ PrefabInstance:
       value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
+      propertyPath: obstructionMask.m_Bits
+      value: 320
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120971456137947772, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
       propertyPath: maxRunningSoundDistance
       value: 15
       objectReference: {fileID: 0}
@@ -70170,7 +70054,6 @@ SceneRoots:
   - {fileID: 937662838227900055}
   - {fileID: 1902150750}
   - {fileID: 9059425583529150304}
-  - {fileID: 1470707088}
   - {fileID: 1812488685}
   - {fileID: 275271642}
   - {fileID: 875641451}
