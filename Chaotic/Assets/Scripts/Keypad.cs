@@ -36,6 +36,7 @@ public class Keypad : MonoBehaviour
 
     void OpenKeypadUI()
     {
+        player.SetPause = true;
         crosshair.SetActive(false);  // Hide the crosshair when interacting
         keypadOB.SetActive(true);  // Show the keypad UI
         player.DisableMovement();  // Disable player movement when interacting
@@ -88,6 +89,8 @@ public class Keypad : MonoBehaviour
 
     public void Exit()
     {
+        player.SetPauseFunction();
+        keypadText.text = "Interact [E]";
         keypadOB.SetActive(false);
         crosshair.SetActive(true);  // Show the crosshair again
         player.EnableMovement();
@@ -120,7 +123,6 @@ public class Keypad : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && keypadOB.activeInHierarchy)
         {
             Exit();
-            player.ResumeGame();
         }
     }
 

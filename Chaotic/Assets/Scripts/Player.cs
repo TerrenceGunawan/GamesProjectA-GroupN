@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     private float maxSanity;
     public float Sanity = 100f;
 
-    public bool setPause;
+    public bool SetPause;
     public bool timerStart;
     public float timer = 0.1f;
     public List<string> Inventory = new List<string>();
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer < 0)
             {
-                setPause = false;
+                SetPause = false;
                 timerStart = false;
             }
         }
@@ -92,9 +92,9 @@ public class Player : MonoBehaviour
         sanityBar.fillAmount = sanityPercent;
         sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
         ReduceSanity();
-        if (Input.GetKeyDown(KeyCode.Escape) && !setPause)
+        if (Input.GetKeyDown(KeyCode.Escape) && !SetPause)
         {
-            if (isPaused && !setPause)
+            if (isPaused && !SetPause)
             {
                 ResumeGame();
             }
@@ -238,7 +238,6 @@ public class Player : MonoBehaviour
     public void AddInventory(string itemName)
     {
         Inventory.Add(itemName);
-        Debug.Log("You got " + itemName);
     }
 
     void PauseGame()
@@ -258,7 +257,7 @@ public class Player : MonoBehaviour
         isPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        setPause = false;
+        SetPause = false;
     }
 
     public void Restart()
@@ -275,7 +274,7 @@ public class Player : MonoBehaviour
         Application.Quit();
     }
 
-    public void setPauseFunction()
+    public void SetPauseFunction()
     {
         timer = 0.1f;
         timerStart = true;

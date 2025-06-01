@@ -125,7 +125,6 @@ public class Enemy : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
-                    Debug.Log("I see");
                     CanSeePlayer = true;
                 }
                 else
@@ -141,7 +140,6 @@ public class Enemy : MonoBehaviour
 
         if (distanceToPlayer < proximity)
         {
-            Debug.Log("too close");
             CanSeePlayer = true;
         }
     }
