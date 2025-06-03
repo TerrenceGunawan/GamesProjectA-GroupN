@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
     private bool isPaused;
+    private bool wasMoving;
     private float maxSanity;
     public float Sanity = 100f;
 
@@ -118,7 +119,22 @@ public class Player : MonoBehaviour
 
         // Move the player while respecting colliders
         rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
-        footstepSound.enabled = moveInput.magnitude > 0; // Enable footstep sound only when moving
+       // footstepSound.enabled = moveInput.magnitude > 0; // Enable footstep sound only when moving
+        if (moveInput.magnitude > 0)
+        {
+            if (!footstepSound.isPlaying)
+                footstepSound.Play();
+
+            wasMoving = true;
+        }
+        else
+        {
+            if (wasMoving && footstepSound.isPlaying)
+            {
+                footstepSound.Stop();
+                wasMoving = false;
+            }
+        }
     }
 
     void HandleMouseLook()
@@ -146,7 +162,12 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            Sanity -= enemySanityDamage;
+            if (timer < 0)
+            {
+                Sanity -= enemySanityDamage;
+                timerStart = false;
+            }
+            SetPauseFunction();
             enemy.TeleportToFurthestPatrolPoint();
         }
     }
@@ -242,7 +263,7 @@ public class Player : MonoBehaviour
 
     void PauseGame()
     {
-        footstepSound.enabled = false;
+        footstepSound.Stop();
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;

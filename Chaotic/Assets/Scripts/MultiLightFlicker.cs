@@ -1,11 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PointLampFlicker : MonoBehaviour
+public class MultiLightFlicker : MonoBehaviour
 {
-    private Light pointLight;
+    public List<Light> lights = new List<Light>();
 
-    [Header("Flicker Settings")]
     public float flickerChance = 0.3f;
     public float minFlickerInterval = 3f;
     public float maxFlickerInterval = 6f;
@@ -13,7 +13,6 @@ public class PointLampFlicker : MonoBehaviour
 
     void Start()
     {
-        pointLight = GetComponent<Light>();
         StartCoroutine(FlickerRoutine());
     }
 
@@ -29,12 +28,21 @@ public class PointLampFlicker : MonoBehaviour
                 int flickTimes = Random.Range(1, 7);
                 for (int i = 0; i < flickTimes; i++)
                 {
-                    pointLight.enabled = false;
+                    SetLights(false);
                     yield return new WaitForSeconds(flickerSpeed);
-                    pointLight.enabled = true;
+                    SetLights(true);
                     yield return new WaitForSeconds(flickerSpeed);
                 }
             }
+        }
+    }
+
+    void SetLights(bool state)
+    {
+        foreach (var light in lights)
+        {
+            if (light != null)
+                light.enabled = state;
         }
     }
 }

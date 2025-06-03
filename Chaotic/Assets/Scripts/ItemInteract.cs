@@ -17,9 +17,18 @@ public class ItemInteract : MonoBehaviour
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
     [SerializeField] private bool sanityRegain;
+    [SerializeField] private AudioClip sanityClip;
+    private AudioSource source;
+    private AudioClip playerClip;
     public bool Taken = false;
     private bool inReach = false;
     private bool regainCheck = false;
+
+    void Start()
+    {
+        source = player.GetComponent<AudioSource>();
+        playerClip = source.clip;
+    }
 
     // Update is called once per frame
     void Update()
@@ -51,8 +60,7 @@ public class ItemInteract : MonoBehaviour
                 sanityBar.SetActive(false);
                 if (!regainCheck && sanityRegain)
                 {
-                    regainCheck = true;
-                    player.RegainSanity();
+                    StartCoroutine(PlayVoiceLine());
                 }
                 descriptionText.text = itemDesc;
                 interactText.text = "";
@@ -95,7 +103,7 @@ public class ItemInteract : MonoBehaviour
         }
     }
 
-        void Exit()
+    void Exit()
     {
         player.SetPauseFunction();
         crosshair.SetActive(true);  // Show the crosshair again
@@ -131,5 +139,18 @@ public class ItemInteract : MonoBehaviour
         yield return new WaitForSeconds(delay);
         interactText.text = "";
         gameObject.SetActive(false);
+    }
+
+    IEnumerator PlayVoiceLine()
+    {
+        player.RegainSanity();
+        regainCheck = true;
+        source.clip = sanityClip;
+        source.volume = 0.4f;
+        source.Play();
+        yield return new WaitForSeconds(2f);
+        source.clip = playerClip;
+        source.volume = 1;
+        source.Stop();
     }
 }

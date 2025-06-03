@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private float patrolSpeed;
+    [SerializeField] private float chaseSpeed;
     [SerializeField] private Player player;
     [SerializeField] private Flashlight flashlight;
 
@@ -220,7 +222,7 @@ void Idle()
 
 void Patrol()
 {
-    navAgent.speed = 2f;
+    navAgent.speed = patrolSpeed;
     chaseSound = true;
 
     // Play walking audio only, stop running and chasing
@@ -260,7 +262,7 @@ void Patrol()
 
 void ChasePlayer()
 {
-    navAgent.speed = 4f;
+    navAgent.speed = chaseSpeed;
 
     // Play running audio only, stop walking
     runningAudioSource.pitch = 1f;
@@ -356,16 +358,16 @@ void ChasePlayer()
         CanSeePlayer = false;
         float maxDistance = 0f;
         Vector3 furthestPoint = transform.position;
-
         foreach (Transform point in patrolPoints)
         {
-            float distance = Vector3.Distance(transform.position, point.position);
+            float distance = Vector3.Distance(player.transform.position, point.position);
             if (distance > maxDistance)
             {
                 maxDistance = distance;
                 furthestPoint = point.position;
             }
         }
+        Debug.Log(furthestPoint);
         navAgent.Warp(furthestPoint);
     }
 }
