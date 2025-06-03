@@ -43,7 +43,7 @@ public class ItemInteract : MonoBehaviour
             // Not takeable, but has a description
             else if (description != null && !description.activeSelf)
             {
-                player.setPause = true;
+                player.SetPause = true;
                 crosshair.SetActive(false);  // Hide the crosshair when interacting
                 objective.SetActive(false);
                 sanityBar.SetActive(false);
@@ -97,7 +97,7 @@ public class ItemInteract : MonoBehaviour
 
         void Exit()
     {
-        player.setPauseFunction();
+        player.SetPauseFunction();
         crosshair.SetActive(true);  // Show the crosshair again
         objective.SetActive(true);
         sanityBar.SetActive(true);
