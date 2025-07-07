@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro; // Add this if you're using TextMeshPro
 
-public class HidingSpot : MonoBehaviour
+public class HidingSpot : MonoBehaviour, IInteractable
 {
     [SerializeField] private TextMeshProUGUI interactionText; // Actual text component
     [SerializeField] private Player player;
@@ -14,6 +14,12 @@ public class HidingSpot : MonoBehaviour
     {
         hidePosition = transform;
         audio = GetComponent<AudioSource>();
+    }
+
+    public void Interact()
+    {
+        // Item interaction logic here
+        Debug.Log("Interacted with item.");
     }
 
     void Update()

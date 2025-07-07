@@ -8742,8 +8742,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6197576, y: 1.2129471, z: 0.9718944}
-  m_Center: {x: -0.0004618168, y: 0.604247, z: -0.18316227}
+  m_Size: {x: 0.6197576, y: 0.6982882, z: 0.9718944}
+  m_Center: {x: -0.0004618168, y: 0.3469175, z: -0.18316227}
 --- !u!1 &275271639
 GameObject:
   m_ObjectHideFlags: 0
@@ -70264,6 +70264,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 606969447}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+      propertyPath: interactText
+      value: 
+      objectReference: {fileID: 1980203787}
+    - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: footstepSound
       value: 
       objectReference: {fileID: 1145802269}
@@ -70278,6 +70282,10 @@ PrefabInstance:
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: lookSensitivity
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+      propertyPath: raycastDistance
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: Inventory.Array.size
@@ -70397,7 +70405,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1107124787635770630, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4700787465509275803, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2854244541284898937, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}

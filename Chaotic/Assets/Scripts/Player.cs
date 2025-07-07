@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using TMPro;
 
 
 public class Player : MonoBehaviour
@@ -19,12 +20,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float lookSensitivity = 10f;
     [SerializeField] private float maxLookAngle = 90f;
+    [SerializeField] private float raycastDistance = 3f;
     private float verticalRotation = 0f;
     private Vector3 beforeHidingPosition;
     private bool limitVerticalLook = false;
     public bool IsHidden = false;
 
     private Vector3 monsterStartPosition;
+    [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private Image sanityBar;
     [SerializeField] private float enemySanityDamage = 30f;
     [SerializeField] private float hidingSanityMulti = 2f;
@@ -42,7 +45,7 @@ public class Player : MonoBehaviour
     public float timer = 0.1f;
     public List<string> Inventory = new List<string>();
     private ItemInteract[] items;
-   
+    private GameObject lastInteractedObject = null;
 
     void Awake()
     {
@@ -79,6 +82,42 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, raycastDistance))
+        {
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                if (hit.collider.gameObject != lastInteractedObject)
+                {
+                    interactText.text = "Interact [E]";
+                    lastInteractedObject = hit.collider.gameObject;
+                }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    interactable.Interact();
+                }
+            }
+            else
+            {
+                if (lastInteractedObject != null)
+                {
+                    interactText.text = "";
+                    lastInteractedObject = null;
+                }
+            }
+        }
+        else
+        {
+            if (lastInteractedObject != null)
+            {
+                interactText.text = "";
+                lastInteractedObject = null;
+            }
+        }
         if (timerStart)
         {
             timer -= Time.deltaTime;
@@ -88,6 +127,7 @@ public class Player : MonoBehaviour
                 timerStart = false;
             }
         }
+        Debug.DrawRay(ray.origin, ray.direction * 1.5f, Color.red);
         HandleMouseLook();
         float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
         sanityBar.fillAmount = sanityPercent;

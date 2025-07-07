@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro; 
 
 
-public class Keypad : MonoBehaviour
+public class Keypad : MonoBehaviour, IInteractable
 {
     public Player player;
     public GameObject crosshair;
@@ -96,6 +96,12 @@ public class Keypad : MonoBehaviour
         player.EnableMovement();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void Interact()
+    {
+        // Item interaction logic here
+        Debug.Log("Interacted with item.");
     }
 
     public void Update()

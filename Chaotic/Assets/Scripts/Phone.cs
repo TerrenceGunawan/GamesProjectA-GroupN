@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
-public class Phone : MonoBehaviour
+public class Phone : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform player;
     [SerializeField] private float ringDistance = 6f;
@@ -27,6 +27,12 @@ public class Phone : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = phoneRing;
+    }
+
+    public void Interact()
+    {
+        // Item interaction logic here
+        Debug.Log("Interacted with item.");
     }
 
     // Update is called once per frame

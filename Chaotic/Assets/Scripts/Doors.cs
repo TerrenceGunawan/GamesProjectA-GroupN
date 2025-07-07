@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 
-public class Doors : MonoBehaviour
+public class Doors : MonoBehaviour, IInteractable
 {
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private Keypad keypad;
@@ -19,6 +19,12 @@ public class Doors : MonoBehaviour
     {
         inReach = false;
         itemChecker = GetComponent<ItemChecker>();
+    }
+
+    public void Interact()
+    {
+        // Item interaction logic here
+        Debug.Log("Interacted with item.");
     }
 
     void OnTriggerEnter(Collider other)
