@@ -87,12 +87,11 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastDistance))
         {
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-            if (interactable != null)
+            if (hit.collider.GetComponentInParent<IInteractable>() is IInteractable interactable)
             {
                 if (hit.collider.gameObject != lastInteractedObject)
                 {
-                    interactText.text = "Interact [E]";
+                    interactable.OnRaycastHit();
                     lastInteractedObject = hit.collider.gameObject;
                 }
 
@@ -159,7 +158,6 @@ public class Player : MonoBehaviour
 
         // Move the player while respecting colliders
         rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
-       // footstepSound.enabled = moveInput.magnitude > 0; // Enable footstep sound only when moving
         if (moveInput.magnitude > 0)
         {
             if (!footstepSound.isPlaying)
@@ -272,18 +270,9 @@ public class Player : MonoBehaviour
         rb.isKinematic = true; // Prevent physics from interfering
         verticalRotation = 0f;
         camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        if (hidingSpot.position.y < 1f)
-        {
-            limitVerticalLook = true;
-            movementAction.Disable();
-            transform.position = hidingSpot.position - new Vector3(0f, 1f, 0f);
-        }
-        else
-        {
-            OnDisable();
-            transform.position = hidingSpot.position;
-            transform.rotation = hidingSpot.rotation;
-        }
+        OnDisable();
+        transform.position = hidingSpot.position;
+        transform.rotation = hidingSpot.rotation;
     }
 
     public void ExitHiding()

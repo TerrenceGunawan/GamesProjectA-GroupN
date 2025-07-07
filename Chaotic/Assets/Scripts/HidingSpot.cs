@@ -3,12 +3,11 @@ using TMPro; // Add this if you're using TextMeshPro
 
 public class HidingSpot : MonoBehaviour, IInteractable
 {
-    [SerializeField] private TextMeshProUGUI interactionText; // Actual text component
+    [SerializeField] private TextMeshProUGUI interactText; // Actual text component
     [SerializeField] private Player player;
 
     private Transform hidePosition;
     private AudioSource audio;
-    private bool inReach = false;
 
     void Start()
     {
@@ -18,20 +17,11 @@ public class HidingSpot : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        // Item interaction logic here
-        Debug.Log("Interacted with item.");
-    }
-
-    void Update()
-    {
-        if (inReach && Input.GetKeyDown(KeyCode.E))
-        {
-            if (player.IsHidden)
+        if (player.IsHidden)
             {
                 player.ExitHiding();
                 audio.Pause();
-                inReach = false;
-                interactionText.text = ""; // Clear the interaction text
+                interactText.text = ""; // Clear the interaction text
             }
             else
             {
@@ -39,35 +29,20 @@ public class HidingSpot : MonoBehaviour, IInteractable
                 audio.Play();
                 UpdateInteractionText();
             }
-        }
     }
 
-    void OnTriggerEnter(Collider other)
+    public void OnRaycastHit()
     {
-        if (other.CompareTag("Reach"))
-        {
-            inReach = true;
-            UpdateInteractionText();
-        }
+        UpdateInteractionText();
     }
 
-    void OnTriggerExit(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Reach"))
-        {
-            if (player != null && !player.IsHidden)
-            {
-                inReach = false;
-                interactionText.text = ""; // Clear the interaction text
-            }
-        }
+    
     }
 
     void UpdateInteractionText()
     {
-        if (interactionText != null)
-        {
-            interactionText.text = player.IsHidden ? "Exit [E]" : "Hide [E]";
-        }
+        interactText.text = player.IsHidden ? "Exit [E]" : "Hide [E]";
     }
 }

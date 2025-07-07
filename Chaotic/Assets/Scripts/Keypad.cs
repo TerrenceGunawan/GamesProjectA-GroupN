@@ -22,7 +22,6 @@ public class Keypad : MonoBehaviour, IInteractable
     public AudioClip wrong;
     private AudioSource audioSource;
 
-    public bool inReach = false;
     public bool animate;
     public bool Completed = false;
     public bool rewardCheck = false;
@@ -89,8 +88,11 @@ public class Keypad : MonoBehaviour, IInteractable
 
     public void Exit()
     {
+        if (!Completed)
+        {
+            keypadText.text = "Interact [E]";
+        }
         player.SetPauseFunction();
-        keypadText.text = "Interact [E]";
         keypadOB.SetActive(false);
         crosshair.SetActive(true);  // Show the crosshair again
         player.EnableMovement();
@@ -100,30 +102,11 @@ public class Keypad : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        // Item interaction logic here
-        Debug.Log("Interacted with item.");
-    }
-
-    public void Update()
-    {
-        // If the player presses the interact button and is within reach
-        if (Input.GetKeyDown(KeyCode.E) && inReach && !Completed)
+         // If the player presses the interact button and is within reach
+        if (!Completed)
         {
             OpenKeypadUI();  // Call method to open the keypad UI
             keypadText.text = "";
-        }
-
-        if (animate)
-        {
-            ANI.SetBool("animate", true);
-        }
-
-
-        if (keypadOB.activeInHierarchy)
-        {
-            player.DisableMovement();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && keypadOB.activeInHierarchy)
@@ -132,21 +115,25 @@ public class Keypad : MonoBehaviour, IInteractable
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    public void OnRaycastHit()
     {
-        if (other.gameObject.CompareTag("Reach") && !Completed)  // When the player enters the trigger
+        if (!Completed)
         {
-            inReach = true;
-            keypadText.text = "Interact [E]";  // Show interaction text
+            keypadText.text = "Interact [E]";
         }
     }
 
-    void OnTriggerExit(Collider other)
+    public void Update()
     {
-        if (other.gameObject.CompareTag("Reach") && !Completed)  // When the player exits the trigger
+        if (animate)
         {
-            inReach = false;
-            keypadText.text = "";  // Hide interaction text
+            ANI.SetBool("animate", true);
+        }
+        if (keypadOB.activeInHierarchy)
+        {
+            player.DisableMovement();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

@@ -21,7 +21,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private AudioSource source;
     private AudioClip playerClip;
     public bool Taken = false;
-    private bool inReach = false;
     private bool regainCheck = false;
 
     void Start()
@@ -57,7 +56,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
         if (takeAble)
         {
             Taken = true;
-            inReach = false;
             interactText.text = "You got " + gameObject.name;
             player.AddInventory(gameObject.name);
             StartCoroutine(HideTextAfterSeconds(2f));
@@ -113,6 +111,11 @@ public class ItemInteract : MonoBehaviour, IInteractable
         {
             Exit();
         }
+    }
+
+    public void OnRaycastHit()
+    {
+        interactText.text = "Interact [E]";
     }
 
     IEnumerator HideTextAfterSeconds(float delay)

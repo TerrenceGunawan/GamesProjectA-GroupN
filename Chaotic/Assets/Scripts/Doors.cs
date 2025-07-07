@@ -12,45 +12,18 @@ public class Doors : MonoBehaviour, IInteractable
     public Animator door;
     [SerializeField] private AudioSource lockedSound;
     [SerializeField] private AudioSource openSound;
-    public bool inReach;
-    private bool doorIsOpen = false;
+    public bool DoorIsOpen = false;
 
     void Start()
     {
-        inReach = false;
         itemChecker = GetComponent<ItemChecker>();
     }
 
     public void Interact()
     {
-        // Item interaction logic here
-        Debug.Log("Interacted with item.");
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
+        if (((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded)))
         {
-            inReach = true;
-            interactText.text = doorIsOpen ? "Close [E]" : "Open [E]";
-
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
-        {
-            inReach = false;
-            interactText.text = ""; // Clear the interaction text
-        }
-    }
-
-    void Update()
-    {
-        if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded)))
-        {
-            if (!doorIsOpen)
+            if (!DoorIsOpen)
             {
                 DoorOpens();
             }
@@ -59,15 +32,11 @@ public class Doors : MonoBehaviour, IInteractable
                 DoorCloses();
             }
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E) && ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded)))
+        else if (((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded)))
         {
             if (keypad != null)
             {
                 interactText.text = "I need to enter a code into the keypad."; // show "locked" text
-            }
-            else if (itemChecker != null)
-            {
-                interactText.text = "I still need the " + FormatItemList(itemChecker.RemainingItems); // show "locked" text and missing items
             }
             StartCoroutine(HideLockedTextAfterSeconds(3f)); // hide after a short delay
             if (lockedSound != null)
@@ -77,10 +46,20 @@ public class Doors : MonoBehaviour, IInteractable
         }
     }
 
+    public void OnRaycastHit()
+    {
+        interactText.text = DoorIsOpen ? "Close [E]" : "Open [E]";
+    }
+
+    void Update()
+    {
+        
+    }
+
     public void DoorOpens()
     {
         door.SetBool("Open", true);
-        doorIsOpen = true;
+        DoorIsOpen = true;
         if (openSound != null) 
         {
             openSound.Play();
@@ -90,21 +69,7 @@ public class Doors : MonoBehaviour, IInteractable
     void DoorCloses()
     {
         door.SetBool("Open", false);
-        doorIsOpen = false;
-    }
-
-    private string FormatItemList(List<string> items)
-    {
-        if (items.Count == 1)
-        {
-            return items[0];
-        }
-        else
-        {
-            string allButLast = string.Join(", ", items.GetRange(0, items.Count - 1));
-            string last = items[items.Count - 1];
-            return allButLast + ", and " + last;
-        }
+        DoorIsOpen = false;
     }
 
     IEnumerator HideLockedTextAfterSeconds(float delay)

@@ -18,7 +18,6 @@ public class Phone : MonoBehaviour, IInteractable
     [SerializeField] private ItemChecker itemChecker;
 
     private AudioSource audioSource;
-    private bool inReach = false;
     private bool pickedUp = false;
     private bool pickedUpTwice = false;
 
@@ -31,24 +30,7 @@ public class Phone : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        // Item interaction logic here
-        Debug.Log("Interacted with item.");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= ringDistance && !pickedUp && !pickedUpTwice)
-        {
-            if (!audioSource.isPlaying)
-            {
-                audioSource.clip = phoneRing;
-                audioSource.Play();
-                
-            }
-        }
-        if (inReach && Input.GetKeyDown(KeyCode.E) && !pickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded))
+        if (!pickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded))
         {
             pickedUp = true;
             audioSource.clip = talking[0];
@@ -57,7 +39,7 @@ public class Phone : MonoBehaviour, IInteractable
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        else if (inReach && Input.GetKeyDown(KeyCode.E)  && !pickedUp && !pickedUpTwice && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded))
+        else if (!pickedUp && !pickedUpTwice && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded))
         {
             pickedUpTwice = true;
             pickedUp = true;
@@ -75,21 +57,23 @@ public class Phone : MonoBehaviour, IInteractable
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    public void OnRaycastHit()
     {
-        if (other.gameObject.tag == "Reach" && !pickedUp)
-        {
-            inReach = true;
-            interactText.text = "Interact [E]";
-        }
+        interactText.text = "Interact [E]";
     }
 
-    void OnTriggerExit(Collider other)
+    // Update is called once per frame
+    void Update()
     {
-        if (other.gameObject.tag == "Reach")
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= ringDistance && !pickedUp && !pickedUpTwice)
         {
-            inReach = false;
-            interactText.text = "";
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = phoneRing;
+                audioSource.Play();
+                
+            }
         }
     }
 
