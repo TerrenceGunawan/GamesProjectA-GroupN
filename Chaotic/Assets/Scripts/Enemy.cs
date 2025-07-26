@@ -338,6 +338,7 @@ void ChasePlayer()
 
     void OnCollisionEnter(Collision other)
     {
+        Debug.Log("Collision with: " + other.gameObject.name);
         if (other.gameObject.CompareTag("Player"))
         {
             TeleportToFurthestPatrolPoint();

@@ -5,14 +5,12 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using TMPro;
 
-
 public class Player : MonoBehaviour
 {
     private Camera camera;
     private PlayerActions actions;
     private InputAction movementAction;
     private InputAction lookingAction;
-    private Rigidbody rb;
     private AudioSource footstepSound;
 
     [SerializeField] private GameObject monster;
@@ -35,6 +33,15 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
+
+    private CharacterController controller;
+    private Vector3 velocity;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundDistance = 0.4f;
+    [SerializeField] private LayerMask groundMask;
+    private bool isGrounded;
+
     private bool isPaused;
     private bool wasMoving;
     private float maxSanity;
@@ -50,8 +57,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         camera = GetComponentInChildren<Camera>();
-        rb = GetComponent<Rigidbody>(); // Get Rigidbody component
-        rb.freezeRotation = true; // Prevent unwanted physics rotation
+        controller = GetComponent<CharacterController>();
         actions = new PlayerActions();
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
@@ -71,18 +77,16 @@ public class Player : MonoBehaviour
         lookingAction.Disable();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
+        Cursor.lockState = CursorLockMode.Locked;
         monsterStartPosition = monster.transform.position;
         items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, raycastDistance))
@@ -100,23 +104,18 @@ public class Player : MonoBehaviour
                     interactable.Interact();
                 }
             }
-            else
-            {
-                if (lastInteractedObject != null)
-                {
-                    interactText.text = "";
-                    lastInteractedObject = null;
-                }
-            }
-        }
-        else
-        {
-            if (lastInteractedObject != null)
+            else if (lastInteractedObject != null)
             {
                 interactText.text = "";
                 lastInteractedObject = null;
             }
         }
+        else if (lastInteractedObject != null)
+        {
+            interactText.text = "";
+            lastInteractedObject = null;
+        }
+
         if (timerStart)
         {
             timer -= Time.deltaTime;
@@ -126,38 +125,37 @@ public class Player : MonoBehaviour
                 timerStart = false;
             }
         }
+
         Debug.DrawRay(ray.origin, ray.direction * 1.5f, Color.red);
         HandleMouseLook();
+        HandleMovement();
+
         float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
         sanityBar.fillAmount = sanityPercent;
         sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
         ReduceSanity();
+
         if (Input.GetKeyDown(KeyCode.Escape) && !SetPause)
         {
-            if (isPaused && !SetPause)
-            {
+            if (isPaused)
                 ResumeGame();
-            }
             else
-            {
                 PauseGame();
-            }
         }
-    }
-
-    void FixedUpdate() // Use FixedUpdate for physics-based movement
-    {
-        HandleMovement();
     }
 
     void HandleMovement()
     {
-        Vector2 moveInput = movementAction.ReadValue<Vector2>();
-        Vector3 moveDirection = (transform.right * moveInput.x) + (transform.forward * moveInput.y);
-        moveDirection.y = 0f; // Ensure no unintended vertical movement
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
 
-        // Move the player while respecting colliders
-        rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
+        Vector2 moveInput = movementAction.ReadValue<Vector2>();
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
+        controller.Move(move * walkSpeed * Time.deltaTime);
+
         if (moveInput.magnitude > 0)
         {
             if (!footstepSound.isPlaying)
@@ -165,24 +163,21 @@ public class Player : MonoBehaviour
 
             wasMoving = true;
         }
-        else
+        else if (wasMoving && footstepSound.isPlaying)
         {
-            if (wasMoving && footstepSound.isPlaying)
-            {
-                footstepSound.Stop();
-                wasMoving = false;
-            }
+            footstepSound.Stop();
+            wasMoving = false;
         }
+
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
     void HandleMouseLook()
     {
         Vector2 lookInput = lookingAction.ReadValue<Vector2>() * lookSensitivity;
-
-        // Always allow horizontal look
         transform.Rotate(Vector3.up * lookInput.x * Time.deltaTime);
 
-        // Only allow vertical look if not limited
         if (!limitVerticalLook)
         {
             verticalRotation -= lookInput.y * Time.deltaTime;
@@ -191,28 +186,13 @@ public class Player : MonoBehaviour
         }
         else
         {
-            camera.transform.localRotation = Quaternion.Euler(0, 0, 0); // Lock to forward
-        }
-    }
-
-
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Enemy")
-        {
-            if (timer < 0)
-            {
-                Sanity -= enemySanityDamage;
-                timerStart = false;
-            }
-            SetPauseFunction();
-            enemy.TeleportToFurthestPatrolPoint();
+            camera.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "SafeRoom")
+        if (other.gameObject.CompareTag("SafeRoom"))
         {
             RegainSanity();
         }
@@ -221,13 +201,11 @@ public class Player : MonoBehaviour
     void ReduceSanity()
     {
         if (enemy.CanSeePlayer)
-        {
             Sanity -= Time.deltaTime;
-        }
+
         if (IsHidden)
-        {
             Sanity -= hidingSanityMulti * Time.deltaTime;
-        }
+
         if (Sanity < 0)
         {
             OnDisable();
@@ -241,14 +219,7 @@ public class Player : MonoBehaviour
 
     public void RegainSanity()
     {
-        if (Sanity >= maxSanity)
-        {
-            Sanity = maxSanity;
-        }
-        else
-        {
-            Sanity += sanityRegained;
-        }
+        Sanity = Mathf.Min(Sanity + sanityRegained, maxSanity);
     }
 
     public void EnableMovement()
@@ -267,10 +238,11 @@ public class Player : MonoBehaviour
     {
         IsHidden = true;
         beforeHidingPosition = transform.position;
-        rb.isKinematic = true; // Prevent physics from interfering
+        velocity = Vector3.zero;
         verticalRotation = 0f;
         camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        OnDisable();
+        DisableMovement();
+        controller.enabled = false;
         transform.position = hidingSpot.position;
         transform.rotation = hidingSpot.rotation;
     }
@@ -279,10 +251,9 @@ public class Player : MonoBehaviour
     {
         limitVerticalLook = false;
         IsHidden = false;
-        OnEnable();
-
-        rb.isKinematic = false;
+        controller.enabled = true;
         transform.position = beforeHidingPosition;
+        EnableMovement();
     }
 
     public void AddInventory(string itemName)
@@ -330,4 +301,3 @@ public class Player : MonoBehaviour
         timerStart = true;
     }
 }
-
