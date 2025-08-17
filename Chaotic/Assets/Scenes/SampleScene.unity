@@ -50431,15 +50431,15 @@ MonoBehaviour:
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: 0672a12b12d2a574badf888d70bfea45, type: 3}
   m_PointAction: {fileID: 6605832526665333569, guid: 0672a12b12d2a574badf888d70bfea45, type: 3}
-  m_MoveAction: {fileID: 0}
+  m_MoveAction: {fileID: -272042152819474993, guid: 0672a12b12d2a574badf888d70bfea45, type: 3}
   m_SubmitAction: {fileID: -1820264947435151619, guid: 0672a12b12d2a574badf888d70bfea45, type: 3}
   m_CancelAction: {fileID: 0}
   m_LeftClickAction: {fileID: 2751230603652179126, guid: 0672a12b12d2a574badf888d70bfea45, type: 3}
   m_MiddleClickAction: {fileID: 0}
   m_RightClickAction: {fileID: 0}
   m_ScrollWheelAction: {fileID: 0}
-  m_TrackedDevicePositionAction: {fileID: 0}
-  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 6605832526665333569, guid: 0672a12b12d2a574badf888d70bfea45, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 6605832526665333569, guid: 0672a12b12d2a574badf888d70bfea45, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0

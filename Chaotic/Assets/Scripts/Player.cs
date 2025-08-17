@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
         footstepSound = GetComponent<AudioSource>();
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
         movementAction.Enable();
         lookingAction.Enable();
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
         pauseAction.Enable();
     }
 
-    void OnDisable()
+    public void OnDisable()
     {
         movementAction.Disable();
         lookingAction.Disable();
@@ -199,7 +199,7 @@ public class Player : MonoBehaviour
             else
                 sensitivity = mouseLookSensitivity;
         }
-        
+
         // Always allow horizontal look
         transform.Rotate(Vector3.up * lookInput.x * sensitivity * Time.deltaTime);
 

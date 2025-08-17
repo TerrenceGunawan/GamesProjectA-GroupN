@@ -42,7 +42,7 @@ public class Keypad : MonoBehaviour, IInteractable
         keypadOB.SetActive(true);  // Show the keypad UI
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(firstSelected);
-        player.DisableMovement();  // Disable player movement when interacting
+        player.OnDisable();  // Disable player movement when interacting
     }
 
     public void Number(int number)
@@ -99,7 +99,7 @@ public class Keypad : MonoBehaviour, IInteractable
         player.SetPauseFunction();
         keypadOB.SetActive(false);
         crosshair.SetActive(true);  // Show the crosshair again
-        player.EnableMovement();
+        player.OnEnable();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
