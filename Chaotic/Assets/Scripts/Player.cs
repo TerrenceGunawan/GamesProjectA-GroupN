@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
@@ -12,18 +13,20 @@ public class Player : MonoBehaviour
     private PlayerActions actions;
     private InputAction movementAction;
     private InputAction lookingAction;
+    private InputAction interactAction;
+    private InputAction pauseAction;
     private Rigidbody rb;
     private AudioSource footstepSound;
 
     [SerializeField] private GameObject monster;
     [SerializeField] private Enemy enemy;
     [SerializeField] private float walkSpeed = 2f;
-    [SerializeField] private float lookSensitivity = 10f;
+    [SerializeField] private float mouseLookSensitivity = 10f;
+    [SerializeField] private float controllerLookSensitivity = 200f;
     [SerializeField] private float maxLookAngle = 90f;
     [SerializeField] private float raycastDistance = 3f;
     private float verticalRotation = 0f;
     private Vector3 beforeHidingPosition;
-    private bool limitVerticalLook = false;
     public bool IsHidden = false;
 
     private Vector3 monsterStartPosition;
@@ -35,6 +38,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject firstSelected;
     private bool isPaused;
     private bool wasMoving;
     private float maxSanity;
@@ -55,6 +59,8 @@ public class Player : MonoBehaviour
         actions = new PlayerActions();
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
+        interactAction = actions.interaction.interact;
+        pauseAction = actions.interaction.pause;
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
     }
@@ -63,12 +69,16 @@ public class Player : MonoBehaviour
     {
         movementAction.Enable();
         lookingAction.Enable();
+        interactAction.Enable();
+        pauseAction.Enable();
     }
 
     void OnDisable()
     {
         movementAction.Disable();
         lookingAction.Disable();
+        interactAction.Disable();
+        pauseAction.Disable();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -95,7 +105,7 @@ public class Player : MonoBehaviour
                     lastInteractedObject = hit.collider.gameObject;
                 }
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (interactAction.triggered)
                 {
                     interactable.Interact();
                 }
@@ -132,7 +142,7 @@ public class Player : MonoBehaviour
         sanityBar.fillAmount = sanityPercent;
         sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
         ReduceSanity();
-        if (Input.GetKeyDown(KeyCode.Escape) && !SetPause)
+        if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)
             {
@@ -177,22 +187,25 @@ public class Player : MonoBehaviour
 
     void HandleMouseLook()
     {
-        Vector2 lookInput = lookingAction.ReadValue<Vector2>() * lookSensitivity;
+        Vector2 lookInput = lookingAction.ReadValue<Vector2>();
 
+        // Detect if input is coming from a gamepad or mouse
+        float sensitivity = mouseLookSensitivity; // default
+
+        if (lookingAction != null && lookingAction.activeControl != null)
+        {
+            if (lookingAction.activeControl.device is Gamepad)
+                sensitivity = controllerLookSensitivity;
+            else
+                sensitivity = mouseLookSensitivity;
+        }
+        
         // Always allow horizontal look
-        transform.Rotate(Vector3.up * lookInput.x * Time.deltaTime);
+        transform.Rotate(Vector3.up * lookInput.x * sensitivity * Time.deltaTime);
 
-        // Only allow vertical look if not limited
-        if (!limitVerticalLook)
-        {
-            verticalRotation -= lookInput.y * Time.deltaTime;
-            verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
-            camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
-        }
-        else
-        {
-            camera.transform.localRotation = Quaternion.Euler(0, 0, 0); // Lock to forward
-        }
+        verticalRotation -= lookInput.y * sensitivity * Time.deltaTime;
+        verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
+        camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
     }
 
 
@@ -277,7 +290,6 @@ public class Player : MonoBehaviour
 
     public void ExitHiding()
     {
-        limitVerticalLook = false;
         IsHidden = false;
         OnEnable();
 
@@ -294,6 +306,8 @@ public class Player : MonoBehaviour
     {
         footstepSound.Stop();
         pauseMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstSelected);
         Time.timeScale = 0f;
         isPaused = true;
         Cursor.lockState = CursorLockMode.None;

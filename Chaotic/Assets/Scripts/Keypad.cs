@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro; 
 
 
@@ -11,6 +12,7 @@ public class Keypad : MonoBehaviour, IInteractable
     public GameObject crosshair;
     public GameObject keypadOB;
     public List<GameObject> rewards = new List<GameObject>();
+    public GameObject firstSelected;
     public Animator ANI;
 
     public TextMeshProUGUI keypadText;
@@ -38,6 +40,8 @@ public class Keypad : MonoBehaviour, IInteractable
         player.SetPause = true;
         crosshair.SetActive(false);  // Hide the crosshair when interacting
         keypadOB.SetActive(true);  // Show the keypad UI
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstSelected);
         player.DisableMovement();  // Disable player movement when interacting
     }
 

@@ -1,28 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Flashlight : MonoBehaviour
 {
+    private PlayerActions actions;
+    private InputAction flashlightAction;
     private Light flashlight;
     public AudioSource button;
     public bool On;
 
-    void Start()
+    void Awake()
     {
+        actions = new PlayerActions();
+        flashlightAction = actions.interaction.light;
         flashlight = GetComponent<Light>();
         On = false;
+    }
+
+    void OnEnable()
+    {
+        flashlightAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        flashlightAction.Disable();
     }
 
     void Update()
     {
         flashlight.enabled = On;
-        if(!On && Input.GetButtonDown("F"))
-        {
-            On = !On;
-            button.Play();
-        }
-        else if (On && Input.GetButtonDown("F"))
+        if(flashlightAction.triggered)
         {
             On = !On;
             button.Play();
