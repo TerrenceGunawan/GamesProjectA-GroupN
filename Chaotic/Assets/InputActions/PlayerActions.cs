@@ -319,15 +319,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""click"",
-                    ""type"": ""Button"",
-                    ""id"": ""4d0b681f-ebc2-4891-b86d-f4cca3c13d28"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -396,17 +387,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""light"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1cf69654-7e06-44a3-a82c-c83170c904fb"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -422,7 +402,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_interaction_interact = m_interaction.FindAction("interact", throwIfNotFound: true);
         m_interaction_pause = m_interaction.FindAction("pause", throwIfNotFound: true);
         m_interaction_light = m_interaction.FindAction("light", throwIfNotFound: true);
-        m_interaction_click = m_interaction.FindAction("click", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -614,7 +593,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_interaction_interact;
     private readonly InputAction m_interaction_pause;
     private readonly InputAction m_interaction_light;
-    private readonly InputAction m_interaction_click;
     /// <summary>
     /// Provides access to input actions defined in input action map "interaction".
     /// </summary>
@@ -638,10 +616,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "interaction/light".
         /// </summary>
         public InputAction @light => m_Wrapper.m_interaction_light;
-        /// <summary>
-        /// Provides access to the underlying input action "interaction/click".
-        /// </summary>
-        public InputAction @click => m_Wrapper.m_interaction_click;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -677,9 +651,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @light.started += instance.OnLight;
             @light.performed += instance.OnLight;
             @light.canceled += instance.OnLight;
-            @click.started += instance.OnClick;
-            @click.performed += instance.OnClick;
-            @click.canceled += instance.OnClick;
         }
 
         /// <summary>
@@ -700,9 +671,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @light.started -= instance.OnLight;
             @light.performed -= instance.OnLight;
             @light.canceled -= instance.OnLight;
-            @click.started -= instance.OnClick;
-            @click.performed -= instance.OnClick;
-            @click.canceled -= instance.OnClick;
         }
 
         /// <summary>
@@ -786,12 +754,5 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLight(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnClick(InputAction.CallbackContext context);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using TMPro; 
 
 
@@ -38,11 +39,25 @@ public class Keypad : MonoBehaviour, IInteractable
     void OpenKeypadUI()
     {
         player.SetPause = true;
-        crosshair.SetActive(false);  // Hide the crosshair when interacting
-        keypadOB.SetActive(true);  // Show the keypad UI
+        crosshair.SetActive(false);
+        keypadOB.SetActive(true);
+
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(firstSelected);
-        player.OnDisable();  // Disable player movement when interacting
+
+        // If gamepad is active → auto-select the first button and hide cursor
+        if (Gamepad.current != null && Gamepad.current.wasUpdatedThisFrame)
+        {
+            EventSystem.current.SetSelectedGameObject(firstSelected);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else // If mouse/keyboard → show cursor
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        player.OnDisable();
     }
 
     public void Number(int number)
@@ -136,8 +151,20 @@ public class Keypad : MonoBehaviour, IInteractable
         if (keypadOB.activeInHierarchy)
         {
             player.DisableMovement();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+
+            // Dynamically check input device
+            if (Mouse.current != null && Mouse.current.delta.ReadValue() != Vector2.zero)
+            {
+                // Mouse moved → show cursor
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else if (Gamepad.current != null && Gamepad.current.wasUpdatedThisFrame)
+            {
+                // Gamepad used → hide cursor
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 

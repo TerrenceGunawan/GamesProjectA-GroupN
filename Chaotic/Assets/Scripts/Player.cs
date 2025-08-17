@@ -306,12 +306,24 @@ public class Player : MonoBehaviour
     {
         footstepSound.Stop();
         pauseMenu.SetActive(true);
+
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(firstSelected);
+
+        // If gamepad was used → auto-select first UI button + hide cursor
+        if (Gamepad.current != null && Gamepad.current.wasUpdatedThisFrame)
+        {
+            EventSystem.current.SetSelectedGameObject(firstSelected);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else // If mouse/keyboard → show cursor
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
         Time.timeScale = 0f;
         isPaused = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     public void ResumeGame()
