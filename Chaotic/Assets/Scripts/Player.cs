@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private InputAction movementAction;
     private InputAction lookingAction;
     private InputAction interactAction;
+    private InputAction grabAction;
     private InputAction pauseAction;
     private Rigidbody rb;
     private AudioSource footstepSound;
@@ -60,6 +61,7 @@ public class Player : MonoBehaviour
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
         interactAction = actions.interaction.interact;
+        grabAction = actions.interaction.grab;
         pauseAction = actions.interaction.pause;
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
@@ -70,6 +72,7 @@ public class Player : MonoBehaviour
         movementAction.Enable();
         lookingAction.Enable();
         interactAction.Enable();
+        grabAction.Enable();
         pauseAction.Enable();
     }
 
@@ -78,6 +81,7 @@ public class Player : MonoBehaviour
         movementAction.Disable();
         lookingAction.Disable();
         interactAction.Disable();
+        grabAction.Disable();
         pauseAction.Disable();
     }
 
@@ -119,13 +123,14 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        else
+        else if (hit.collider.GetComponentInParent<Movable>() is Movable movable)
         {
-            if (lastInteractedObject != null)
-            {
-                interactText.text = "";
-                lastInteractedObject = null;
-            }
+            
+        }
+        else if (lastInteractedObject != null)
+        {
+            interactText.text = "";
+            lastInteractedObject = null;
         }
         if (timerStart)
         {
