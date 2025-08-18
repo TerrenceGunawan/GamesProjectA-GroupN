@@ -48,7 +48,7 @@ public class Doors : MonoBehaviour, IInteractable
 
     public void OnRaycastHit()
     {
-        interactText.text = DoorIsOpen ? "Close [E]" : "Open [E]";
+        interactText.text = DoorIsOpen ? "Close" : "Open";
     }
 
     void Update()

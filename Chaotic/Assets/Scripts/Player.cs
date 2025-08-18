@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject firstSelected;
+    [SerializeField] private Transform holdPoint; // empty GameObject in front of camera
+    [SerializeField] private float grabForce = 200f;
     private bool isPaused;
     private bool wasMoving;
     private float maxSanity;
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour
     public List<string> Inventory = new List<string>();
     private ItemInteract[] items;
     private GameObject lastInteractedObject = null;
+    private ItemInteract grabbedItem = null;
 
     void Awake()
     {
@@ -101,7 +104,34 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastDistance))
         {
-            if (hit.collider.GetComponentInParent<IInteractable>() is IInteractable interactable)
+            if (hit.collider.GetComponentInParent<ItemInteract>() is ItemInteract movable)
+            {
+                if (hit.collider.gameObject != lastInteractedObject)
+                {
+                    movable.OnRaycastHit();
+                    lastInteractedObject = hit.collider.gameObject;
+                }
+
+                // If grab button is held AND nothing grabbed → pick up
+                if (movable.Movable && grabAction.IsPressed() && grabbedItem == null)
+                {
+                    grabbedItem = movable;
+                    Rigidbody grb = grabbedItem.GetComponent<Rigidbody>();
+                    if (grb != null)
+                    {
+                        grb.useGravity = false;
+                        grb.linearVelocity = Vector3.zero;
+                        holdPoint.position = grabbedItem.transform.position;
+                    }
+                }
+
+                // If grab button is released → drop
+                if (!grabAction.IsPressed() && grabbedItem != null)
+                {
+                    DropItem();
+                }
+            }
+            else if (hit.collider.GetComponentInParent<IInteractable>() is IInteractable interactable)
             {
                 if (hit.collider.gameObject != lastInteractedObject)
                 {
@@ -114,18 +144,11 @@ public class Player : MonoBehaviour
                     interactable.Interact();
                 }
             }
-            else
+            else if (lastInteractedObject != null)
             {
-                if (lastInteractedObject != null)
-                {
-                    interactText.text = "";
-                    lastInteractedObject = null;
-                }
+                interactText.text = "";
+                lastInteractedObject = null;
             }
-        }
-        else if (hit.collider.GetComponentInParent<Movable>() is Movable movable)
-        {
-            
         }
         else if (lastInteractedObject != null)
         {
@@ -141,7 +164,7 @@ public class Player : MonoBehaviour
                 timerStart = false;
             }
         }
-        Debug.DrawRay(ray.origin, ray.direction * 1.5f, Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
         float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
         sanityBar.fillAmount = sanityPercent;
@@ -163,6 +186,16 @@ public class Player : MonoBehaviour
     void FixedUpdate() // Use FixedUpdate for physics-based movement
     {
         HandleMovement();
+
+        if (grabbedItem != null)
+        {
+            Rigidbody rb = grabbedItem.GetComponent<Rigidbody>();
+
+            Vector3 targetPos = holdPoint.position;
+            Vector3 moveDir = targetPos - rb.position;
+
+            rb.linearVelocity = moveDir * grabForce * Time.fixedDeltaTime;
+        }
     }
 
     void HandleMovement()
@@ -233,6 +266,17 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "SafeRoom")
         {
             RegainSanity();
+        }
+    }
+
+    void DropItem()
+    {
+        if (grabbedItem != null)
+        {
+            Rigidbody rb = grabbedItem.GetComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.linearVelocity = Vector3.zero;
+            grabbedItem = null;
         }
     }
 

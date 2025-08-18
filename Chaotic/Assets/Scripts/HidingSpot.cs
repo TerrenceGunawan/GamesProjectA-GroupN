@@ -43,6 +43,6 @@ public class HidingSpot : MonoBehaviour, IInteractable
 
     void UpdateInteractionText()
     {
-        interactText.text = player.IsHidden ? "Exit [E]" : "Hide [E]";
+        interactText.text = player.IsHidden ? "Exit" : "Hide";
     }
 }

@@ -59,7 +59,7 @@ public class Phone : MonoBehaviour, IInteractable
 
     public void OnRaycastHit()
     {
-        interactText.text = "Interact [E]";
+        interactText.text = "Interact";
     }
 
     // Update is called once per frame

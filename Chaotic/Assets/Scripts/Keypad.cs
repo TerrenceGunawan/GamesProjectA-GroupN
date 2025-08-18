@@ -109,7 +109,7 @@ public class Keypad : MonoBehaviour, IInteractable
     {
         if (!Completed)
         {
-            keypadText.text = "Interact [E]";
+            keypadText.text = "Interact";
         }
         player.SetPauseFunction();
         keypadOB.SetActive(false);
@@ -138,7 +138,7 @@ public class Keypad : MonoBehaviour, IInteractable
     {
         if (!Completed)
         {
-            keypadText.text = "Interact [E]";
+            keypadText.text = "Interact";
         }
     }
 

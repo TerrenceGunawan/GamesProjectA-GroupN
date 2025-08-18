@@ -53,11 +53,11 @@ public class ItemChecker : MonoBehaviour, IInteractable
     {
         if (!HasSucceeded && door == null)
         {
-            interactText.text = "Interact [E]";
+            interactText.text = "Interact";
         }
         else if (!HasSucceeded && door != null)
         {
-            interactText.text = door.DoorIsOpen ? "Close [E]" : "Open [E]";
+            interactText.text = door.DoorIsOpen ? "Close" : "Open";
         }
     }
 
