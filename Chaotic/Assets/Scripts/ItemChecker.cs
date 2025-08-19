@@ -11,8 +11,10 @@ public class ItemChecker : MonoBehaviour, IInteractable
     [SerializeField] private Player player;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private string successText;
+    [SerializeField] private bool upgraded = false;
     public bool HasSucceeded = false;
     private Doors door;
+    private GameObject otherObject;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,36 +24,44 @@ public class ItemChecker : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (Check() && !HasSucceeded)
+        if (upgraded)
         {
-            HasSucceeded = true; // Mark as done
-            if (door == null)
+            return;
+        }
+        if (Check() && !HasSucceeded)
             {
-                interactText.text = successText;
+                HasSucceeded = true; // Mark as done
+                if (door == null)
+                {
+                    interactText.text = successText;
+                    StartCoroutine(HideTextAfterSeconds(3f));
+                }
+                else
+                {
+                    interactText.text = "";
+                    door.DoorOpens();
+                }
+                MusicManager.Instance.PlaySuccessMusic();
+            }
+            else if (!Check() && door == null)
+            {
+                interactText.text = "You don't have the right items.";
                 StartCoroutine(HideTextAfterSeconds(3f));
             }
-            else
+            else if (!Check() && door != null)
             {
-                interactText.text = "";
-                door.DoorOpens();
+                interactText.text = "I still need the " + FormatItemList(remainingItems) + "."; // show "locked" text and missing items;
+                StartCoroutine(HideTextAfterSeconds(3f));
             }
-            MusicManager.Instance.PlaySuccessMusic();
-        }
-        else if (!Check() && door == null)
-        {
-            interactText.text = "You don't have the right items.";
-            StartCoroutine(HideTextAfterSeconds(3f));
-        }
-        else if (!Check() && door != null)
-        {
-            interactText.text = "I still need the " + FormatItemList(remainingItems) + "."; // show "locked" text and missing items;
-            StartCoroutine(HideTextAfterSeconds(3f));
-        }
     }
 
     public void OnRaycastHit()
     {
-        if (!HasSucceeded && door == null)
+        if (upgraded)
+        {
+            return;
+        }
+        else if (!HasSucceeded && door == null)
         {
             interactText.text = "Interact";
         }
@@ -72,6 +82,24 @@ public class ItemChecker : MonoBehaviour, IInteractable
                 remainingItems.Add(item);
             }
         }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        otherObject = other.gameObject;
+        if (upgraded)
+        {
+            if (otherObject.name == ItemsNeeded.FirstOrDefault())
+            {
+                HasSucceeded = true;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        HasSucceeded = false;
+        otherObject = null;
     }
 
     bool Check()

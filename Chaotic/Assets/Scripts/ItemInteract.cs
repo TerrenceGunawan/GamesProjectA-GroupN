@@ -119,7 +119,14 @@ public class ItemInteract : MonoBehaviour, IInteractable
 
     public void OnRaycastHit()
     {
-        interactText.text = "Interact";
+        if (Movable)
+        {
+            interactText.text = "Grab";
+        }
+        else
+        { 
+            interactText.text = "Interact";
+        }
     }
 
     IEnumerator HideTextAfterSeconds(float delay)
