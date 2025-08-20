@@ -23,9 +23,8 @@ public class Keypad : MonoBehaviour, IInteractable
     public AudioClip button;
     public AudioClip correct;
     public AudioClip wrong;
+    
     private AudioSource audioSource;
-
-    public bool animate;
     public bool Completed = false;
     public bool rewardCheck = false;
 
@@ -73,7 +72,7 @@ public class Keypad : MonoBehaviour, IInteractable
         {
             if (rewardCheck)
             {
-                animate = true;
+                ANI.SetBool("animate", true);
                 foreach (GameObject reward in rewards)
                 {
                     reward.SetActive(true);
@@ -144,10 +143,6 @@ public class Keypad : MonoBehaviour, IInteractable
 
     public void Update()
     {
-        if (animate)
-        {
-            ANI.SetBool("animate", true);
-        }
         if (keypadOB.activeInHierarchy)
         {
             player.DisableMovement();

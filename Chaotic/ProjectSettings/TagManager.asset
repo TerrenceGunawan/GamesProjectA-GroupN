@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Enemy
   - SafeRoom
-  - Reach
+  - Reset
   layers:
   - Default
   - TransparentFX

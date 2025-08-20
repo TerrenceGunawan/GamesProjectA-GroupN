@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public class GridChecker : MonoBehaviour
 {
     [SerializeField] private List<ItemChecker> itemCheckers;
+    [SerializeField] private bool forSafe = false;
+    [SerializeField] private Animator animator;
     public bool AllItemsChecked = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +22,15 @@ public class GridChecker : MonoBehaviour
             {
                 AllItemsChecked = true;
             }
+            else
+            {
+                AllItemsChecked = false;
+                break;
+            }
+        }
+        if (forSafe)
+        {
+            animator.SetBool("animate", AllItemsChecked);
         }
     }
 }

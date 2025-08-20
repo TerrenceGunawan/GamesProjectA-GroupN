@@ -115,6 +115,7 @@ public class Player : MonoBehaviour
                 // If grab button is held AND nothing grabbed → pick up
                 if (movable.Movable && grabAction.IsPressed() && grabbedItem == null)
                 {
+                    interactText.text = "";
                     grabbedItem = movable;
                     Rigidbody grb = grabbedItem.GetComponent<Rigidbody>();
                     if (grb != null)

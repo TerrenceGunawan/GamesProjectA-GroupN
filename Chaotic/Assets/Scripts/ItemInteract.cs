@@ -23,6 +23,12 @@ public class ItemInteract : MonoBehaviour, IInteractable
     public bool Taken = false;
     public bool Movable = false;
     private bool regainCheck = false;
+    private Vector3 originalPosition;
+
+    void Awake()
+    {
+        originalPosition = transform.position;
+    }
 
     void Start()
     {
@@ -119,13 +125,21 @@ public class ItemInteract : MonoBehaviour, IInteractable
 
     public void OnRaycastHit()
     {
-        if (Movable)
+        if (Movable && GetComponent<Rigidbody>().linearVelocity == Vector3.zero)
         {
             interactText.text = "Grab";
         }
-        else
+        else if (!Movable)
         { 
             interactText.text = "Interact";
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Reset"))
+        {
+            transform.position = originalPosition; // Reset position if it collides with a reset object
         }
     }
 
