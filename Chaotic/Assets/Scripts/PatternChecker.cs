@@ -1,26 +1,52 @@
-// using UnityEngine;
+using UnityEngine;
+using UnityEngine.UI;
 
-// public class PatternChecker : MonoBehaviour
-// {
+public class PatternChecker : MonoBehaviour
+{
 
-//     [SerializeField] private Toggle A1, B1, C1, D1, A2, B2, C2, D2, A3, B3, C3, D3, A4, B4, C4, D4;
-    
+    private int correct;
+    [SerializeField] private int correctCount = 4;
+    [SerializeField] private Image[] toggleImages;
 
-//     void Start()
-//     {
 
-//     }
+    void Start()
+    {
 
-//     void Update()
-//     {
+    }
 
-//     }
+    void Update()
+    {
 
-//     public void CheckPattern(bool toggle)
-//     {
-//         if (toggle)
-//         {
-//             if
-//         }
-//     }
-// }
+    }
+
+    public void Correct(bool toggle)
+    {
+        if (toggle)
+        {
+            correct++;
+            Complete();
+        }
+
+        else
+        {
+            correct--;
+            Complete();
+        }
+
+    }
+
+    private void Complete()
+    {
+        if (correct == correctCount)
+        {
+            for (int i = 0; i < toggleImages.Length; i++)
+            {
+                toggleImages[i].color = new Color(0.3f, 1f, 0f);
+            }
+        }
+        if (correct < 0)
+        {
+            correct = 0;
+        }
+    }
+}
