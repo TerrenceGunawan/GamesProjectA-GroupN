@@ -50,7 +50,7 @@ public class Jumpscare : MonoBehaviour
         {
             return; // Do nothing if no audio or video is present
         }
-        StartCoroutine(HideScare(1.5f)); // Hide the jumpscare after 1.5 seconds
+        StartCoroutine(HideScare(2.5f)); // Hide the jumpscare after 1.5 seconds
     }
 
     void OnTriggerEnter(Collider other)
