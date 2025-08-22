@@ -121,7 +121,7 @@ public class ItemChecker : MonoBehaviour, IInteractable
         }
     }
 
-    IEnumerator HideTextAfterSeconds(float delay)
+    private IEnumerator HideTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
         interactText.text = "";

@@ -16,7 +16,7 @@ public class MultiLightFlicker : MonoBehaviour
         StartCoroutine(FlickerRoutine());
     }
 
-    IEnumerator FlickerRoutine()
+    private IEnumerator FlickerRoutine()
     {
         while (true)
         {

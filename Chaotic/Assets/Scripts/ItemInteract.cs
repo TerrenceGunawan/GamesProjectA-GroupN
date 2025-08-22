@@ -143,14 +143,14 @@ public class ItemInteract : MonoBehaviour, IInteractable
         }
     }
 
-    IEnumerator HideTextAfterSeconds(float delay)
+    private IEnumerator HideTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
         interactText.text = "";
         gameObject.SetActive(false);
     }
 
-    IEnumerator PlayVoiceLine()
+    private IEnumerator PlayVoiceLine()
     {
         player.RegainSanity();
         regainCheck = true;

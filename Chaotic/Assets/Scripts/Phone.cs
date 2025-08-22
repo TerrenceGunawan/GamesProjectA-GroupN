@@ -77,7 +77,7 @@ public class Phone : MonoBehaviour, IInteractable
         }
     }
 
-    IEnumerator ChangeSubtitles()
+    private IEnumerator ChangeSubtitles()
     {
         if (audioSource.clip == talking[0])
         {

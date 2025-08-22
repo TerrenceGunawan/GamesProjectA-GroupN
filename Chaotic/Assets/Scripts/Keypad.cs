@@ -163,7 +163,7 @@ public class Keypad : MonoBehaviour, IInteractable
         }
     }
 
-    IEnumerator CodeDelay(bool correct, float delay)
+    private IEnumerator CodeDelay(bool correct, float delay)
     {
         yield return new WaitForSeconds(delay);
         if (correct)

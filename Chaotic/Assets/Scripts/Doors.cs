@@ -78,7 +78,7 @@ public class Doors : MonoBehaviour, IInteractable
         DoorIsOpen = false;
     }
 
-    IEnumerator HideLockedTextAfterSeconds(float delay)
+    private IEnumerator HideLockedTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
         interactText.text = ""; // Clear the interaction text
