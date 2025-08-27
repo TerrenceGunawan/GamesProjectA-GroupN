@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
                 // If grab button is held AND nothing grabbed → pick up
                 if (movable.Movable && grabAction.IsPressed() && grabbedItem == null)
                 {
-                    interactText.text = "";
+                    interactText.enabled = false;
                     grabbedItem = movable;
                     Rigidbody grb = grabbedItem.GetComponent<Rigidbody>();
                     if (grb != null)
@@ -274,6 +274,7 @@ public class Player : MonoBehaviour
     {
         if (grabbedItem != null)
         {
+            interactText.enabled = true;
             Rigidbody rb = grabbedItem.GetComponent<Rigidbody>();
             rb.useGravity = true;
             rb.linearVelocity = Vector3.zero;

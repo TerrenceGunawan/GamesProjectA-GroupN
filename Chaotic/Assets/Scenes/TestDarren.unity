@@ -537,6 +537,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a260eb6877e92f04ea685be22cdb709c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 17731230}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a260eb6877e92f04ea685be22cdb709c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 17731234}
   m_SourcePrefab: {fileID: 100100000, guid: a260eb6877e92f04ea685be22cdb709c, type: 3}
 --- !u!1 &17731222 stripped
 GameObject:
@@ -615,10 +618,33 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: 
   takeAble: 0
+  magneticForce: 13
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 1
+  Magnet: 1
+--- !u!65 &17731234
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17731222}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.016621992, y: 0.023223186, z: 0.012777437}
+  m_Center: {x: -0.00022027362, y: -0.01, z: -0.0037340042}
 --- !u!135 &21905355
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1671,7 +1697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.188864
+      value: -15.188866
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4591,7 +4617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.188864
+      value: -15.188866
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5342,7 +5368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.188864
+      value: -15.188866
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6463,7 +6489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6459718508899996792, guid: b7cb4d9b5c8310849b991c5c9ff65598, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.088863
+      value: -13.088867
       objectReference: {fileID: 0}
     - target: {fileID: 6459718508899996792, guid: b7cb4d9b5c8310849b991c5c9ff65598, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8443,10 +8469,12 @@ MonoBehaviour:
   itemTexture: {fileID: 2800000, guid: cbc9f47d4557f484293026ecb998a204, type: 3}
   itemDesc: Noctis had a psychiatrist?? And he's dangerous..?
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!65 &304766608
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8564,10 +8592,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Storage Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &307108617
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8997,10 +9027,12 @@ MonoBehaviour:
     I didn\u2019t have.\u2019 The next morning, the ball was deflated. No one asked,
     no one fixed it. I didn\u2019t play anymore. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &316482645
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9810,7 +9842,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 594295917352327498, guid: 32c513dfd78707148b26d9b622f314d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.588863
+      value: -14.588867
       objectReference: {fileID: 0}
     - target: {fileID: 594295917352327498, guid: 32c513dfd78707148b26d9b622f314d5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11245,10 +11277,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Basement Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &385544747
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11408,10 +11442,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: 
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 1
+  Magnet: 0
 --- !u!54 &386884628
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11976,10 +12012,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Storage Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &407643901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13212,7 +13250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.088863
+      value: -13.088867
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21580,7 +21618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.188864
+      value: -15.188866
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22970,10 +23008,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Storage Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &696796573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25886,10 +25926,12 @@ MonoBehaviour:
     wrong button. And at the end, it was his laugh. I\u2019d never heard that before\u2026
     It didn\u2019t sound like me at all."
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!65 &784953671
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35618,7 +35660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.499157
+      value: -12.499161
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -36484,10 +36526,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: 
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 1
+  Magnet: 0
 --- !u!64 &1062145224
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -41730,7 +41774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3134978384007602811, guid: 1b615756c61c85142920f28aee02f764, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.9176674
+      value: -5.9176693
       objectReference: {fileID: 0}
     - target: {fileID: 3134978384007602811, guid: 1b615756c61c85142920f28aee02f764, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41742,7 +41786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3134978384007602811, guid: 1b615756c61c85142920f28aee02f764, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000084293696
+      value: -0.00000008429369
       objectReference: {fileID: 0}
     - target: {fileID: 3134978384007602811, guid: 1b615756c61c85142920f28aee02f764, type: 3}
       propertyPath: m_LocalRotation.z
@@ -44486,7 +44530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.188864
+      value: -15.188866
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.y
@@ -45925,7 +45969,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.788864
+      value: -18.788866
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -46850,7 +46894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.1676674
+      value: -5.1676693
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48377,10 +48421,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: 
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 1
+  Magnet: 0
 --- !u!64 &1437344576
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -52398,7 +52444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.188864
+      value: -15.188866
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.y
@@ -53473,7 +53519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.088863
+      value: -13.088867
       objectReference: {fileID: 0}
     - target: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -53979,10 +54025,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: 
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 1
+  Magnet: 0
 --- !u!54 &1659726493
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -55390,10 +55438,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: 
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 1
+  Magnet: 1
 --- !u!54 &1697456744
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -56589,7 +56639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.188864
+      value: -15.188866
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.y
@@ -56904,7 +56954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6459718508899996792, guid: b7cb4d9b5c8310849b991c5c9ff65598, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.668863
+      value: -12.668869
       objectReference: {fileID: 0}
     - target: {fileID: 6459718508899996792, guid: b7cb4d9b5c8310849b991c5c9ff65598, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58844,7 +58894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.499157
+      value: -12.499161
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.y
@@ -62115,7 +62165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.788864
+      value: -18.788866
       objectReference: {fileID: 0}
     - target: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
       propertyPath: m_LocalPosition.y
@@ -62764,10 +62814,12 @@ MonoBehaviour:
     I haven\u2019t dared to look in the mirror anymore. Every time I look, I just
     panic, I feel like I\u2019m not allowed to be myself. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &2024283541
 PrefabInstance:
   m_ObjectHideFlags: 0

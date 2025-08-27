@@ -16,17 +16,21 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [SerializeField] private Texture itemTexture;
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
+    [SerializeField] private float magneticForce = 10f;
     [SerializeField] private bool sanityRegain;
     [SerializeField] private AudioClip sanityClip;
     private AudioSource source;
     private AudioClip playerClip;
     public bool Taken = false;
     public bool Movable = false;
+    public bool Magnet = false;
     private bool regainCheck = false;
+    private Rigidbody rb;
     private Vector3 originalPosition;
 
     void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         originalPosition = transform.position;
     }
 
@@ -125,7 +129,7 @@ public class ItemInteract : MonoBehaviour, IInteractable
 
     public void OnRaycastHit()
     {
-        if (Movable && GetComponent<Rigidbody>().linearVelocity == Vector3.zero)
+        if (Movable && rb.linearVelocity == Vector3.zero)
         {
             interactText.text = "Grab";
         }
@@ -140,6 +144,22 @@ public class ItemInteract : MonoBehaviour, IInteractable
         if (other.gameObject.CompareTag("Reset"))
         {
             transform.position = originalPosition; // Reset position if it collides with a reset object
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        ItemInteract otherItem = other.GetComponent<ItemInteract>();
+        if (otherItem != null && Magnet && otherItem.Magnet)
+        {
+            Transform otherItemTF = other.GetComponent<Transform>();
+            float distance = (transform.position - otherItemTF.position).magnitude;
+            Vector3 direction = otherItemTF.position - transform.position;
+            other.GetComponent<Rigidbody>().AddForce(-direction * magneticForce / distance);
+            if (distance < 0.2f)
+            {
+                rb.AddForce(direction * magneticForce / distance);
+            }
         }
     }
 
