@@ -4,12 +4,15 @@ using System.Collections;
 
 public class Jumpscare : MonoBehaviour
 {
+
+    [SerializeField] private GameObject eyes;
     [SerializeField] private ItemChecker item;
     [SerializeField] private GridChecker grid;
     [SerializeField] private Keypad keypad;
     private AudioSource audio;
     private VideoPlayer video;
     private Renderer renderer;
+    private ParticleSystem particles;
     private bool played = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,9 +21,10 @@ public class Jumpscare : MonoBehaviour
         audio = GetComponent<AudioSource>();
         video = GetComponent<VideoPlayer>();
         renderer = GetComponent<Renderer>();
+        particles = GetComponent<ParticleSystem>();
         if (audio == null && video == null)
         {
-            renderer.enabled = false; // Disable the renderer if no audio or video is present
+            Remove();
         }
     }
 
@@ -30,17 +34,17 @@ public class Jumpscare : MonoBehaviour
         if (item != null && item.HasSucceeded && !played)
         {
             played = true;
-            renderer.enabled = true;
+            Return();
         }
         else if (grid != null && grid.AllItemsChecked && !played)
         {
             played = true;
-            renderer.enabled = true;
+            Return();
         }
         else if (keypad != null && keypad.Completed && !played)
         {
             played = true;
-            renderer.enabled = true;
+            Return();
         }
     }
 
@@ -73,6 +77,20 @@ public class Jumpscare : MonoBehaviour
     private IEnumerator HideScare(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Remove();
+    }
+
+
+    void Remove()
+    {
         renderer.enabled = false;
-    } 
+        particles.Stop();
+        eyes.SetActive(false);
+    }
+    void Return()
+    {
+        renderer.enabled = true;
+        particles.Play();
+        eyes.SetActive(true);
+    }
 }
