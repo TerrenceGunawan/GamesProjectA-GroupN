@@ -72,24 +72,16 @@ public class Player : MonoBehaviour
 
     public void OnEnable()
     {
-        movementAction.Enable();
-        lookingAction.Enable();
-        interactAction.Enable();
-        grabAction.Enable();
-        pauseAction.Enable();
+        actions.Enable();
     }
 
     public void OnDisable()
     {
-        movementAction.Disable();
-        lookingAction.Disable();
-        interactAction.Disable();
-        grabAction.Disable();
-        pauseAction.Disable();
+        actions.Disable();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+        void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
         monsterStartPosition = monster.transform.position;
@@ -125,6 +117,10 @@ public class Player : MonoBehaviour
                         holdPoint.position = grabbedItem.transform.position;
                     }
                 }
+                else if (!movable.Movable && interactAction.triggered)
+                {
+                    movable.Interact();
+                }
 
                 // If grab button is released → drop
                 if (!grabAction.IsPressed() && grabbedItem != null)
@@ -139,16 +135,10 @@ public class Player : MonoBehaviour
                     interactable.OnRaycastHit();
                     lastInteractedObject = hit.collider.gameObject;
                 }
-
                 if (interactAction.triggered)
                 {
                     interactable.Interact();
                 }
-            }
-            else if (lastInteractedObject != null)
-            {
-                interactText.text = "";
-                lastInteractedObject = null;
             }
         }
         else if (lastInteractedObject != null)

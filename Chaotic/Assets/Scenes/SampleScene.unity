@@ -567,10 +567,12 @@ MonoBehaviour:
     I held Ted. But then\u2026 the nightmare wasn\u2019t in my sleep anymore. It
     was here \u2013 in this house. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &17731224
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -728,6 +730,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430dddc7b8a1eed4d9b3da13f78964cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  grid: {fileID: 0}
+  keypad: {fileID: 0}
 --- !u!4 &22478433 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4125337903200450, guid: 1c7ffde140ac5f044b0cfbaabcb777a5, type: 3}
@@ -5962,10 +5967,12 @@ MonoBehaviour:
     looked at me like I was the one who did it. And for the first time\u2026 I began
     to believe that I really was that kind of person. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &175795727
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8797,10 +8804,12 @@ MonoBehaviour:
   itemTexture: {fileID: 2800000, guid: cbc9f47d4557f484293026ecb998a204, type: 3}
   itemDesc: Noctis had a psychiatrist?? And he's dangerous..?
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!65 &304766608
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8918,10 +8927,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Storage Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &307108617
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9351,10 +9362,12 @@ MonoBehaviour:
     I didn\u2019t have.\u2019 The next morning, the ball was deflated. No one asked,
     no one fixed it. I didn\u2019t play anymore. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &316482645
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11782,10 +11795,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Basement Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &385544747
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11946,10 +11961,12 @@ MonoBehaviour:
     the gnome, but he didn\u2019t dare tell the truth.\u2019 I don\u2019t remember
     that\u2026 but when I looked at this cracked hat, something felt\u2026 wrong. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &393429237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12487,10 +12504,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Storage Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &407643901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14307,6 +14326,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430dddc7b8a1eed4d9b3da13f78964cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  grid: {fileID: 0}
+  keypad: {fileID: 0}
 --- !u!135 &470008737
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14745,6 +14767,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   interactText: {fileID: 1980203787}
   successText: 
+  upgraded: 0
   HasSucceeded: 0
 --- !u!4 &491620633 stripped
 Transform:
@@ -14794,10 +14817,12 @@ MonoBehaviour:
   itemTexture: {fileID: 2800000, guid: a19a76407f880124582c17f83abdfc5b, type: 3}
   itemDesc: This looks like an ID card of Noctis but why is there censoring.
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!65 &496410456
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23613,10 +23638,12 @@ MonoBehaviour:
   itemTexture: {fileID: 0}
   itemDesc: Storage Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &696796573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26379,10 +26406,12 @@ MonoBehaviour:
     wrong button. And at the end, it was his laugh. I\u2019d never heard that before\u2026
     It didn\u2019t sound like me at all."
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!65 &784953671
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26398,7 +26427,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -29468,9 +29497,6 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   keypadOB: {fileID: 2007467568}
-  rewards:
-  - {fileID: 1459980823}
-  - {fileID: 304766606}
   firstSelected: {fileID: 1711718103}
   ANI: {fileID: 164681655}
   keypadText: {fileID: 1980203787}
@@ -29479,7 +29505,6 @@ MonoBehaviour:
   button: {fileID: 8300000, guid: c4a258fdae8bc8f418149ed0a88518ae, type: 3}
   correct: {fileID: 8300000, guid: e7bcdec0fbe09cb45b7c780506bbb07f, type: 3}
   wrong: {fileID: 8300000, guid: 2916b42d45e4a57438817b4ffdcdf7b7, type: 3}
-  animate: 0
   Completed: 0
   rewardCheck: 1
 --- !u!82 &924927723
@@ -37647,6 +37672,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   interactText: {fileID: 1980203787}
   successText: 
+  upgraded: 0
   HasSucceeded: 0
 --- !u!1001 &1091341599
 PrefabInstance:
@@ -45034,10 +45060,12 @@ MonoBehaviour:
     \u2018Remember everything? Remember when mom said I was useless?\u2019 Then I
     hid it. And forgot. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 1
   sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!64 &1281201830
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -46113,10 +46141,12 @@ MonoBehaviour:
   itemTexture: {fileID: 2800000, guid: d4dfee69a72f18c44a83e6c397fc09b1, type: 3}
   itemDesc: Oh my god.. what happened.. Did I do that??
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!65 &1325250704
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48232,6 +48262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430dddc7b8a1eed4d9b3da13f78964cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  grid: {fileID: 0}
+  keypad: {fileID: 0}
 --- !u!43 &1426005973
 Mesh:
   m_ObjectHideFlags: 0
@@ -49115,11 +49148,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6610282043351335890, guid: f9a3e974a1cb83b408c78028938b76bc, type: 3}
   m_PrefabInstance: {fileID: 1459563971}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1459980823 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3984225834036783252, guid: e117716ca788a1946bcded432c0e4982, type: 3}
-  m_PrefabInstance: {fileID: 7847495}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1468087281
 PrefabInstance:
@@ -52735,6 +52763,7 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   interactText: {fileID: 1980203787}
   successText: 
+  upgraded: 0
   HasSucceeded: 0
 --- !u!1 &1565191564
 GameObject:
@@ -55600,10 +55629,12 @@ MonoBehaviour:
     again, it\u2019s still heavy with water\u2026 and heavier than the distorted
     memories inside."
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &1697626037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58476,7 +58507,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -58497,7 +58528,6 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   keypadOB: {fileID: 1124785903}
-  rewards: []
   firstSelected: {fileID: 1610772248}
   ANI: {fileID: 0}
   keypadText: {fileID: 1980203787}
@@ -58506,7 +58536,6 @@ MonoBehaviour:
   button: {fileID: 8300000, guid: c4a258fdae8bc8f418149ed0a88518ae, type: 3}
   correct: {fileID: 8300000, guid: e7bcdec0fbe09cb45b7c780506bbb07f, type: 3}
   wrong: {fileID: 8300000, guid: 2916b42d45e4a57438817b4ffdcdf7b7, type: 3}
-  animate: 0
   Completed: 0
   rewardCheck: 0
 --- !u!82 &1843665356
@@ -63092,10 +63121,12 @@ MonoBehaviour:
     I haven\u2019t dared to look in the mirror anymore. Every time I look, I just
     panic, I feel like I\u2019m not allowed to be myself. "
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
   sanityClip: {fileID: 0}
   Taken: 0
   Movable: 0
+  Magnet: 0
 --- !u!1001 &2024283541
 PrefabInstance:
   m_ObjectHideFlags: 0
