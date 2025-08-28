@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         objectivesText.text = goals[count];
     }
 
-    IEnumerator Timer(bool started, float seconds)
+    private IEnumerator Timer(bool started, float seconds)
     {
         yield return new WaitForSeconds(seconds);
         if (started)

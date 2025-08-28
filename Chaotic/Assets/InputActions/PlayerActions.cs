@@ -319,6 +319,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""grab"",
+                    ""type"": ""Button"",
+                    ""id"": ""3bdae5d4-1452-4fe9-8150-d3b5cf1c1b6e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -387,6 +396,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""light"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""12aa6f1f-2b36-47ea-9524-d4ae26df2b39"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0088de3f-c3e2-4e00-90f0-e38d671c1cb2"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -402,6 +433,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_interaction_interact = m_interaction.FindAction("interact", throwIfNotFound: true);
         m_interaction_pause = m_interaction.FindAction("pause", throwIfNotFound: true);
         m_interaction_light = m_interaction.FindAction("light", throwIfNotFound: true);
+        m_interaction_grab = m_interaction.FindAction("grab", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -593,6 +625,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_interaction_interact;
     private readonly InputAction m_interaction_pause;
     private readonly InputAction m_interaction_light;
+    private readonly InputAction m_interaction_grab;
     /// <summary>
     /// Provides access to input actions defined in input action map "interaction".
     /// </summary>
@@ -616,6 +649,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "interaction/light".
         /// </summary>
         public InputAction @light => m_Wrapper.m_interaction_light;
+        /// <summary>
+        /// Provides access to the underlying input action "interaction/grab".
+        /// </summary>
+        public InputAction @grab => m_Wrapper.m_interaction_grab;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -651,6 +688,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @light.started += instance.OnLight;
             @light.performed += instance.OnLight;
             @light.canceled += instance.OnLight;
+            @grab.started += instance.OnGrab;
+            @grab.performed += instance.OnGrab;
+            @grab.canceled += instance.OnGrab;
         }
 
         /// <summary>
@@ -671,6 +711,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @light.started -= instance.OnLight;
             @light.performed -= instance.OnLight;
             @light.canceled -= instance.OnLight;
+            @grab.started -= instance.OnGrab;
+            @grab.performed -= instance.OnGrab;
+            @grab.canceled -= instance.OnGrab;
         }
 
         /// <summary>
@@ -754,5 +797,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "grab" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGrab(InputAction.CallbackContext context);
     }
 }

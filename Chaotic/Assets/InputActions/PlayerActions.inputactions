@@ -233,6 +233,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "grab",
+                    "type": "Button",
+                    "id": "3bdae5d4-1452-4fe9-8150-d3b5cf1c1b6e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -299,6 +308,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "light",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "12aa6f1f-2b36-47ea-9524-d4ae26df2b39",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0088de3f-c3e2-4e00-90f0-e38d671c1cb2",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "grab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -16,17 +16,31 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [SerializeField] private Texture itemTexture;
     [SerializeField] private string itemDesc;
     [SerializeField] private bool takeAble;
+    [SerializeField] private float magneticForce = 10f;
     [SerializeField] private bool sanityRegain;
     [SerializeField] private AudioClip sanityClip;
     private AudioSource source;
     private AudioClip playerClip;
     public bool Taken = false;
+    public bool Movable = false;
+    public bool Magnet = false;
     private bool regainCheck = false;
+    private Rigidbody rb;
+    private Vector3 originalPosition;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        originalPosition = transform.position;
+    }
 
     void Start()
     {
-        source = player.GetComponent<AudioSource>();
-        playerClip = source.clip;
+        if (source != null)
+        {
+            source = player.GetComponent<AudioSource>();
+            playerClip = source.clip;
+        }
     }
 
     // Update is called once per frame
@@ -46,86 +60,117 @@ public class ItemInteract : MonoBehaviour, IInteractable
         sanityBar.SetActive(true);
         description.SetActive(false);
         sanityBar.SetActive(true);
-        interactText.text = "Interact [E]";
+        interactText.text = "Interact";
         player.EnableMovement();
     }
 
     public void Interact()
     {
         // Item is takeable
-        if (takeAble)
-        {
-            Taken = true;
-            interactText.text = "You got " + gameObject.name;
-            player.AddInventory(gameObject.name);
-            StartCoroutine(HideTextAfterSeconds(2f));
-        }
-        // Not takeable, but has a description
-        else if (description != null && !description.activeSelf)
-        {
-            player.SetPause = true;
-            crosshair.SetActive(false);  // Hide the crosshair when interacting
-            objective.SetActive(false);
-            sanityBar.SetActive(false);
-            description.SetActive(true);
-            sanityBar.SetActive(false);
-            if (!regainCheck && sanityRegain)
+            if (takeAble)
             {
-                StartCoroutine(PlayVoiceLine());
+                Taken = true;
+                interactText.text = "You got " + gameObject.name;
+                player.AddInventory(gameObject.name);
+                StartCoroutine(HideTextAfterSeconds(2f));
             }
-            descriptionText.text = itemDesc;
-            interactText.text = "";
-            if (image != null && itemTexture != null)
+            // Not takeable, but has a description
+            else if (description != null && !description.activeSelf)
             {
-                image.texture = itemTexture;
-
-                // Get parent size (the container the image is in)
-                RectTransform parent = image.transform.parent.GetComponent<RectTransform>();
-                RectTransform rt = image.GetComponent<RectTransform>();
-
-                float parentWidth = parent.rect.width;
-                float parentHeight = parent.rect.height;
-
-                float textureRatio = (float)itemTexture.width / itemTexture.height;
-                float parentRatio = parentWidth / parentHeight;
-
-                Vector2 newSize;
-
-                if (textureRatio > parentRatio)
+                player.SetPause = true;
+                crosshair.SetActive(false);  // Hide the crosshair when interacting
+                objective.SetActive(false);
+                sanityBar.SetActive(false);
+                description.SetActive(true);
+                sanityBar.SetActive(false);
+                if (!regainCheck && sanityRegain)
                 {
-                    // Fit to width
-                    newSize = new Vector2(parentWidth, parentWidth / textureRatio);
+                    StartCoroutine(PlayVoiceLine());
                 }
-                else
+                descriptionText.text = itemDesc;
+                interactText.text = "";
+                if (image != null && itemTexture != null)
                 {
-                    // Fit to height
-                    newSize = new Vector2(parentHeight * textureRatio, parentHeight);
-                }
+                    image.texture = itemTexture;
 
-                rt.sizeDelta = newSize;
+                    // Get parent size (the container the image is in)
+                    RectTransform parent = image.transform.parent.GetComponent<RectTransform>();
+                    RectTransform rt = image.GetComponent<RectTransform>();
+
+                    float parentWidth = parent.rect.width;
+                    float parentHeight = parent.rect.height;
+
+                    float textureRatio = (float)itemTexture.width / itemTexture.height;
+                    float parentRatio = parentWidth / parentHeight;
+
+                    Vector2 newSize;
+
+                    if (textureRatio > parentRatio)
+                    {
+                        // Fit to width
+                        newSize = new Vector2(parentWidth, parentWidth / textureRatio);
+                    }
+                    else
+                    {
+                        // Fit to height
+                        newSize = new Vector2(parentHeight * textureRatio, parentHeight);
+                    }
+
+                    rt.sizeDelta = newSize;
+                }
+                player.DisableMovement();
             }
-            player.DisableMovement();
-        }
-        // Description is currently active, so hide it
-        else if (description != null && description.activeSelf)
-        {
-            Exit();
-        }
+            // Description is currently active, so hide it
+            else if (description != null && description.activeSelf)
+            {
+                Exit();
+            }
     }
 
     public void OnRaycastHit()
     {
-        interactText.text = "Interact [E]";
+        if (Movable && rb.linearVelocity == Vector3.zero)
+        {
+            interactText.text = "Grab";
+        }
+        else if (!Movable)
+        { 
+            interactText.text = "Interact";
+        }
     }
 
-    IEnumerator HideTextAfterSeconds(float delay)
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Reset"))
+        {
+            transform.position = originalPosition; // Reset position if it collides with a reset object
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        ItemInteract otherItem = other.GetComponent<ItemInteract>();
+        if (otherItem != null && Magnet && otherItem.Magnet)
+        {
+            Transform otherItemTF = other.GetComponent<Transform>();
+            float distance = (transform.position - otherItemTF.position).magnitude;
+            Vector3 direction = otherItemTF.position - transform.position;
+            other.GetComponent<Rigidbody>().AddForce(-direction * magneticForce / distance);
+            if (distance < 0.2f)
+            {
+                rb.AddForce(direction * magneticForce / distance);
+            }
+        }
+    }
+
+    private IEnumerator HideTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
         interactText.text = "";
         gameObject.SetActive(false);
     }
 
-    IEnumerator PlayVoiceLine()
+    private IEnumerator PlayVoiceLine()
     {
         player.RegainSanity();
         regainCheck = true;

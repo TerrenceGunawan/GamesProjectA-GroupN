@@ -17,7 +17,7 @@ public class PointLampFlicker : MonoBehaviour
         StartCoroutine(FlickerRoutine());
     }
 
-    IEnumerator FlickerRoutine()
+    private IEnumerator FlickerRoutine()
     {
         while (true)
         {

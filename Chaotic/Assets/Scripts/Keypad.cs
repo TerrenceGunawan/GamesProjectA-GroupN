@@ -23,9 +23,8 @@ public class Keypad : MonoBehaviour, IInteractable
     public AudioClip button;
     public AudioClip correct;
     public AudioClip wrong;
+    
     private AudioSource audioSource;
-
-    public bool animate;
     public bool Completed = false;
     public bool rewardCheck = false;
 
@@ -73,7 +72,7 @@ public class Keypad : MonoBehaviour, IInteractable
         {
             if (rewardCheck)
             {
-                animate = true;
+                ANI.SetBool("animate", true);
                 foreach (GameObject reward in rewards)
                 {
                     reward.SetActive(true);
@@ -109,7 +108,7 @@ public class Keypad : MonoBehaviour, IInteractable
     {
         if (!Completed)
         {
-            keypadText.text = "Interact [E]";
+            keypadText.text = "Interact";
         }
         player.SetPauseFunction();
         keypadOB.SetActive(false);
@@ -138,16 +137,12 @@ public class Keypad : MonoBehaviour, IInteractable
     {
         if (!Completed)
         {
-            keypadText.text = "Interact [E]";
+            keypadText.text = "Interact";
         }
     }
 
     public void Update()
     {
-        if (animate)
-        {
-            ANI.SetBool("animate", true);
-        }
         if (keypadOB.activeInHierarchy)
         {
             player.DisableMovement();
@@ -168,7 +163,7 @@ public class Keypad : MonoBehaviour, IInteractable
         }
     }
 
-    IEnumerator CodeDelay(bool correct, float delay)
+    private IEnumerator CodeDelay(bool correct, float delay)
     {
         yield return new WaitForSeconds(delay);
         if (correct)
