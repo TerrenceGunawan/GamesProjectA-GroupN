@@ -29161,9 +29161,6 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   keypadOB: {fileID: 2007467568}
-  rewards:
-  - {fileID: 1459980823}
-  - {fileID: 304766606}
   firstSelected: {fileID: 1711718103}
   ANI: {fileID: 164681655}
   keypadText: {fileID: 1980203787}
@@ -42387,7 +42384,7 @@ PrefabInstance:
     - target: {fileID: 6611583662771193416, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
       propertyPath: keypad
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1843665355}
     - target: {fileID: 6611583662771193416, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
       propertyPath: interactText
       value: 
@@ -49022,11 +49019,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6610282043351335890, guid: f9a3e974a1cb83b408c78028938b76bc, type: 3}
   m_PrefabInstance: {fileID: 1459563971}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1459980823 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3984225834036783252, guid: e117716ca788a1946bcded432c0e4982, type: 3}
-  m_PrefabInstance: {fileID: 7847495}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1468087281
 PrefabInstance:
@@ -56057,7 +56049,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748143888}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 939ed784a0c590345a92245f92a5907f, type: 3}
   m_Name: 
@@ -58220,7 +58212,6 @@ MonoBehaviour:
   player: {fileID: 1003410459}
   crosshair: {fileID: 512219788}
   keypadOB: {fileID: 1124785903}
-  rewards: []
   firstSelected: {fileID: 1610772248}
   ANI: {fileID: 0}
   keypadText: {fileID: 1980203787}

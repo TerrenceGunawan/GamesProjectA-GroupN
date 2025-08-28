@@ -12,7 +12,6 @@ public class Keypad : MonoBehaviour, IInteractable
     public Player player;
     public GameObject crosshair;
     public GameObject keypadOB;
-    public List<GameObject> rewards = new List<GameObject>();
     public GameObject firstSelected;
     public Animator ANI;
 
@@ -73,10 +72,6 @@ public class Keypad : MonoBehaviour, IInteractable
             if (rewardCheck)
             {
                 ANI.SetBool("animate", true);
-                foreach (GameObject reward in rewards)
-                {
-                    reward.SetActive(true);
-                }
             }
             audioSource.clip = correct;
             audioSource.Play();
