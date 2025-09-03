@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     public float timer = 0.1f;
     public List<string> Inventory = new List<string>();
     private ItemInteract[] items;
+    private Transform lastCheckpoint = null;
     private GameObject lastInteractedObject = null;
     private ItemInteract grabbedItem = null;
 
@@ -258,6 +259,10 @@ public class Player : MonoBehaviour
         {
             RegainSanity();
         }
+        if (other.gameObject.tag == "Checkpoint")
+        {
+            lastCheckpoint = other.transform;
+        }
     }
 
     void DropItem()
@@ -274,22 +279,13 @@ public class Player : MonoBehaviour
 
     void ReduceSanity()
     {
-        if (enemy.CanSeePlayer)
-        {
-            Sanity -= Time.deltaTime;
-        }
         if (IsHidden)
         {
             Sanity -= hidingSanityMulti * Time.deltaTime;
         }
         if (Sanity < 0)
         {
-            OnDisable();
-            Time.timeScale = 0f;
-            crosshair.SetActive(false);
-            gameOver.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            transform.position = lastCheckpoint.position;
         }
     }
 

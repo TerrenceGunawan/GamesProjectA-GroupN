@@ -9,7 +9,7 @@ public class Doors : MonoBehaviour, IInteractable
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private Keypad keypad;
     private ItemChecker itemChecker;
-    private GridChecker gridChecker;
+    private PatternChecker patternChecker;
     public Animator door;
     [SerializeField] private AudioSource lockedSound;
     [SerializeField] private AudioSource openSound;
@@ -18,12 +18,12 @@ public class Doors : MonoBehaviour, IInteractable
     void Start()
     {
         itemChecker = GetComponent<ItemChecker>();
-        gridChecker = GetComponent<GridChecker>();
+        patternChecker = GetComponent<PatternChecker>();
     }
 
     public void Interact()
     {
-        if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded) || (gridChecker != null && gridChecker.AllItemsChecked))
+        if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded) || (patternChecker != null && patternChecker.Completed))
         {
             if (!DoorIsOpen)
             {
@@ -34,13 +34,17 @@ public class Doors : MonoBehaviour, IInteractable
                 DoorCloses();
             }
         }
-        else if ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded) || (gridChecker != null && !gridChecker.AllItemsChecked))
+        else if ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded) || (patternChecker != null && !patternChecker.Completed))
         {
             if (keypad != null)
             {
                 interactText.text = "I need to enter a code into the keypad."; // show "locked" text
             }
-            else if (gridChecker != null)
+            else if (itemChecker != null)
+            {
+                interactText.text = "I need a specific item to open this door."; // show "locked" text
+            }
+            else if (patternChecker != null)
             {
                 interactText.text = "I need to solve a puzzle first."; // show "locked" text
             }

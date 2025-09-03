@@ -21,7 +21,7 @@ public class PatternChecker : MonoBehaviour, IInteractable
     [SerializeField] private bool closeWithEscape = true;
 
     private bool isOpen;
-    private bool Completed;
+    public bool Completed;
 
     void Awake()
     {

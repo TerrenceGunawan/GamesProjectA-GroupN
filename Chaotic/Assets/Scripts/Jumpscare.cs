@@ -7,7 +7,7 @@ public class Jumpscare : MonoBehaviour
 
     [SerializeField] private GameObject eyes;
     [SerializeField] private ItemChecker item;
-    [SerializeField] private GridChecker grid;
+    [SerializeField] private PatternChecker pattern;
     [SerializeField] private Keypad keypad;
     private AudioSource audio;
     private VideoPlayer video;
@@ -36,7 +36,7 @@ public class Jumpscare : MonoBehaviour
             played = true;
             Return();
         }
-        else if (grid != null && grid.AllItemsChecked && !played)
+        else if (pattern != null && pattern.Completed && !played)
         {
             played = true;
             Return();
@@ -79,7 +79,6 @@ public class Jumpscare : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Remove();
     }
-
 
     void Remove()
     {

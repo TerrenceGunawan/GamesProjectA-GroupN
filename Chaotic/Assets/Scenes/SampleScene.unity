@@ -730,8 +730,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430dddc7b8a1eed4d9b3da13f78964cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eyes: {fileID: 0}
   item: {fileID: 0}
-  grid: {fileID: 0}
+  pattern: {fileID: 0}
   keypad: {fileID: 0}
 --- !u!4 &22478433 stripped
 Transform:
@@ -15595,8 +15596,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430dddc7b8a1eed4d9b3da13f78964cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eyes: {fileID: 0}
   item: {fileID: 0}
-  grid: {fileID: 0}
+  pattern: {fileID: 0}
   keypad: {fileID: 0}
 --- !u!135 &470008737
 SphereCollider:
@@ -43722,7 +43724,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1720454551}
   toggleTransition: 1
-  graphic: {fileID: 1144622508}
+  graphic: {fileID: 0}
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
@@ -43775,7 +43777,7 @@ MonoBehaviour:
   correctCount: 4
   toggleImages:
   - {fileID: 1732025230}
-  - {fileID: 1144622508}
+  - {fileID: 0}
   - {fileID: 2008738761}
   - {fileID: 2026961820}
   UIText: {fileID: 1980203787}
@@ -43785,6 +43787,7 @@ MonoBehaviour:
   firstSelected: {fileID: 1610772248}
   canvas: {fileID: 1922439646}
   closeWithEscape: 1
+  Completed: 0
 --- !u!65 &1161406244
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51759,8 +51762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430dddc7b8a1eed4d9b3da13f78964cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eyes: {fileID: 0}
   item: {fileID: 0}
-  grid: {fileID: 0}
+  pattern: {fileID: 0}
   keypad: {fileID: 0}
 --- !u!43 &1426005973
 Mesh:
@@ -52720,11 +52724,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6610282043351335890, guid: f9a3e974a1cb83b408c78028938b76bc, type: 3}
   m_PrefabInstance: {fileID: 1459563971}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1459980823 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3984225834036783252, guid: e117716ca788a1946bcded432c0e4982, type: 3}
-  m_PrefabInstance: {fileID: 7847495}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1462675239
 GameObject:
@@ -60203,8 +60202,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1144622507}
+  m_Children: []
   m_Father: {fileID: 1158497127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
