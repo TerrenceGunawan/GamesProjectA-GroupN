@@ -19,6 +19,7 @@ public class HidingSpot : MonoBehaviour, IInteractable
     {
         if (player.IsHidden)
             {
+                Debug.Log("Exiting hiding spot");
                 player.ExitHiding();
                 audio.Pause();
                 interactText.text = ""; // Clear the interaction text

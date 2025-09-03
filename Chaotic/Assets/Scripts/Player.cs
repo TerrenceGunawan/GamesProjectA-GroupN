@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
@@ -18,6 +19,8 @@ public class Player : MonoBehaviour
     private InputAction pauseAction;
     private Rigidbody rb;
     private AudioSource footstepSound;
+    private AudioClip footstepClip;
+    [SerializeField] private AudioClip lostSanityClip;
 
     [SerializeField] private GameObject monster;
     [SerializeField] private Enemy enemy;
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private Image fadeImage;
     [SerializeField] private GameObject firstSelected;
     [SerializeField] private Transform holdPoint; // empty GameObject in front of camera
     [SerializeField] private float grabForce = 200f;
@@ -69,6 +73,7 @@ public class Player : MonoBehaviour
         pauseAction = actions.interaction.pause;
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
+        footstepClip = footstepSound.clip;
     }
 
     public void OnEnable()
@@ -82,7 +87,7 @@ public class Player : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+    void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
         monsterStartPosition = monster.transform.position;
@@ -285,7 +290,7 @@ public class Player : MonoBehaviour
         }
         if (Sanity < 0)
         {
-            transform.position = lastCheckpoint.position;
+            StartCoroutine(LostSanity(4f));
         }
     }
 
@@ -321,6 +326,7 @@ public class Player : MonoBehaviour
         verticalRotation = 0f;
         camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         OnDisable();
+        interactAction.Enable();
         transform.position = hidingSpot.position;
         transform.rotation = hidingSpot.rotation;
     }
@@ -391,6 +397,34 @@ public class Player : MonoBehaviour
     {
         timer = 0.1f;
         timerStart = true;
+    }
+
+    private IEnumerator Fade(float targetAlpha, float duration)
+    {
+        float startAlpha = fadeImage.color.a;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float alpha = Mathf.Lerp(startAlpha, targetAlpha, time / duration);
+            fadeImage.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+    }
+    
+    private  IEnumerator LostSanity(float duration)
+    {
+        // Fade to black
+        footstepSound.clip = lostSanityClip;
+        footstepSound.loop = false;
+        footstepSound.Play();
+        yield return Fade(1f, duration / 2f);
+        footstepSound.clip = footstepClip;
+        footstepSound.loop = true;
+        transform.position = lastCheckpoint.position;
+        // Fade back to clear
+        yield return Fade(0f, duration / 2f);
     }
 }
 
