@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
     private bool isPaused;
     private bool wasMoving;
     private float maxSanity;
-    private bool sanityReminder;
     public float Sanity = 100f;
 
     public bool SetPause;
@@ -296,18 +295,10 @@ public class Player : MonoBehaviour
             }
         if (Sanity > 50)
         {
-            sanityReminder = false;
             volumeBlur.SetActive(false);
         }
         if (Sanity < 50)
         {
-            if (!sanityReminder)
-            {
-                footstepSound.loop = false;
-                footstepSound.Stop();
-                footstepSound.PlayOneShot(lostSanityClip);
-            }
-            sanityReminder = true;
             volumeBlur.SetActive(true);
         }
         if (Sanity < 0)
