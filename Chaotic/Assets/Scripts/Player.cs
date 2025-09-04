@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
         footstepClip = footstepSound.clip;
+        if(volumeBlur != null)
         volumeBlur.SetActive(false);
     }
 
