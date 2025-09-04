@@ -46,9 +46,13 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject firstSelected;
     [SerializeField] private Transform holdPoint; // empty GameObject in front of camera
     [SerializeField] private float grabForce = 200f;
+
+    [SerializeField] private GameObject volumeBlur;
+
     private bool isPaused;
     private bool wasMoving;
     private float maxSanity;
+    private bool sanityReminder;
     public float Sanity = 100f;
 
     public bool SetPause;
@@ -74,6 +78,7 @@ public class Player : MonoBehaviour
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
         footstepClip = footstepSound.clip;
+        volumeBlur.SetActive(false);
     }
 
     public void OnEnable()
@@ -285,13 +290,29 @@ public class Player : MonoBehaviour
     void ReduceSanity()
     {
         if (IsHidden)
+            {
+                Sanity -= hidingSanityMulti * Time.deltaTime;
+            }
+        if (Sanity > 50)
         {
-            Sanity -= hidingSanityMulti * Time.deltaTime;
+            sanityReminder = false;
+            volumeBlur.SetActive(false);
+        }
+        if (Sanity < 50)
+        {
+            if (!sanityReminder)
+            {
+                footstepSound.loop = false;
+                footstepSound.Stop();
+                footstepSound.PlayOneShot(lostSanityClip);
+            }
+            sanityReminder = true;
+            volumeBlur.SetActive(true);
         }
         if (Sanity < 0)
-        {
-            StartCoroutine(LostSanity(4f));
-        }
+            {
+                StartCoroutine(LostSanity(4f));
+            }
     }
 
     public void RegainSanity()
