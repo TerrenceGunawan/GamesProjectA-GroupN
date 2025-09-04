@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private float sanityLoss = 10f;
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
     [SerializeField] private Player player;
@@ -198,7 +199,7 @@ public class Enemy : MonoBehaviour
             float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToPlayer);
 
             // Scale sanity loss
-            float sanityLossRate = 8f * proximityFactor;
+            float sanityLossRate = sanityLoss * proximityFactor;
             player.Sanity -= sanityLossRate * Time.deltaTime;
         }
     }

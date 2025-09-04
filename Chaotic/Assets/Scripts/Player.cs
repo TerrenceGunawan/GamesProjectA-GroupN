@@ -212,7 +212,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if (wasMoving && footstepSound.isPlaying)
+            if (wasMoving && footstepSound.isPlaying && footstepSound.clip == footstepClip)
             {
                 footstepSound.Stop();
                 wasMoving = false;
@@ -415,14 +415,13 @@ public class Player : MonoBehaviour
     
     private  IEnumerator LostSanity(float duration)
     {
-        // Fade to black
-        footstepSound.clip = lostSanityClip;
+        // Fade to black and play voice line
         footstepSound.loop = false;
-        footstepSound.Play();
+        footstepSound.Stop();
+        footstepSound.PlayOneShot(lostSanityClip);  
         yield return Fade(1f, duration / 2f);
-        footstepSound.clip = footstepClip;
-        footstepSound.loop = true;
         transform.position = lastCheckpoint.position;
+        footstepSound.loop = true;
         // Fade back to clear
         yield return Fade(0f, duration / 2f);
     }
