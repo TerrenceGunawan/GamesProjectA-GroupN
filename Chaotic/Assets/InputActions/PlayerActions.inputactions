@@ -233,22 +233,13 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "grab",
-                    "type": "Button",
-                    "id": "3bdae5d4-1452-4fe9-8150-d3b5cf1c1b6e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "3a2bfdcf-6416-4b88-9907-8a3747763731",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -259,7 +250,7 @@
                 {
                     "name": "",
                     "id": "b5cb4e34-a2d4-4547-9938-69289235210c",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -308,28 +299,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "light",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "12aa6f1f-2b36-47ea-9524-d4ae26df2b39",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "grab",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0088de3f-c3e2-4e00-90f0-e38d671c1cb2",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "grab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

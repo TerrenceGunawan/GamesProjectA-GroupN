@@ -10,6 +10,7 @@ public class ItemChecker : MonoBehaviour, IInteractable
     private List<string> remainingItems = new List<string>();
     [SerializeField] private Player player;
     [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI timedText;
     [SerializeField] private string successText;
     [SerializeField] private bool upgraded = false;
     public bool HasSucceeded = false;
@@ -45,12 +46,12 @@ public class ItemChecker : MonoBehaviour, IInteractable
             }
             else if (!Check() && door == null)
             {
-                interactText.text = "You don't have the right items.";
+                timedText.text = "You don't have the right items.";
                 StartCoroutine(HideTextAfterSeconds(3f));
             }
             else if (!Check() && door != null)
             {
-                interactText.text = "I still need the " + FormatItemList(remainingItems) + "."; // show "locked" text and missing items;
+                timedText.text = "I still need the " + FormatItemList(remainingItems) + "."; // show "locked" text and missing items;
                 StartCoroutine(HideTextAfterSeconds(3f));
             }
     }
@@ -74,6 +75,14 @@ public class ItemChecker : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
+        if (timedText.text != "" && timedText != null)
+        {
+            interactText.enabled = false;
+        }
+        else
+        {
+            interactText.enabled = true;
+        }
         remainingItems = new List<string>();
         foreach (string item in ItemsNeeded)
         {
@@ -128,6 +137,6 @@ public class ItemChecker : MonoBehaviour, IInteractable
     private IEnumerator HideTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
-        interactText.text = "";
+        timedText.text = "";
     }
 }

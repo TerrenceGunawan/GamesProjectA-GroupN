@@ -15,12 +15,10 @@ public class Enemy : MonoBehaviour
     private State currentState;  // Current state of the enemy
 
     [SerializeField] private NavMeshAgent navAgent;
-    [SerializeField] private float sanityLoss = 10f;
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
     [SerializeField] private Player player;
     [SerializeField] private Flashlight flashlight;
-    [SerializeField] private Renderer renderer;
 
     public Vector3 destPoint;
     private bool patrolPointSet = false;
@@ -166,11 +164,11 @@ public class Enemy : MonoBehaviour
             lostPlayer = false;
         }
 
-        if (player.IsHidden)
-        {
-            currentState = State.Patrol;
-            animator.SetBool("isChasing", false);
-        }
+        // if (player.IsHidden)
+        // {
+        //     currentState = State.Patrol;
+        //     animator.SetBool("isChasing", false);
+        // }
 
         inAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
 
@@ -188,19 +186,6 @@ public class Enemy : MonoBehaviour
             case State.Attack:
                 Attack();
                 break;
-        }
-
-        if (renderer.isVisible && !player.IsHidden)
-        {
-            float maxDistance = 15f; // beyond this, sanity loss is minimal
-            float minDistance = 1f;  // very close = max drain
-
-            // Map distance → multiplier between 0 and 1
-            float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToPlayer);
-
-            // Scale sanity loss
-            float sanityLossRate = sanityLoss * proximityFactor;
-            player.Sanity -= sanityLossRate * Time.deltaTime;
         }
     }
 
@@ -378,7 +363,6 @@ public class Enemy : MonoBehaviour
                 furthestPoint = point.position;
             }
         }
-        Debug.Log(furthestPoint);
         navAgent.Warp(furthestPoint);
     }
 }

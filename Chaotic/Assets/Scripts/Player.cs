@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using TMPro;
 
 
@@ -15,29 +17,22 @@ public class Player : MonoBehaviour
     private InputAction movementAction;
     private InputAction lookingAction;
     private InputAction interactAction;
-    private InputAction grabAction;
     private InputAction pauseAction;
     private Rigidbody rb;
     private AudioSource footstepSound;
     private AudioClip footstepClip;
     [SerializeField] private AudioClip lostSanityClip;
 
-    [SerializeField] private GameObject monster;
-    [SerializeField] private Enemy enemy;
+    [SerializeField] private Transform enemy;
+    [SerializeField] private Renderer enemyRenderer;
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float mouseLookSensitivity = 10f;
     [SerializeField] private float controllerLookSensitivity = 200f;
     [SerializeField] private float maxLookAngle = 90f;
     [SerializeField] private float raycastDistance = 3f;
-    private float verticalRotation = 0f;
-    private Vector3 beforeHidingPosition;
-    public bool IsHidden = false;
-
-    private Vector3 monsterStartPosition;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private Image sanityBar;
-    [SerializeField] private float enemySanityDamage = 30f;
-    [SerializeField] private float hidingSanityMulti = 2f;
+    [SerializeField] private float sanityLoss = 10f;
     [SerializeField] private float sanityRegained = 20f;
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
@@ -46,14 +41,18 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject firstSelected;
     [SerializeField] private Transform holdPoint; // empty GameObject in front of camera
     [SerializeField] private float grabForce = 200f;
-
-    [SerializeField] private GameObject volumeBlur;
+    [SerializeField] private Volume volumeBlur;
+    private DepthOfField dof;
+    private Vignette vignette;
+    private ChromaticAberration chroma;
+    private ColorAdjustments colorAdjustments;
 
     private bool isPaused;
     private bool wasMoving;
+    private float verticalRotation = 0f;
+    private float distanceToEnemy;
     private float maxSanity;
     public float Sanity = 100f;
-
     public bool SetPause;
     public bool timerStart;
     public float timer = 0.1f;
@@ -72,13 +71,10 @@ public class Player : MonoBehaviour
         movementAction = actions.movement.walk;
         lookingAction = actions.movement.look;
         interactAction = actions.interaction.interact;
-        grabAction = actions.interaction.grab;
         pauseAction = actions.interaction.pause;
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
         footstepClip = footstepSound.clip;
-        if(volumeBlur != null)
-        volumeBlur.SetActive(false);
     }
 
     public void OnEnable()
@@ -95,13 +91,17 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
-        monsterStartPosition = monster.transform.position;
         items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
+        volumeBlur.profile.TryGet(out dof);
+        volumeBlur.profile.TryGet(out vignette);
+        volumeBlur.profile.TryGet(out chroma);
+        volumeBlur.profile.TryGet(out colorAdjustments);
     }
 
     // Update is called once per frame
     void Update()
     {
+        distanceToEnemy = Vector3.Distance(transform.position, enemy.position);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
                 }
 
                 // If grab button is held AND nothing grabbed → pick up
-                if (movable.Movable && grabAction.IsPressed() && grabbedItem == null)
+                if (movable.Movable && interactAction.IsPressed() && grabbedItem == null)
                 {
                     interactText.enabled = false;
                     grabbedItem = movable;
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
                 }
 
                 // If grab button is released → drop
-                if (!grabAction.IsPressed() && grabbedItem != null)
+                if (!interactAction.IsPressed() && grabbedItem != null)
                 {
                     DropItem();
                 }
@@ -168,10 +168,7 @@ public class Player : MonoBehaviour
         }
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
-        float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
-        sanityBar.fillAmount = sanityPercent;
-        sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
-        ReduceSanity();
+        UpdateSanity();
         if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)
@@ -248,21 +245,6 @@ public class Player : MonoBehaviour
         camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
     }
 
-
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Enemy")
-        {
-            if (timer < 0)
-            {
-                Sanity -= enemySanityDamage;
-                timerStart = false;
-            }
-            SetPauseFunction();
-            enemy.TeleportToFurthestPatrolPoint();
-        }
-    }
-
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "SafeRoom")
@@ -287,26 +269,50 @@ public class Player : MonoBehaviour
         }
     }
 
-    void ReduceSanity()
+    void UpdateSanity()
     {
-        if (IsHidden)
-            {
-                Sanity -= hidingSanityMulti * Time.deltaTime;
-            }
-        if (Sanity > 50)
-        {
-            volumeBlur.SetActive(false);
-        }
-        if (Sanity < 50)
-        {
-            volumeBlur.SetActive(true);
-        }
-        if (Sanity < 0)
-            {
-                StartCoroutine(LostSanity(4f));
-            }
-    }
+        float sanityPercent = Mathf.Clamp01(Sanity / maxSanity);
+        sanityBar.fillAmount = sanityPercent;
+        sanityBar.color = Color.Lerp(new Color(0.5f, 0, 0.5f), Color.white, sanityPercent);
 
+        if (enemyRenderer.isVisible)
+        {
+            float maxDistance = 15f; // beyond this, sanity loss is minimal
+            float minDistance = 1f;  // very close = max drain
+
+            // Map distance → multiplier between 0 and 1
+            float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToEnemy);
+
+            // Scale sanity loss
+            float sanityLossRate = sanityLoss * proximityFactor;
+            Sanity -= sanityLossRate * Time.deltaTime;
+        }
+
+        if (Sanity < 0)
+        {
+            StartCoroutine(LostSanity(4f));
+        }
+        // Vignette intensity
+        if (vignette != null)
+            vignette.intensity.value = Mathf.Lerp(0.1f, 0.45f, 1f - sanityPercent);
+        // Chromatic Aberration intensity
+        if (chroma != null)
+            chroma.intensity.value = Mathf.Lerp(0f, 1f, 1f - sanityPercent);
+        // Color Adjustments saturation
+        if (colorAdjustments != null)
+            colorAdjustments.saturation.value = Mathf.Lerp(0f, -50f, 1f - sanityPercent);
+        if (dof != null)
+        {
+            if (Sanity > 50f)
+            {
+                dof.active = false;
+            }
+            else
+            {
+                dof.active = true;
+            }
+        }
+    }
     public void RegainSanity()
     {
         if (Sanity >= maxSanity)
@@ -329,28 +335,6 @@ public class Player : MonoBehaviour
     {
         movementAction.Disable();
         lookingAction.Disable();
-    }
-
-    public void HideAtPosition(Transform hidingSpot)
-    {
-        IsHidden = true;
-        beforeHidingPosition = transform.position;
-        rb.isKinematic = true; // Prevent physics from interfering
-        verticalRotation = 0f;
-        camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        OnDisable();
-        interactAction.Enable();
-        transform.position = hidingSpot.position;
-        transform.rotation = hidingSpot.rotation;
-    }
-
-    public void ExitHiding()
-    {
-        IsHidden = false;
-        OnEnable();
-
-        rb.isKinematic = false;
-        transform.position = beforeHidingPosition;
     }
 
     public void AddInventory(string itemName)

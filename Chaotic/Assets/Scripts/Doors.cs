@@ -7,6 +7,7 @@ using TMPro;
 public class Doors : MonoBehaviour, IInteractable
 {
     [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI timedText;
     [SerializeField] private Keypad keypad;
     private ItemChecker itemChecker;
     private PatternChecker patternChecker;
@@ -38,15 +39,15 @@ public class Doors : MonoBehaviour, IInteractable
         {
             if (keypad != null)
             {
-                interactText.text = "I need to enter a code into the keypad."; // show "locked" text
+                timedText.text = "I need to enter a code into the keypad."; // show "locked" text
             }
             else if (itemChecker != null)
             {
-                interactText.text = "I need a specific item to open this door."; // show "locked" text
+                timedText.text = "I need a specific item to open this door."; // show "locked" text
             }
             else if (patternChecker != null)
             {
-                interactText.text = "I need to solve a puzzle first."; // show "locked" text
+                timedText.text = "I need to solve a puzzle first."; // show "locked" text
             }
             StartCoroutine(HideLockedTextAfterSeconds(3f)); // hide after a short delay
             if (lockedSound != null)
@@ -63,7 +64,14 @@ public class Doors : MonoBehaviour, IInteractable
 
     void Update()
     {
-        
+        if (timedText.text != "" && timedText != null)
+        {
+            interactText.enabled = false;
+        }
+        else
+        {
+            interactText.enabled = true;
+        }
     }
 
     public void DoorOpens()
@@ -85,6 +93,6 @@ public class Doors : MonoBehaviour, IInteractable
     private IEnumerator HideLockedTextAfterSeconds(float delay)
     {
         yield return new WaitForSeconds(delay);
-        interactText.text = ""; // Clear the interaction text
+        timedText.text = ""; // Clear the interaction text
     }
 }

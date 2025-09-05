@@ -11,6 +11,7 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [SerializeField] private GameObject sanityBar;
     [SerializeField] private GameObject objective;
     [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI timedText;
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private RawImage image;
     [SerializeField] private Texture itemTexture;
@@ -20,7 +21,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [SerializeField] private bool sanityRegain;
     [SerializeField] private AudioClip sanityClip;
     private AudioSource source;
-    private AudioClip playerClip;
     public bool Taken = false;
     public bool Movable = false;
     public bool Magnet = false;
@@ -36,11 +36,8 @@ public class ItemInteract : MonoBehaviour, IInteractable
 
     void Start()
     {
-        if (source != null)
-        {
-            source = player.GetComponent<AudioSource>();
-            playerClip = source.clip;
-        }
+        if (sanityRegain)
+        source = player.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,6 +46,14 @@ public class ItemInteract : MonoBehaviour, IInteractable
         if (Input.GetKeyDown(KeyCode.Escape) && description != null && description.activeInHierarchy)
         {
             Exit();
+        }
+        if (timedText.text != "" && timedText != null)
+        {
+            interactText.enabled = false;
+        }
+        else
+        {
+            interactText.enabled = true;
         }
     }
 
@@ -70,7 +75,7 @@ public class ItemInteract : MonoBehaviour, IInteractable
             if (takeAble)
             {
                 Taken = true;
-                interactText.text = "You got " + gameObject.name;
+                timedText.text = "You got " + gameObject.name;
                 player.AddInventory(gameObject.name);
                 StartCoroutine(HideTextAfterSeconds(2f));
             }
@@ -165,21 +170,21 @@ public class ItemInteract : MonoBehaviour, IInteractable
 
     private IEnumerator HideTextAfterSeconds(float delay)
     {
+        GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(delay);
-        interactText.text = "";
-        gameObject.SetActive(false);
+        timedText.text = "";
     }
 
     private IEnumerator PlayVoiceLine()
     {
         player.RegainSanity();
         regainCheck = true;
-        source.clip = sanityClip;
-        source.volume = 0.4f;
-        source.Play();
-        yield return new WaitForSeconds(2f);
-        source.clip = playerClip;
-        source.volume = 1;
+        source.loop = false;
         source.Stop();
+        source.volume = 0.4f;
+        source.PlayOneShot(sanityClip);
+        yield return new WaitForSeconds(2f);
+        source.volume = 1;
+        source.loop = true;
     }
 }
