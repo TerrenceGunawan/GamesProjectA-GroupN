@@ -64,13 +64,13 @@ public class Doors : MonoBehaviour, IInteractable
 
     void Update()
     {
-        if (timedText.text != "" && timedText != null)
+        if (timedText != null && timedText.text != "")
         {
-            interactText.enabled = false;
+            interactText.gameObject.SetActive(false);
         }
-        else
+        else if (timedText != null && timedText.text == "")
         {
-            interactText.enabled = true;
+            interactText.gameObject.SetActive(true);
         }
     }
 

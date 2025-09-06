@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Flashlight : MonoBehaviour
 {
+    [SerializeField] private Player player;
     [SerializeField] private GameObject wholeBar;
     [SerializeField] private Image lightBar;
     [SerializeField] private float maxLight = 100f;
@@ -25,6 +26,7 @@ public class Flashlight : MonoBehaviour
         flashlightAction = actions.interaction.light;
         flashlight = GetComponent<Light>();
         On = false;
+        wholeBar.SetActive(false);
     }
 
     public void OnEnable()
@@ -37,6 +39,11 @@ public class Flashlight : MonoBehaviour
         flashlightAction.Disable();
     }
 
+    void Start()
+    {
+        OnDisable();
+    }
+
     void Update()
     {
         flashlight.enabled = On;
@@ -45,7 +52,7 @@ public class Flashlight : MonoBehaviour
             On = !On;
             button.Play();
         }
-        if(On)
+        if (On)
         {
             wholeBar.SetActive(true);
             light -= Time.deltaTime * lightUse;
@@ -59,7 +66,7 @@ public class Flashlight : MonoBehaviour
         else
         {
             light += Time.deltaTime * lightRegain;
-            if (light >= maxLight)
+            if (light >= maxLight && player.FlashlightTaken)
             {
                 OnEnable();
                 wholeBar.SetActive(false);

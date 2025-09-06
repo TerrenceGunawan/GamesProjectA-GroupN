@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
     private float distanceToEnemy;
     private float maxSanity;
     public float Sanity = 100f;
+    public bool FlashlightTaken = false; // To ensure flashlight is only enabled once
     public bool SetPause;
     public bool timerStart;
     public float timer = 0.1f;
@@ -169,14 +170,6 @@ public class Player : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
         UpdateSanity();
-        if (Inventory.Contains("Flashlight"))
-        {
-            flashlight.OnEnable();
-        }
-        else
-        {
-            flashlight.OnDisable();
-        }
         if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)
@@ -349,6 +342,11 @@ public class Player : MonoBehaviour
     public void AddInventory(string itemName)
     {
         Inventory.Add(itemName);
+        if (!FlashlightTaken && Inventory.Contains("Flashlight"))
+        {
+            flashlight.OnEnable();
+            FlashlightTaken = true; // Prevents running again
+        }
     }
 
     void PauseGame()

@@ -49,12 +49,11 @@ public class ItemInteract : MonoBehaviour, IInteractable
         }
         if (timedText != null && timedText.text != "")
         {
-            Debug.Log("Hiding interact text");
-            interactText.enabled = false;
+            interactText.gameObject.SetActive(false);
         }
-        else
+        else if (timedText != null && timedText.text == "")
         {
-            interactText.enabled = true;
+            interactText.gameObject.SetActive(true);
         }
     }
 
@@ -76,6 +75,7 @@ public class ItemInteract : MonoBehaviour, IInteractable
         if (takeAble)
         {
             Taken = true;
+            interactText.text = "";
             timedText.text = "You got " + gameObject.name;
             player.AddInventory(gameObject.name);
             StartCoroutine(HideTextAfterSeconds(2f));
@@ -139,8 +139,8 @@ public class ItemInteract : MonoBehaviour, IInteractable
         {
             interactText.text = "Grab";
         }
-        else if (!Movable)
-        { 
+        else if (!Movable && !Taken)
+        {
             interactText.text = "Interact";
         }
     }

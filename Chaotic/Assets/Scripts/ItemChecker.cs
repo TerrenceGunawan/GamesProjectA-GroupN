@@ -77,11 +77,11 @@ public class ItemChecker : MonoBehaviour, IInteractable
     {
         if (timedText != null && timedText.text != "")
         {
-            interactText.enabled = false;
+            interactText.gameObject.SetActive(false);
         }
-        else
+        else if (timedText != null && timedText.text == "")
         {
-            interactText.enabled = true;
+            interactText.gameObject.SetActive(true);
         }
         remainingItems = new List<string>();
         foreach (string item in ItemsNeeded)
