@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private AudioSource footstepSound;
     private AudioClip footstepClip;
     [SerializeField] private AudioClip lostSanityClip;
-
+    [SerializeField] private Flashlight flashlight;
     [SerializeField] private Transform enemy;
     [SerializeField] private Renderer enemyRenderer;
     [SerializeField] private float walkSpeed = 2f;
@@ -169,6 +169,14 @@ public class Player : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
         UpdateSanity();
+        if (Inventory.Contains("Flashlight"))
+        {
+            flashlight.OnEnable();
+        }
+        else
+        {
+            flashlight.OnDisable();
+        }
         if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)
@@ -284,7 +292,8 @@ public class Player : MonoBehaviour
             float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToEnemy);
 
             // Scale sanity loss
-            float sanityLossRate = sanityLoss * proximityFactor;
+            float flashlightRate = flashlight.On ? 3f : 1f;
+            float sanityLossRate = flashlightRate * sanityLoss * proximityFactor;
             Sanity -= sanityLossRate * Time.deltaTime;
         }
 

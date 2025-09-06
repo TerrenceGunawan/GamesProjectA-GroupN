@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,9 +26,7 @@ public class GameManager : MonoBehaviour
     {
         if (groundDoorKey.HasSucceeded)
         {
-            endPanel.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            SceneManager.LoadScene("GroundFloor");
         }
         // Count each checker only once
         foreach (ItemChecker checker in checkers)

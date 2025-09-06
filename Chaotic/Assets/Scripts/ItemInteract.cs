@@ -47,8 +47,9 @@ public class ItemInteract : MonoBehaviour, IInteractable
         {
             Exit();
         }
-        if (timedText.text != "" && timedText != null)
+        if (timedText != null && timedText.text != "")
         {
+            Debug.Log("Hiding interact text");
             interactText.enabled = false;
         }
         else
@@ -72,64 +73,64 @@ public class ItemInteract : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Item is takeable
-            if (takeAble)
+        if (takeAble)
+        {
+            Taken = true;
+            timedText.text = "You got " + gameObject.name;
+            player.AddInventory(gameObject.name);
+            StartCoroutine(HideTextAfterSeconds(2f));
+        }
+        // Not takeable, but has a description
+        else if (description != null && !description.activeSelf)
+        {
+            player.SetPause = true;
+            crosshair.SetActive(false);  // Hide the crosshair when interacting
+            objective.SetActive(false);
+            sanityBar.SetActive(false);
+            description.SetActive(true);
+            sanityBar.SetActive(false);
+            if (!regainCheck && sanityRegain)
             {
-                Taken = true;
-                timedText.text = "You got " + gameObject.name;
-                player.AddInventory(gameObject.name);
-                StartCoroutine(HideTextAfterSeconds(2f));
+                StartCoroutine(PlayVoiceLine());
             }
-            // Not takeable, but has a description
-            else if (description != null && !description.activeSelf)
+            descriptionText.text = itemDesc;
+            interactText.text = "";
+            if (image != null && itemTexture != null)
             {
-                player.SetPause = true;
-                crosshair.SetActive(false);  // Hide the crosshair when interacting
-                objective.SetActive(false);
-                sanityBar.SetActive(false);
-                description.SetActive(true);
-                sanityBar.SetActive(false);
-                if (!regainCheck && sanityRegain)
+                image.texture = itemTexture;
+
+                // Get parent size (the container the image is in)
+                RectTransform parent = image.transform.parent.GetComponent<RectTransform>();
+                RectTransform rt = image.GetComponent<RectTransform>();
+
+                float parentWidth = parent.rect.width;
+                float parentHeight = parent.rect.height;
+
+                float textureRatio = (float)itemTexture.width / itemTexture.height;
+                float parentRatio = parentWidth / parentHeight;
+
+                Vector2 newSize;
+
+                if (textureRatio > parentRatio)
                 {
-                    StartCoroutine(PlayVoiceLine());
+                    // Fit to width
+                    newSize = new Vector2(parentWidth, parentWidth / textureRatio);
                 }
-                descriptionText.text = itemDesc;
-                interactText.text = "";
-                if (image != null && itemTexture != null)
+                else
                 {
-                    image.texture = itemTexture;
-
-                    // Get parent size (the container the image is in)
-                    RectTransform parent = image.transform.parent.GetComponent<RectTransform>();
-                    RectTransform rt = image.GetComponent<RectTransform>();
-
-                    float parentWidth = parent.rect.width;
-                    float parentHeight = parent.rect.height;
-
-                    float textureRatio = (float)itemTexture.width / itemTexture.height;
-                    float parentRatio = parentWidth / parentHeight;
-
-                    Vector2 newSize;
-
-                    if (textureRatio > parentRatio)
-                    {
-                        // Fit to width
-                        newSize = new Vector2(parentWidth, parentWidth / textureRatio);
-                    }
-                    else
-                    {
-                        // Fit to height
-                        newSize = new Vector2(parentHeight * textureRatio, parentHeight);
-                    }
-
-                    rt.sizeDelta = newSize;
+                    // Fit to height
+                    newSize = new Vector2(parentHeight * textureRatio, parentHeight);
                 }
-                player.DisableMovement();
+
+                rt.sizeDelta = newSize;
             }
-            // Description is currently active, so hide it
-            else if (description != null && description.activeSelf)
-            {
-                Exit();
-            }
+            player.DisableMovement();
+        }
+        // Description is currently active, so hide it
+        else if (description != null && description.activeSelf)
+        {
+            Exit();
+        }
     }
 
     public void OnRaycastHit()
@@ -171,6 +172,7 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private IEnumerator HideTextAfterSeconds(float delay)
     {
         GetComponent<Renderer>().enabled = false;
+        GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(delay);
         timedText.text = "";
     }

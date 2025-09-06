@@ -75,7 +75,7 @@ public class ItemChecker : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        if (timedText.text != "" && timedText != null)
+        if (timedText != null && timedText.text != "")
         {
             interactText.enabled = false;
         }
