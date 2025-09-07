@@ -49,6 +49,10 @@ public class Doors : MonoBehaviour, IInteractable
             {
                 timedText.text = "I need to solve a puzzle first."; // show "locked" text
             }
+            else
+            {
+                timedText.text = "I can't go back there."; // show "locked" text
+            }
             StartCoroutine(HideLockedTextAfterSeconds(3f)); // hide after a short delay
             if (lockedSound != null)
             {
