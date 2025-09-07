@@ -9,6 +9,7 @@ public class ItemChecker : MonoBehaviour, IInteractable
     public List<string> ItemsNeeded = new List<string>();
     private List<string> remainingItems = new List<string>();
     [SerializeField] private Player player;
+    [SerializeField] private Animator animator;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private TextMeshProUGUI timedText;
     [SerializeField] private string successText;
@@ -34,7 +35,11 @@ public class ItemChecker : MonoBehaviour, IInteractable
                 HasSucceeded = true; // Mark as done
                 if (door == null)
                 {
-                    interactText.text = successText;
+                    timedText.text = successText;
+                    if (animator != null)
+                    {
+                        animator.SetBool("animate", true);
+                    }
                     StartCoroutine(HideTextAfterSeconds(3f));
                 }
                 else
@@ -77,6 +82,7 @@ public class ItemChecker : MonoBehaviour, IInteractable
     {
         if (timedText != null && timedText.text != "")
         {
+            interactText.text = "";
             interactText.gameObject.SetActive(false);
         }
         else if (timedText != null && timedText.text == "")

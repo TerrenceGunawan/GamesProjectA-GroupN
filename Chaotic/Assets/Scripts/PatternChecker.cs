@@ -183,7 +183,7 @@ public class PatternChecker : MonoBehaviour, IInteractable
     {
         if (!Completed)
         {
-            UIText.text = "Interact [E]";
+            UIText.text = "Interact";
         }
     }
 }

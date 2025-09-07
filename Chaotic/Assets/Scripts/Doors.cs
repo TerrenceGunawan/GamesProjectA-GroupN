@@ -66,6 +66,7 @@ public class Doors : MonoBehaviour, IInteractable
     {
         if (timedText != null && timedText.text != "")
         {
+            interactText.text = "";
             interactText.gameObject.SetActive(false);
         }
         else if (timedText != null && timedText.text == "")
@@ -76,7 +77,8 @@ public class Doors : MonoBehaviour, IInteractable
 
     public void DoorOpens()
     {
-        door.SetBool("Open", true);
+        door.ResetTrigger("Close");
+        door.SetTrigger("Open");
         DoorIsOpen = true;
         if (openSound != null) 
         {
@@ -86,7 +88,8 @@ public class Doors : MonoBehaviour, IInteractable
 
     void DoorCloses()
     {
-        door.SetBool("Open", false);
+        door.ResetTrigger("Open");
+        door.SetTrigger("Close");
         DoorIsOpen = false;
     }
 

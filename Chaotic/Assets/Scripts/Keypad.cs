@@ -14,7 +14,6 @@ public class Keypad : MonoBehaviour, IInteractable
     public GameObject keypadOB;
     public GameObject firstSelected;
     public Animator ANI;
-
     public TextMeshProUGUI keypadText;
     public TextMeshProUGUI textOB;
     public string answer = "12345";
@@ -25,7 +24,7 @@ public class Keypad : MonoBehaviour, IInteractable
     
     private AudioSource audioSource;
     public bool Completed = false;
-    public bool rewardCheck = false;
+    public List<GameObject> rewards = new List<GameObject>();
 
 
     void Start()
@@ -69,9 +68,13 @@ public class Keypad : MonoBehaviour, IInteractable
     {
         if (textOB.text == answer)
         {
-            if (rewardCheck)
+            if (ANI != null)
             {
-                ANI.SetBool("animate", true);
+                ANI.SetTrigger("Open");
+            }
+            foreach (GameObject reward in rewards)
+            {
+                reward.SetActive(true);
             }
             audioSource.clip = correct;
             audioSource.Play();

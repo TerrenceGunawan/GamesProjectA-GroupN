@@ -49,6 +49,7 @@ public class ItemInteract : MonoBehaviour, IInteractable
         }
         if (timedText != null && timedText.text != "")
         {
+            interactText.text = "";
             interactText.gameObject.SetActive(false);
         }
         else if (timedText != null && timedText.text == "")
@@ -75,7 +76,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
         if (takeAble)
         {
             Taken = true;
-            interactText.text = "";
             timedText.text = "You got " + gameObject.name;
             player.AddInventory(gameObject.name);
             StartCoroutine(HideTextAfterSeconds(2f));
