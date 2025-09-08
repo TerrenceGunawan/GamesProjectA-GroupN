@@ -34,7 +34,6 @@ public class Enemy : MonoBehaviour
         {
             index = Random.Range(0, patrolPoints.Length);
             TeleportTo(patrolPoints[index].position);
-            FacePlayerInstant();
         }
     }
 
@@ -61,22 +60,12 @@ public class Enemy : MonoBehaviour
             index = next;
 
             TeleportTo(patrolPoints[index].position);
-            FacePlayerInstant(); 
         }
     }
 
     private void TeleportTo(Vector3 pos)
     {
-        if (navAgent != null && navAgent.enabled) navAgent.Warp(pos);
-        else transform.position = pos;
-    }
-
-    private void FacePlayerInstant()
-    {
-        Vector3 dir = playerT.position - transform.position;
-        dir.y = 0f;
-        if (dir.sqrMagnitude > 0.0001f)
-            transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        transform.position = pos;
     }
 
     private void FacePlayerSmooth()
