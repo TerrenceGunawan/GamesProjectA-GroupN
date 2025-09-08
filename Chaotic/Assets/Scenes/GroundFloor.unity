@@ -5722,11 +5722,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 71914787385059811, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
   m_PrefabInstance: {fileID: 9059425583529150304}
   m_PrefabAsset: {fileID: 0}
---- !u!195 &175247203 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 6754901013312942921, guid: e100bd814d5cf5c4e9ea8e6d1cda26ef, type: 3}
-  m_PrefabInstance: {fileID: 9059425583529150304}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &175266335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34460,7 +34455,6 @@ Transform:
   - {fileID: 1789877594}
   - {fileID: 70660723}
   - {fileID: 262526050}
-  - {fileID: 1601805031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &841750009
@@ -38332,39 +38326,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7c3b83889b7df884785dc243960ac365, type: 3}
   m_PrefabInstance: {fileID: 937564860}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &940862178
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 940862179}
-  m_Layer: 0
-  m_Name: Eyes
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &940862179
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940862178}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 772412306}
-  - {fileID: 1492779471}
-  m_Father: {fileID: 1017648968}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &941358697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72216,11 +72177,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 221069092931608015, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
   m_PrefabInstance: {fileID: 3036548128009496670}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1601805031 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5472650981706228165, guid: 90cc03a59946aa142883da3525fac699, type: 3}
-  m_PrefabInstance: {fileID: 7141872319204704481}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1609866137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73539,11 +73495,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3626873605930513238, guid: d5043bca273c5df448b209a3abebd5ca, type: 3}
   m_PrefabInstance: {fileID: 1662146031}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1663561039 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8676595548690173951, guid: 9ab0ca893ddf1224ca5047538397337e, type: 3}
-  m_PrefabInstance: {fileID: 5355731051357803905}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1664112689
 PrefabInstance:
@@ -86647,7 +86598,7 @@ PrefabInstance:
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: enemy
       value: 
-      objectReference: {fileID: 5355731051357803907}
+      objectReference: {fileID: 0}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: Sanity
       value: 100
@@ -86687,7 +86638,7 @@ PrefabInstance:
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: enemySound
       value: 
-      objectReference: {fileID: 5355731051357803908}
+      objectReference: {fileID: 0}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: flashlight
       value: 
@@ -86703,7 +86654,7 @@ PrefabInstance:
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: enemyRenderer
       value: 
-      objectReference: {fileID: 5355731051357803906}
+      objectReference: {fileID: 0}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: firstSelected
       value: 
@@ -89997,4 +89948,3 @@ SceneRoots:
   - {fileID: 1068200289}
   - {fileID: 3196758494597982174}
   - {fileID: 527317986}
-  - {fileID: 5355731051357803905}
