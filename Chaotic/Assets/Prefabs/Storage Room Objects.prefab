@@ -127,14 +127,18 @@ MonoBehaviour:
   sanityBar: {fileID: 0}
   objective: {fileID: 0}
   interactText: {fileID: 0}
+  timedText: {fileID: 0}
   descriptionText: {fileID: 0}
   image: {fileID: 0}
   itemTexture: {fileID: 2800000, guid: 222578bdb5c746b40b629eccf26c27df, type: 3}
   itemDesc: Oh my god.. what happened.. Did I do that??
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
-  sanityAmount: 0
+  sanityClip: {fileID: 0}
   Taken: 0
+  Movable: 0
+  Magnet: 0
 --- !u!1 &684973804806187416
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,14 +415,18 @@ MonoBehaviour:
   sanityBar: {fileID: 0}
   objective: {fileID: 0}
   interactText: {fileID: 0}
+  timedText: {fileID: 0}
   descriptionText: {fileID: 0}
   image: {fileID: 0}
   itemTexture: {fileID: 2800000, guid: e17b9fb3c38c716459aadc5ba167fcae, type: 3}
   itemDesc: No way.. Did I actually do it?
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
-  sanityAmount: 0
+  sanityClip: {fileID: 0}
   Taken: 0
+  Movable: 0
+  Magnet: 0
 --- !u!1 &5523154094307758476
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,14 +554,18 @@ MonoBehaviour:
   sanityBar: {fileID: 0}
   objective: {fileID: 0}
   interactText: {fileID: 0}
+  timedText: {fileID: 0}
   descriptionText: {fileID: 0}
   image: {fileID: 0}
   itemTexture: {fileID: 2800000, guid: d4dfee69a72f18c44a83e6c397fc09b1, type: 3}
   itemDesc: Oh my god.. what happened.. Did I do that??
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
-  sanityAmount: 0
+  sanityClip: {fileID: 0}
   Taken: 0
+  Movable: 0
+  Magnet: 0
 --- !u!1 &5995492706714316942
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,14 +693,18 @@ MonoBehaviour:
   sanityBar: {fileID: 0}
   objective: {fileID: 0}
   interactText: {fileID: 0}
+  timedText: {fileID: 0}
   descriptionText: {fileID: 0}
   image: {fileID: 0}
   itemTexture: {fileID: 2800000, guid: ba06142f2c87e534cbe6a72f72787289, type: 3}
   itemDesc: I don't remember taking this kind of medicine.
   takeAble: 0
+  magneticForce: 10
   sanityRegain: 0
-  sanityAmount: 0
+  sanityClip: {fileID: 0}
   Taken: 0
+  Movable: 0
+  Magnet: 0
 --- !u!1 &6711822273064636404
 GameObject:
   m_ObjectHideFlags: 0
@@ -15269,7 +15285,7 @@ PrefabInstance:
       addedObject: {fileID: 7973148958364194717}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e5b3926a0f78d49488f9a61b34f73363, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7456913773953196520}
+      addedObject: {fileID: 6073020222915123342}
   m_SourcePrefab: {fileID: 100100000, guid: e5b3926a0f78d49488f9a61b34f73363, type: 3}
 --- !u!1 &3984225834036783252 stripped
 GameObject:
@@ -15294,16 +15310,20 @@ MonoBehaviour:
   sanityBar: {fileID: 0}
   objective: {fileID: 0}
   interactText: {fileID: 0}
+  timedText: {fileID: 0}
   descriptionText: {fileID: 0}
   image: {fileID: 0}
   itemTexture: {fileID: 0}
   itemDesc: Ground Floor Key
   takeAble: 1
+  magneticForce: 10
   sanityRegain: 0
-  sanityAmount: 0
+  sanityClip: {fileID: 0}
   Taken: 0
---- !u!64 &7456913773953196520
-MeshCollider:
+  Movable: 0
+  Magnet: 0
+--- !u!65 &6073020222915123342
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -15320,10 +15340,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5287425419667122880, guid: e5b3926a0f78d49488f9a61b34f73363, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.20401986, y: 0.088945635, z: 0.018419648}
+  m_Center: {x: -0.035110723, y: 0.000063757114, z: -0.008966695}
 --- !u!4 &4323738105027899950 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e5b3926a0f78d49488f9a61b34f73363, type: 3}
