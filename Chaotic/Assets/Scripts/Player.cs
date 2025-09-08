@@ -424,6 +424,7 @@ public class Player : MonoBehaviour
         footstepSound.Stop();
         footstepSound.PlayOneShot(lostSanityClip);  
         yield return Fade(1f, duration / 2f);
+        Sanity = maxSanity;
         transform.position = lastCheckpoint.position;
         footstepSound.loop = true;
         // Fade back to clear
