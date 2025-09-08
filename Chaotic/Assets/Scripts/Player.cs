@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Flashlight flashlight;
     [SerializeField] private Transform enemy;
     [SerializeField] private Renderer enemyRenderer;
+    [SerializeField] private AudioSource enemySound;
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float mouseLookSensitivity = 10f;
     [SerializeField] private float controllerLookSensitivity = 200f;
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour
     private float distanceToEnemy;
     private float maxSanity;
     public float Sanity = 100f;
+    public bool EnemyVisible;
     public bool FlashlightTaken = false; // To ensure flashlight is only enabled once
     public bool SetPause;
     public bool timerStart;
@@ -102,6 +104,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        EnemyVisible = enemyRenderer.isVisible;
         distanceToEnemy = Vector3.Distance(transform.position, enemy.position);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -170,6 +173,14 @@ public class Player : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
         UpdateSanity();
+        if (distanceToEnemy < 10f)
+        {
+            enemySound.Play();
+        }
+        else
+        {
+            enemySound.Stop();
+        }
         if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)

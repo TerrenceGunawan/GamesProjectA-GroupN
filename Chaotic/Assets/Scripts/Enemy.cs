@@ -42,7 +42,10 @@ public class Enemy : MonoBehaviour
     {
         if (playerT == null || patrolPoints == null || patrolPoints.Length == 0) return;
 
-        FacePlayerSmooth();
+        if (player.EnemyVisible)
+        {
+            FacePlayerSmooth();
+        }
 
         timer += Time.deltaTime;
         if (timer >= teleportInterval)
