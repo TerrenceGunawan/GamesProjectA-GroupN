@@ -173,11 +173,11 @@ public class Player : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
         UpdateSanity();
-        if (distanceToEnemy < 10f)
+        if (distanceToEnemy < 10f && enemySound.isPlaying == false)
         {
             enemySound.Play();
         }
-        else
+        else if (distanceToEnemy >= 10f && enemySound.isPlaying)
         {
             enemySound.Stop();
         }
