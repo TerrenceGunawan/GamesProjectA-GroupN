@@ -4,8 +4,6 @@ using System.Collections;
 
 public class Jumpscare : MonoBehaviour
 {
-
-    [SerializeField] private GameObject eyes;
     [SerializeField] private ItemChecker item;
     [SerializeField] private PatternChecker pattern;
     [SerializeField] private Keypad keypad;
@@ -84,12 +82,10 @@ public class Jumpscare : MonoBehaviour
     {
         renderer.enabled = false;
         particles.Stop();
-        eyes.SetActive(false);
     }
     void Return()
     {
         renderer.enabled = true;
         particles.Play();
-        eyes.SetActive(true);
     }
 }
