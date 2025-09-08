@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     [Header("Setup")]
     [SerializeField] private Player player;    
     [SerializeField] private Transform[] patrolPoints;
-    [SerializeField] private NavMeshAgent navAgent; 
+    [SerializeField] private Transform transform; 
 
     [Header("Behaviour")]
     [SerializeField] private float teleportInterval = 2.5f;
@@ -19,11 +19,8 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
-        if (!navAgent) navAgent = GetComponent<NavMeshAgent>();
-        if (navAgent)
-        {
-            navAgent.updateRotation = false;
-        }
+        if (!transform) transform = GetComponent<Transform>();
+    
     }
 
     void Start()
