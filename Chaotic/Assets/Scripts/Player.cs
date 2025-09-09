@@ -24,9 +24,10 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip lostSanityClip;
     [SerializeField] private Flashlight flashlight;
     [SerializeField] private Transform enemy;
+    [SerializeField] private Transform enemyRaycastPoint;
     [SerializeField] private Renderer enemyRenderer;
     [SerializeField] private AudioSource enemySound;
-    [SerializeField] private float walkSpeed = 2f;
+    [SerializeField] private float maxWalkSpeed = 5f;
     [SerializeField] private float mouseLookSensitivity = 10f;
     [SerializeField] private float controllerLookSensitivity = 200f;
     [SerializeField] private float maxLookAngle = 90f;
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Image sanityBar;
     [SerializeField] private float sanityLoss = 10f;
     [SerializeField] private float sanityRegained = 20f;
+    [SerializeField] private List<GameObject> hallucinations;
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour
     private bool wasMoving;
     private float verticalRotation = 0f;
     private float distanceToEnemy;
+    private float walkSpeed;
     private float maxSanity;
     public float Sanity = 100f;
     public bool EnemyVisible;
@@ -170,7 +173,6 @@ public class Player : MonoBehaviour
                 timerStart = false;
             }
         }
-        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
         UpdateSanity();
         if (distanceToEnemy < 10f && enemySound.isPlaying == false)
@@ -289,16 +291,22 @@ public class Player : MonoBehaviour
 
         if (enemyRenderer.isVisible)
         {
-            float maxDistance = 15f; // beyond this, sanity loss is minimal
-            float minDistance = 1f;  // very close = max drain
+            Vector3 dirToEnemy = (enemyRaycastPoint.position - camera.transform.position).normalized;
+            // Raycast from camera to enemy
+            if (Physics.Raycast(camera.transform.position, dirToEnemy, out RaycastHit hit, distanceToEnemy))
+            {
+                if (hit.collider.gameObject.tag == "Enemy")
+                {
+                    // ✅ Enemy is visible and not blocked → drain sanity
+                    float maxDistance = 15f;
+                    float minDistance = 1f;
 
-            // Map distance → multiplier between 0 and 1
-            float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToEnemy);
+                    float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToEnemy);
+                    float sanityLossRate = sanityLoss * proximityFactor;
 
-            // Scale sanity loss
-            float flashlightRate = flashlight.On ? 3f : 1f;
-            float sanityLossRate = flashlightRate * sanityLoss * proximityFactor;
-            Sanity -= sanityLossRate * Time.deltaTime;
+                    Sanity -= sanityLossRate * Time.deltaTime;
+                }
+            }
         }
 
         if (Sanity < 0)
@@ -319,10 +327,22 @@ public class Player : MonoBehaviour
             if (Sanity > 50f)
             {
                 dof.active = false;
+                walkSpeed = maxWalkSpeed;
+                foreach (GameObject hall in hallucinations)
+                {
+                    if (hall.activeSelf)
+                        hall.SetActive(false);
+                }
             }
             else
             {
                 dof.active = true;
+                walkSpeed = Mathf.Lerp(maxWalkSpeed / 2, maxWalkSpeed, sanityPercent);
+                foreach (GameObject hall in hallucinations)
+                {
+                    if (!hall.activeSelf)
+                        hall.SetActive(true);
+                }
             }
         }
     }

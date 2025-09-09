@@ -7,20 +7,20 @@ public class Enemy : MonoBehaviour
     [Header("Setup")]
     [SerializeField] private Player player;    
     [SerializeField] private Transform[] patrolPoints;
-    [SerializeField] private Transform transform; 
 
     [Header("Behaviour")]
-    [SerializeField] private float teleportInterval = 2.5f;
-    [SerializeField] private float turnSpeed = 360f;       
+    [SerializeField] private float maxTeleportInterval = 2.5f;
+    [SerializeField] private float turnSpeed = 360f;      
 
+    private Transform transform; 
     private Transform playerT;
+    private float teleportInterval;
     private int index = -1;
-    private float timer;
+    private float timer = 0f;
 
     void Awake()
     {
-        if (!transform) transform = GetComponent<Transform>();
-    
+        transform = GetComponent<Transform>();
     }
 
     void Start()
@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
             index = Random.Range(0, patrolPoints.Length);
             TeleportTo(patrolPoints[index].position);
         }
+        teleportInterval = Random.Range(0.5f, maxTeleportInterval);
     }
 
     void Update()
@@ -42,11 +43,12 @@ public class Enemy : MonoBehaviour
         {
             FacePlayerSmooth();
         }
-
+        
         timer += Time.deltaTime;
         if (timer >= teleportInterval)
         {
             timer = 0f;
+            teleportInterval = Random.Range(0.5f, maxTeleportInterval);
 
             int next = 0;
             if (patrolPoints.Length > 1)
