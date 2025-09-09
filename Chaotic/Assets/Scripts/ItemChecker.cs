@@ -90,11 +90,14 @@ public class ItemChecker : MonoBehaviour, IInteractable
             interactText.gameObject.SetActive(true);
         }
         remainingItems = new List<string>();
-        foreach (string item in ItemsNeeded)
+        if (!upgraded)
         {
-            if (!player.Inventory.Contains(item))
+            foreach (string item in ItemsNeeded)
             {
-                remainingItems.Add(item);
+                if (!player.Inventory.Contains(item))
+                {
+                    remainingItems.Add(item);
+                }
             }
         }
     }

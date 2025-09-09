@@ -8,9 +8,9 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI objectivesText;
     [SerializeField] private ItemChecker groundDoorKey;
-    [SerializeField] private GameObject endPanel;
     [SerializeField] private List<string> goals = new List<string>();
     [SerializeField] private List<ItemChecker> checkers = new List<ItemChecker>();
+    [SerializeField] private List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
     [SerializeField] private List<Keypad> keypads = new List<Keypad>();    
     [SerializeField] private List<PatternChecker> patternCheckers = new List<PatternChecker>();
     private bool done = false;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     // To track which items have already been counted
     private HashSet<ItemChecker> countedCheckers = new HashSet<ItemChecker>();
+    private HashSet<ItemCheckerChecker> countedItemCheckers = new HashSet<ItemCheckerChecker>();
     private HashSet<Keypad> countedKeypads = new HashSet<Keypad>();
     private HashSet<PatternChecker> countedPatterns = new HashSet<PatternChecker>();
 
@@ -34,6 +35,15 @@ public class GameManager : MonoBehaviour
             if (checker.HasSucceeded && !countedCheckers.Contains(checker))
             {
                 countedCheckers.Add(checker);
+                count++;
+            }
+        }
+        // Count each itemCheckerChecker only once
+        foreach (ItemCheckerChecker icc in itemCheckerCheckers)
+        {
+            if (icc.AllItemsChecked && !countedItemCheckers.Contains(icc))
+            {
+                countedItemCheckers.Add(icc);
                 count++;
             }
         }

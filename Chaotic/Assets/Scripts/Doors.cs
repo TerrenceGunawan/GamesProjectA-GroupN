@@ -11,13 +11,14 @@ public class Doors : MonoBehaviour, IInteractable
     [SerializeField] private Keypad keypad;
     private ItemChecker itemChecker;
     private PatternChecker patternChecker;
-    public Animator door;
+    private Animator door;
     [SerializeField] private AudioSource lockedSound;
     [SerializeField] private AudioSource openSound;
     public bool DoorIsOpen = false;
 
     void Start()
     {
+        door = GetComponent<Animator>();
         itemChecker = GetComponent<ItemChecker>();
         patternChecker = GetComponent<PatternChecker>();
     }

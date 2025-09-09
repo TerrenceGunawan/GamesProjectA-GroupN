@@ -4,11 +4,14 @@ using System.Collections;
 
 public class Jumpscare : MonoBehaviour
 {
+    [SerializeField] private Camera camera;
+    [SerializeField] private Transform enemyRaycastPoint;
     [SerializeField] private ItemChecker item;
     [SerializeField] private PatternChecker pattern;
     [SerializeField] private Keypad keypad;
     private AudioSource audio;
     private VideoPlayer video;
+    private Collider collider;
     private Renderer renderer;
     private ParticleSystem particles;
     private bool played = false;
@@ -20,6 +23,7 @@ public class Jumpscare : MonoBehaviour
         video = GetComponent<VideoPlayer>();
         if (audio == null && video == null)
         {
+            collider = GetComponent<Collider>();
             renderer = GetComponent<Renderer>();
             particles = GetComponent<ParticleSystem>();
             Remove();
@@ -44,14 +48,21 @@ public class Jumpscare : MonoBehaviour
             played = true;
             Return();
         }
-
-        if (renderer != null && renderer.isVisible)
+        if (video == null && audio == null && played)
         {
-            if (audio != null || video != null)
+            Vector3 dirToEnemy = (enemyRaycastPoint.position - camera.transform.position).normalized;
+            float distanceToEnemy = Vector3.Distance(camera.transform.position, enemyRaycastPoint.position);
+            // Raycast from camera to enemy
+            if (Physics.Raycast(camera.transform.position, dirToEnemy, out RaycastHit hit, distanceToEnemy))
             {
-                return; // Do nothing if no audio or video is present
+                if (hit.collider.gameObject.tag == "Enemy")
+                {
+                    if (renderer != null && renderer.isVisible)
+                    {
+                        StartCoroutine(HideScare(0.5f)); // Hide the jumpscare after 2.5 seconds
+                    }
+                }
             }
-            StartCoroutine(HideScare(0.5f)); // Hide the jumpscare after 2.5 seconds
         }
     }
 
@@ -80,11 +91,13 @@ public class Jumpscare : MonoBehaviour
 
     void Remove()
     {
+        collider.enabled = false;
         renderer.enabled = false;
         particles.Stop();
     }
     void Return()
     {
+        collider.enabled = true;
         renderer.enabled = true;
         particles.Play();
     }
