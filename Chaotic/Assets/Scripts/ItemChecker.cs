@@ -104,10 +104,6 @@ public class ItemChecker : MonoBehaviour, IInteractable
         otherObject = other.gameObject;
         if (upgraded)
         {
-            if (other != null)
-            {
-                other.transform.position = new Vector3 (transform.position.x, other.transform.position.y, transform.position.z);
-            }
             if (otherObject.name == ItemsNeeded.FirstOrDefault())
             {
                 HasSucceeded = true;

@@ -35,7 +35,7 @@ public class Doors : MonoBehaviour, IInteractable
                 DoorCloses();
             }
         }
-        else if ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded) || (patternChecker != null && !patternChecker.Completed))
+        else if ((keypad != null && !keypad.Completed) || (itemChecker != null && !itemChecker.HasSucceeded) || (patternChecker != null && !patternChecker.Completed) || (keypad == null && itemChecker == null && patternChecker == null))
         {
             if (keypad != null)
             {
@@ -51,7 +51,7 @@ public class Doors : MonoBehaviour, IInteractable
             }
             else
             {
-                timedText.text = "I can't go back there."; // show "locked" text
+                timedText.text = "I can't go there."; // show "locked" text
             }
             StartCoroutine(HideLockedTextAfterSeconds(3f)); // hide after a short delay
             if (lockedSound != null)

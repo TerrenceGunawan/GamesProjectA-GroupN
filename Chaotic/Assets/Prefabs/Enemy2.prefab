@@ -9827,5 +9827,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   patrolPoints: []
-  maxTeleportInterval: 2.5
+  maxTeleportInterval: 25
   turnSpeed: 360

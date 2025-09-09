@@ -18,10 +18,10 @@ public class Jumpscare : MonoBehaviour
     {
         audio = GetComponent<AudioSource>();
         video = GetComponent<VideoPlayer>();
-        renderer = GetComponent<Renderer>();
-        particles = GetComponent<ParticleSystem>();
         if (audio == null && video == null)
         {
+            renderer = GetComponent<Renderer>();
+            particles = GetComponent<ParticleSystem>();
             Remove();
         }
     }
@@ -44,15 +44,15 @@ public class Jumpscare : MonoBehaviour
             played = true;
             Return();
         }
-    }
 
-    void OnBecameVisible()
-    {
-        if (audio != null || video != null)
+        if (renderer != null && renderer.isVisible)
         {
-            return; // Do nothing if no audio or video is present
+            if (audio != null || video != null)
+            {
+                return; // Do nothing if no audio or video is present
+            }
+            StartCoroutine(HideScare(0.5f)); // Hide the jumpscare after 2.5 seconds
         }
-        StartCoroutine(HideScare(2.5f)); // Hide the jumpscare after 1.5 seconds
     }
 
     void OnTriggerEnter(Collider other)
