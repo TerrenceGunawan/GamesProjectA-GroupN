@@ -175,14 +175,6 @@ public class Player : MonoBehaviour
         }
         HandleMouseLook();
         UpdateSanity();
-        if (distanceToEnemy < 10f && enemySound.isPlaying == false)
-        {
-            enemySound.Play();
-        }
-        else if (distanceToEnemy >= 10f && enemySound.isPlaying)
-        {
-            enemySound.Stop();
-        }
         if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)
@@ -291,6 +283,14 @@ public class Player : MonoBehaviour
 
         if (enemyRenderer.isVisible)
         {
+            if (distanceToEnemy < 10f && !enemySound.isPlaying)
+            {
+                enemySound.Play();
+            }
+            else if (distanceToEnemy >= 10f && enemySound.isPlaying)
+            {
+                enemySound.Stop();
+            }
             Vector3 dirToEnemy = (enemyRaycastPoint.position - camera.transform.position).normalized;
             // Raycast from camera to enemy
             if (Physics.Raycast(camera.transform.position, dirToEnemy, out RaycastHit hit, distanceToEnemy))

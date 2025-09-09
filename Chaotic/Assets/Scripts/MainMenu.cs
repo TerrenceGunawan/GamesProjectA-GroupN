@@ -3,13 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] GameObject controllerScreen;
     public void StartGame()
     {
-        SceneManager.LoadScene("GroundFloor");
+        controllerScreen.SetActive(true);
     }
 
     public void QuitGame()
     {
         Application.Quit();
     }
+
+    public void ClickStart()
+    {
+        SceneManager.LoadScene("Basement");
+    }
+     
 }
