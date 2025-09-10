@@ -57,9 +57,19 @@ public class Jumpscare : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
-                    if (renderer != null && renderer.isVisible)
+                    if (renderer != null)
                     {
-                        StartCoroutine(HideScare(0.5f)); // Hide the jumpscare after 2.5 seconds
+                        // Convert enemy position to viewport space relative to player camera
+                        Vector3 viewportPoint = camera.WorldToViewportPoint(renderer.bounds.center);
+
+                        bool inView = viewportPoint.z > 0 &&       // In front of camera
+                                    viewportPoint.x > 0 && viewportPoint.x < 1 &&
+                                    viewportPoint.y > 0 && viewportPoint.y < 1;
+
+                        if (inView)
+                        {
+                            StartCoroutine(HideScare(0.5f));
+                        }
                     }
                 }
             }
