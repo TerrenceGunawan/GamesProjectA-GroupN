@@ -8,10 +8,11 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI objectivesText;
     [SerializeField] private ItemChecker groundDoorKey;
+    [SerializeField] private GameObject panel;
     [SerializeField] private List<string> goals = new List<string>();
     [SerializeField] private List<ItemChecker> checkers = new List<ItemChecker>();
     [SerializeField] private List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
-    [SerializeField] private List<Keypad> keypads = new List<Keypad>();    
+    [SerializeField] private List<Keypad> keypads = new List<Keypad>();
     [SerializeField] private List<PatternChecker> patternCheckers = new List<PatternChecker>();
     private bool done = false;
     private int count = 0;
@@ -27,7 +28,9 @@ public class GameManager : MonoBehaviour
     {
         if (groundDoorKey.HasSucceeded)
         {
-            SceneManager.LoadScene("GroundFloor");
+            //SceneManager.LoadScene("GroundFloor");
+            panel.SetActive(true);
+            EndGame();
         }
         // Count each checker only once
         foreach (ItemChecker checker in checkers)
@@ -66,5 +69,11 @@ public class GameManager : MonoBehaviour
             }
         }
         objectivesText.text = goals[count];
+    }
+    
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(3f);
+        Application.Quit();
     }
 }

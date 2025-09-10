@@ -114,6 +114,7 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastDistance))
         {
+            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow);
             if (hit.collider.GetComponentInParent<ItemInteract>() is ItemInteract movable)
             {
                 if (hit.collider.gameObject != lastInteractedObject)
@@ -175,10 +176,6 @@ public class Player : MonoBehaviour
         }
         HandleMouseLook();
         UpdateSanity();
-        if (distanceToEnemy >= 10f)
-        {
-            enemySound.Stop();
-        }
         if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)
@@ -293,7 +290,7 @@ public class Player : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
-                    if (distanceToEnemy < 10f)
+                    if (!enemySound.isPlaying && distanceToEnemy < 13f)
                     {
                         enemySound.Play();
                     }
@@ -306,7 +303,17 @@ public class Player : MonoBehaviour
 
                     Sanity -= sanityLossRate * Time.deltaTime;
                 }
+                else
+                {
+                    if (enemySound.isPlaying)
+                        enemySound.Stop();
+                }
             }
+        }
+        else
+        {
+            if (enemySound.isPlaying)
+                enemySound.Stop();
         }
 
         if (Sanity < 0)
