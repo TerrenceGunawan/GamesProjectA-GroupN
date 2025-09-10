@@ -15,6 +15,7 @@ public class PatternChecker : MonoBehaviour, IInteractable
     [SerializeField] private TextMeshProUGUI interactText;
     private int wrong;
     [SerializeField] private Player player;
+    [SerializeField] private Animator animator;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject firstSelected;
 
@@ -105,7 +106,7 @@ public class PatternChecker : MonoBehaviour, IInteractable
                 img.color = Color.green;
             }
             Completed = true;
-            StartCoroutine(CloseUI(1.5f));
+            StartCoroutine(CloseUI(0.5f));
         }
         if (correct < 0)
         {
@@ -188,10 +189,11 @@ public class PatternChecker : MonoBehaviour, IInteractable
             interactText.text = "Interact";
         }
     }
-    
+
     private IEnumerator CloseUI(float delay)
     {
         yield return new WaitForSeconds(delay);
         Close();
+        animator.SetTrigger("Open");
     }
 }
