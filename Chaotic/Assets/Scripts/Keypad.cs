@@ -38,6 +38,7 @@ public class Keypad : MonoBehaviour, IInteractable
         player.SetPause = true;
         crosshair.SetActive(false);
         keypadOB.SetActive(true);
+        textOB.text = "";
 
         EventSystem.current.SetSelectedGameObject(null);
 

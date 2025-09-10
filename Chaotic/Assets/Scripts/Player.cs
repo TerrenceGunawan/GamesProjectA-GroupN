@@ -175,6 +175,10 @@ public class Player : MonoBehaviour
         }
         HandleMouseLook();
         UpdateSanity();
+        if (distanceToEnemy >= 10f)
+        {
+            enemySound.Stop();
+        }
         if (pauseAction.triggered && !SetPause)
         {
             if (isPaused && !SetPause)
@@ -289,13 +293,9 @@ public class Player : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
-                    if (distanceToEnemy < 10f && !enemySound.isPlaying)
+                    if (distanceToEnemy < 10f)
                     {
                         enemySound.Play();
-                    }
-                    else if (distanceToEnemy >= 10f && enemySound.isPlaying)
-                    {
-                        enemySound.Stop();
                     }
                     // Enemy is visible and not blocked → drain sanity
                     float maxDistance = 15f;

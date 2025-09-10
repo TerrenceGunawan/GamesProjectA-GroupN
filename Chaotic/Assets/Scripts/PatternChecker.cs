@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using TMPro; 
+using System.Collections.Generic;
+using System.Collections;
+using TMPro;
 
 public class PatternChecker : MonoBehaviour, IInteractable
 {
@@ -10,14 +12,13 @@ public class PatternChecker : MonoBehaviour, IInteractable
     [SerializeField] private int correctCount = 4;
     [SerializeField] private Image[] toggleImages;
 
-    public TextMeshProUGUI UIText;
+    [SerializeField] private TextMeshProUGUI interactText;
     private int wrong;
     [SerializeField] private Player player;
-    [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject firstSelected;
 
-    [SerializeField] private GameObject canvas;
+    [SerializeField] private List<GameObject> canvas;
     [SerializeField] private bool closeWithEscape = true;
 
     private bool isOpen;
@@ -54,9 +55,13 @@ public class PatternChecker : MonoBehaviour, IInteractable
                 EventSystem.current.SetSelectedGameObject(firstSelected);
             }
         }
+        if (panel.activeInHierarchy)
+        {
+            interactText.text = "";
+        }
 
         if (closeWithEscape && Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-            Close();
+                Close();
     }
 
     void OnDisable()
@@ -95,10 +100,12 @@ public class PatternChecker : MonoBehaviour, IInteractable
     {
         if (correct == correctCount && wrong == 0)
         {
-            for (int i = 0; i < toggleImages.Length; i++)
+            foreach (Image img in toggleImages)
             {
-                toggleImages[i].color = new Color(0.3f, 1f, 0f);
+                img.color = Color.green;
             }
+            Completed = true;
+            StartCoroutine(CloseUI(1.5f));
         }
         if (correct < 0)
         {
@@ -119,15 +126,11 @@ public class PatternChecker : MonoBehaviour, IInteractable
             player.DisableMovement();
         }
 
-        if (canvas != null)
+        foreach (GameObject canvas in canvas)
         {
             canvas.SetActive(false);
         }
-
-
-        if (crosshair != null) crosshair.SetActive(false);
         panel.SetActive(true);
-
 
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(null);
@@ -157,13 +160,12 @@ public class PatternChecker : MonoBehaviour, IInteractable
             player.OnEnable();
         }
 
-        if (canvas != null)
+        foreach (GameObject canvas in canvas)
         {
             canvas.SetActive(true);
         }
 
         panel.SetActive(false);
-        if (crosshair != null) crosshair.SetActive(true);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -175,15 +177,21 @@ public class PatternChecker : MonoBehaviour, IInteractable
     {
         if (!isOpen)
         {
-            Open(); 
-        }    
+            Open();
+        }
     }
 
     public void OnRaycastHit()
     {
         if (!Completed)
         {
-            UIText.text = "Interact";
+            interactText.text = "Interact";
         }
+    }
+    
+    private IEnumerator CloseUI(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Close();
     }
 }

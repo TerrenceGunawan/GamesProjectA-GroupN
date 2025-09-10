@@ -10,6 +10,7 @@ public class ItemCheckerChecker : MonoBehaviour
     private Animator animator;
     private AudioSource audioSource;
     public bool AllItemsChecked = false;
+    private bool done = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,8 +32,9 @@ public class ItemCheckerChecker : MonoBehaviour
         {
             AllItemsChecked = true;
         }
-        if (AllItemsChecked)
+        if (AllItemsChecked && !done)
         {
+            done = true;
             animator.SetTrigger("Open");
             audioSource.Play();
         }
