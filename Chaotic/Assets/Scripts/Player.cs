@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject settingsMenu;
     [SerializeField] private Image fadeImage;
     [SerializeField] private GameObject firstSelected;
     [SerializeField] private Transform holdPoint; // empty GameObject in front of camera
@@ -67,6 +68,12 @@ public class Player : MonoBehaviour
     private Transform lastCheckpoint = null;
     private GameObject lastInteractedObject = null;
     private ItemInteract grabbedItem = null;
+    public Slider volumeSlider;
+    public Slider sensitivitySlider;
+    public Slider brightnessSlider;
+     public Slider contrastSlider;
+
+
 
     void Awake()
     {
@@ -81,11 +88,32 @@ public class Player : MonoBehaviour
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
         footstepClip = footstepSound.clip;
+
+        if (volumeSlider)
+        {
+            volumeSlider.onValueChanged.AddListener(SetVolume);
+        }
+        if (sensitivitySlider)
+        {
+            sensitivitySlider.onValueChanged.AddListener(SetSensitivity);
+        }
+        if (brightnessSlider)
+        {
+            brightnessSlider.onValueChanged.AddListener(SetBrightness);
+        }
+        if (contrastSlider)
+        {
+            contrastSlider.onValueChanged.AddListener(SetContrast);
+        }
     }
 
     public void OnEnable()
     {
         actions.Enable();
+        if (volumeSlider) SetVolume(volumeSlider.value);
+        if (sensitivitySlider) SetSensitivity(sensitivitySlider.value);
+        if (brightnessSlider) SetVolume(brightnessSlider.value);
+        if (contrastSlider) SetSensitivity(contrastSlider.value);
     }
 
     public void OnDisable()
@@ -391,7 +419,6 @@ public class Player : MonoBehaviour
     {
         footstepSound.Stop();
         pauseMenu.SetActive(true);
-
         EventSystem.current.SetSelectedGameObject(null);
 
         // If gamepad was used → auto-select first UI button + hide cursor
@@ -435,12 +462,49 @@ public class Player : MonoBehaviour
         Application.Quit();
     }
 
+    public void Settings()
+    {
+        SetPause = true;
+        settingsMenu.SetActive(true);
+        pauseMenu.SetActive(false);
+    }
+
+    public void Return()
+    {
+        SetPause = false;
+        settingsMenu.SetActive(false);
+        pauseMenu.SetActive(true);
+    }
+
+    public void SetVolume(float value)
+    {
+        AudioListener.volume = Mathf.Clamp01(value);
+    }
+
+    public void SetSensitivity(float value)
+    {
+        mouseLookSensitivity = value;
+        controllerLookSensitivity = value * 20f;
+    }
+
+    public void SetBrightness(float value)
+    {
+        colorAdjustments.postExposure.overrideState = true; 
+        if (colorAdjustments != null)
+        colorAdjustments.postExposure.value = Mathf.Clamp(value, -4f, 4f);
+    }
+
+    public void SetContrast(float value)
+    {
+        if (colorAdjustments != null)
+        colorAdjustments.contrast.overrideState = true; 
+        colorAdjustments.contrast.value = Mathf.Clamp(value, -100f, 100f);
+    }
     public void SetPauseFunction()
     {
         timer = 0.1f;
         timerStart = true;
     }
-
     private IEnumerator Fade(float targetAlpha, float duration)
     {
         float startAlpha = fadeImage.color.a;
