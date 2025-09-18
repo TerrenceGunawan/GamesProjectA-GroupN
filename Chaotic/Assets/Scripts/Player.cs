@@ -498,7 +498,6 @@ public class Player : MonoBehaviour
 
     public void SetBrightness(float value)
     {
-        colorAdjustments.postExposure.overrideState = true; 
         if (colorAdjustments != null)
         colorAdjustments.postExposure.value = Mathf.Clamp(value, -4f, 4f);
     }
@@ -506,7 +505,6 @@ public class Player : MonoBehaviour
     public void SetContrast(float value)
     {
         if (colorAdjustments != null)
-        colorAdjustments.contrast.overrideState = true; 
         colorAdjustments.contrast.value = Mathf.Clamp(value, -100f, 100f);
     }
     public void SetPauseFunction()
