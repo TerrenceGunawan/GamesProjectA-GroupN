@@ -110,10 +110,6 @@ public class Player : MonoBehaviour
     public void OnEnable()
     {
         actions.Enable();
-        if (volumeSlider) SetVolume(volumeSlider.value);
-        if (sensitivitySlider) SetSensitivity(sensitivitySlider.value);
-        if (brightnessSlider) SetVolume(brightnessSlider.value);
-        if (contrastSlider) SetSensitivity(contrastSlider.value);
     }
 
     public void OnDisable()
@@ -125,6 +121,19 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
+        if (sensitivitySlider)
+        {
+            if (movementAction.activeControl is Gamepad)
+                sensitivitySlider.value = controllerLookSensitivity;
+            else
+                sensitivitySlider.value = mouseLookSensitivity;
+            SetSensitivity(sensitivitySlider.value);
+        }
+
+        if (volumeSlider) SetVolume(volumeSlider.value);
+        if (brightnessSlider) SetBrightness(brightnessSlider.value);
+        if (contrastSlider) SetContrast(contrastSlider.value);
+
         items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
         volumeBlur.profile.TryGet(out dof);
         volumeBlur.profile.TryGet(out vignette);
