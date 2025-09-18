@@ -176,7 +176,7 @@ public class PatternChecker : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (!isOpen)
+        if (!isOpen && !Completed)
         {
             Open();
         }

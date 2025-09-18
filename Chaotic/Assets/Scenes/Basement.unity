@@ -35662,7 +35662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectivesText: {fileID: 1624224822}
   groundDoorKey: {fileID: 485877526}
-  panel: {fileID: 0}
+  player: {fileID: 1003410459}
   goals:
   - Exit the room
   - Find 3 keys

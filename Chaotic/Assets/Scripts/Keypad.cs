@@ -31,6 +31,13 @@ public class Keypad : MonoBehaviour, IInteractable
     {
         keypadOB.SetActive(false);
         audioSource = GetComponent<AudioSource>();
+        if (Completed)
+        {
+            if (ANI != null)
+            {
+                ANI.SetTrigger("Open");
+            }
+        }
     }
 
     void OpenKeypadUI()
