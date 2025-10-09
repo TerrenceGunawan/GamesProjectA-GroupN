@@ -10515,6 +10515,147 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1405054122909531223, guid: e615122bb5348c64cb2acfeb537bf738, type: 3}
   m_PrefabInstance: {fileID: 503351168}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &508129155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508129160}
+  - component: {fileID: 508129159}
+  - component: {fileID: 508129158}
+  - component: {fileID: 508129157}
+  - component: {fileID: 508129156}
+  m_Layer: 0
+  m_Name: Quad (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &508129156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508129155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee1a98544ac2e340a6a03ecc4c017cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1003410459}
+  crosshair: {fileID: 512219788}
+  description: {fileID: 94095381}
+  sanityBar: {fileID: 1916862088}
+  objective: {fileID: 509781745}
+  interactText: {fileID: 1980203787}
+  timedText: {fileID: 0}
+  descriptionText: {fileID: 1149395171}
+  image: {fileID: 196892052}
+  itemTexture: {fileID: 2800000, guid: 7d6c2c542c7367e4e83f3a4eff3f6c3c, type: 3}
+  itemDesc: Big man loves the soup.\nBut bread was never liked.\nSushi was her favorite
+    a special treat that night.\nCake was only for birthdays, not that night.
+  takeAble: 0
+  magneticForce: 10
+  sanityRegain: 1
+  sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
+  Taken: 0
+  Movable: 0
+  Magnet: 0
+--- !u!64 &508129157
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508129155}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &508129158
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508129155}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 45688a69624ac324b9fdda1d5c3818cd, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &508129159
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508129155}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &508129160
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508129155}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.6860829, y: -0.17114395, z: 0.1711439, w: 0.68608296}
+  m_LocalPosition: {x: 4.482, y: 1.803, z: 109.683}
+  m_LocalScale: {x: 0.305, y: 0.4301, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 28.013}
 --- !u!1 &509781745 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1854671170627166164, guid: 7821572ff63d87a44a5a1c41f3832d20, type: 3}
@@ -48236,6 +48377,148 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 28e5386a8cb06564da7c6d88ce9ff816, type: 3}
   m_PrefabInstance: {fileID: 2112545926}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1847982087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1847982092}
+  - component: {fileID: 1847982091}
+  - component: {fileID: 1847982090}
+  - component: {fileID: 1847982089}
+  - component: {fileID: 1847982088}
+  m_Layer: 0
+  m_Name: Quad (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1847982088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847982087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee1a98544ac2e340a6a03ecc4c017cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1003410459}
+  crosshair: {fileID: 512219788}
+  description: {fileID: 94095381}
+  sanityBar: {fileID: 1916862088}
+  objective: {fileID: 509781745}
+  interactText: {fileID: 1980203787}
+  timedText: {fileID: 0}
+  descriptionText: {fileID: 1149395171}
+  image: {fileID: 196892052}
+  itemTexture: {fileID: 2800000, guid: ed6a6f6c3386b2544a79ac3f603fe52f, type: 3}
+  itemDesc: Fruit and salad were ignored.\nThe good boy always finishes his steamed
+    eggs.\nMilk was spilled and never drunk.\nOne of them sat in silence with an
+    empty plate.
+  takeAble: 0
+  magneticForce: 10
+  sanityRegain: 1
+  sanityClip: {fileID: 8300000, guid: 7929f0be70642cd44ab7c20f7a0f3cce, type: 3}
+  Taken: 0
+  Movable: 0
+  Magnet: 0
+--- !u!64 &1847982089
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847982087}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1847982090
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847982087}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 53cf3751c41faaf4a8ca20d6a66c4af3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1847982091
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847982087}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1847982092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847982087}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.70189804, y: 0.08566908, z: -0.085669115, w: 0.70189804}
+  m_LocalPosition: {x: 30.41, y: 1.855, z: 109.628}
+  m_LocalScale: {x: 0.305, y: 0.4301, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -13.917}
 --- !u!1 &1851307203
 GameObject:
   m_ObjectHideFlags: 0
@@ -63786,6 +64069,8 @@ SceneRoots:
   - {fileID: 2022582621}
   - {fileID: 686859809}
   - {fileID: 482935719}
+  - {fileID: 508129160}
+  - {fileID: 1847982092}
   - {fileID: 1434793461}
   - {fileID: 1281784371}
   - {fileID: 1466940453}
