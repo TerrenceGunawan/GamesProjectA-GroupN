@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private Image fadeImage;
     [SerializeField] private GameObject firstSelected;
+    [SerializeField] private GameObject firstSelectedSettingsMenu;
     [SerializeField] private Transform holdPoint; // empty GameObject in front of camera
     [SerializeField] private float grabForce = 200f;
     [SerializeField] private Volume volumeBlur;
@@ -467,6 +468,12 @@ public class Player : MonoBehaviour
     {
         SetPause = true;
         settingsMenu.SetActive(true);
+        if (Gamepad.current != null && Gamepad.current.wasUpdatedThisFrame)
+        {
+            EventSystem.current.SetSelectedGameObject(firstSelectedSettingsMenu);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         pauseMenu.SetActive(false);
     }
 
