@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI objectivesText;
     [SerializeField] private ItemChecker groundDoorKey;
+    [SerializeField] private ItemChecker finalDoorKey;
     [SerializeField] private List<string> goals = new List<string>();
     [SerializeField] private List<ItemChecker> checkers = new List<ItemChecker>();
     [SerializeField] private List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();

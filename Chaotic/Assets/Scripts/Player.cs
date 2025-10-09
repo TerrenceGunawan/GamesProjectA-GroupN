@@ -224,6 +224,11 @@ public class Player : MonoBehaviour
                 PauseGame();
             }
         }
+        if (!FlashlightTaken && Inventory.Contains("Flashlight"))
+        {
+            flashlight.OnEnable();
+            FlashlightTaken = true; // Prevents running again
+        }
     }
 
     void FixedUpdate() // Use FixedUpdate for physics-based movement
@@ -417,11 +422,6 @@ public class Player : MonoBehaviour
     public void AddInventory(string itemName)
     {
         Inventory.Add(itemName);
-        if (!FlashlightTaken && Inventory.Contains("Flashlight"))
-        {
-            flashlight.OnEnable();
-            FlashlightTaken = true; // Prevents running again
-        }
     }
 
     void PauseGame()
