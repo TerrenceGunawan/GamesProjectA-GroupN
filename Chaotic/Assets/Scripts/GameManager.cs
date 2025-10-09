@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI objectivesText;
     [SerializeField] private ItemChecker groundDoorKey;
-    [SerializeField] private ItemChecker finalDoorKey;
+    [SerializeField] private ItemChecker finalPhoto;
     [SerializeField] private List<string> goals = new List<string>();
     [SerializeField] private List<ItemChecker> checkers = new List<ItemChecker>();
     [SerializeField] private List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
@@ -71,9 +71,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (groundDoorKey.HasSucceeded)
+        if (groundDoorKey != null && groundDoorKey.HasSucceeded)
         {
             SceneManager.LoadScene("GroundFloor");
+        }
+        if (finalPhoto != null && finalPhoto.HasSucceeded)
+        {
+            StartCoroutine(Wait(2f));
         }
         // Count each checker only once
         foreach (ItemChecker checker in checkers)
@@ -138,5 +142,11 @@ public class GameManager : MonoBehaviour
 
         File.WriteAllText(SavePath, JsonUtility.ToJson(data, true));
         Debug.Log("Saved to " + SavePath);
+    }
+
+    private IEnumerator Wait(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("Ending");
     }
 }

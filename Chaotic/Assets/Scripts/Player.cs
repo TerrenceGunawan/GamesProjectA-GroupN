@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Image sanityBar;
     [SerializeField] private float sanityLoss = 10f;
     [SerializeField] private float sanityRegained = 20f;
-    [SerializeField] private List<GameObject> hallucinations;
+    [SerializeField] private GameObject hallucinations;
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
@@ -377,21 +377,13 @@ public class Player : MonoBehaviour
             {
                 dof.active = false;
                 walkSpeed = maxWalkSpeed;
-                foreach (GameObject hall in hallucinations)
-                {
-                    if (hall.activeSelf)
-                        hall.SetActive(false);
-                }
+                hallucinations.SetActive(false);
             }
             else
             {
                 dof.active = true;
                 walkSpeed = Mathf.Lerp(maxWalkSpeed / 2, maxWalkSpeed, sanityPercent);
-                foreach (GameObject hall in hallucinations)
-                {
-                    if (!hall.activeSelf)
-                        hall.SetActive(true);
-                }
+                hallucinations.SetActive(true);
             }
         }
     }

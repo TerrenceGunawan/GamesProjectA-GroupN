@@ -31,34 +31,41 @@ public class ItemChecker : MonoBehaviour, IInteractable
             return;
         }
         if (Check() && !HasSucceeded)
-            {
-                HasSucceeded = true; // Mark as done
-                if (door == null)
+        {
+            HasSucceeded = true; // Mark as done
+            if (door == null)
+            {   
+                if (timedText != null && successText != "")
                 {
                     timedText.text = successText;
-                    if (animator != null)
-                    {
-                        animator.SetBool("animate", true);
-                    }
                     StartCoroutine(HideTextAfterSeconds(3f));
                 }
                 else
                 {
                     interactText.text = "";
-                    door.DoorOpens();
                 }
-                MusicManager.Instance.PlaySuccessMusic();
+                if (animator != null)
+                {
+                    animator.SetTrigger("animate");
+                }
             }
-            else if (!Check() && door == null)
+            else
             {
-                timedText.text = "You don't have the right items.";
-                StartCoroutine(HideTextAfterSeconds(3f));
+                interactText.text = "";
+                door.DoorOpens();
             }
-            else if (!Check() && door != null)
-            {
-                timedText.text = "I still need the " + FormatItemList(remainingItems) + "."; // show "locked" text and missing items;
-                StartCoroutine(HideTextAfterSeconds(3f));
-            }
+            MusicManager.Instance.PlaySuccessMusic();
+        }
+        else if (!Check() && door == null)
+        {
+            timedText.text = "You don't have the right items.";
+            StartCoroutine(HideTextAfterSeconds(3f));
+        }
+        else if (!Check() && door != null)
+        {
+            timedText.text = "I still need the " + FormatItemList(remainingItems) + "."; // show "locked" text and missing items;
+            StartCoroutine(HideTextAfterSeconds(3f));
+        }
     }
 
     public void OnRaycastHit()

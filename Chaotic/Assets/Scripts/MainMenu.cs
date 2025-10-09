@@ -45,7 +45,7 @@ public class MainMenu : MonoBehaviour
 
     public void ClickStart()
     {
-        SceneManager.LoadScene("GroundFloor");
+        SceneManager.LoadScene("Basement");
     }
      
 }
