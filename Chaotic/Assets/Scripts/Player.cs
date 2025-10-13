@@ -22,12 +22,15 @@ public class Player : MonoBehaviour
     private AudioSource footstepSound;
     private AudioClip footstepClip;
     [SerializeField] private AudioClip lostSanityClip;
+<<<<<<< Updated upstream
+
+=======
+    [SerializeField] private Transform cameraHolder;
     [SerializeField] private Flashlight flashlight;
+>>>>>>> Stashed changes
     [SerializeField] private Transform enemy;
-    [SerializeField] private Transform enemyRaycastPoint;
     [SerializeField] private Renderer enemyRenderer;
-    [SerializeField] private AudioSource enemySound;
-    [SerializeField] private float maxWalkSpeed = 5f;
+    [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float mouseLookSensitivity = 10f;
     [SerializeField] private float controllerLookSensitivity = 200f;
     [SerializeField] private float maxLookAngle = 90f;
@@ -36,31 +39,36 @@ public class Player : MonoBehaviour
     [SerializeField] private Image sanityBar;
     [SerializeField] private float sanityLoss = 10f;
     [SerializeField] private float sanityRegained = 20f;
+<<<<<<< Updated upstream
+=======
+    [SerializeField] private float enemyStareTimer = 5f;
     [SerializeField] private GameObject hallucinations;
+>>>>>>> Stashed changes
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject settingsMenu;
     [SerializeField] private Image fadeImage;
     [SerializeField] private GameObject firstSelected;
-    [SerializeField] private GameObject firstSelectedSettingsMenu;
     [SerializeField] private Transform holdPoint; // empty GameObject in front of camera
     [SerializeField] private float grabForce = 200f;
     [SerializeField] private Volume volumeBlur;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider sensitivitySlider;
+    [SerializeField] private Slider brightnessSlider;
+    [SerializeField] private Slider contrastSlider;
+    [SerializeField] private List<AudioClip> randomSounds = new List<AudioClip>();
     private DepthOfField dof;
     private Vignette vignette;
     private ChromaticAberration chroma;
     private ColorAdjustments colorAdjustments;
 
+    private float randomSoundTimer = 30f;
     private bool isPaused;
     private bool wasMoving;
     private float verticalRotation = 0f;
     private float distanceToEnemy;
-    private float walkSpeed;
     private float maxSanity;
     public float Sanity = 100f;
-    public bool EnemyVisible;
-    public bool FlashlightTaken = false; // To ensure flashlight is only enabled once
     public bool SetPause;
     public bool timerStart;
     public float timer = 0.1f;
@@ -69,12 +77,6 @@ public class Player : MonoBehaviour
     private Transform lastCheckpoint = null;
     private GameObject lastInteractedObject = null;
     private ItemInteract grabbedItem = null;
-    public Slider volumeSlider;
-    public Slider sensitivitySlider;
-    public Slider brightnessSlider;
-     public Slider contrastSlider;
-
-
 
     void Awake()
     {
@@ -89,23 +91,6 @@ public class Player : MonoBehaviour
         maxSanity = Sanity;
         footstepSound = GetComponent<AudioSource>();
         footstepClip = footstepSound.clip;
-
-        if (volumeSlider)
-        {
-            volumeSlider.onValueChanged.AddListener(SetVolume);
-        }
-        if (sensitivitySlider)
-        {
-            sensitivitySlider.onValueChanged.AddListener(SetSensitivity);
-        }
-        if (brightnessSlider)
-        {
-            brightnessSlider.onValueChanged.AddListener(SetBrightness);
-        }
-        if (contrastSlider)
-        {
-            contrastSlider.onValueChanged.AddListener(SetContrast);
-        }
     }
 
     public void OnEnable()
@@ -122,19 +107,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock cursor
-        if (sensitivitySlider)
-        {
-            if (movementAction.activeControl is Gamepad)
-                sensitivitySlider.value = controllerLookSensitivity;
-            else
-                sensitivitySlider.value = mouseLookSensitivity;
-            SetSensitivity(sensitivitySlider.value);
-        }
-
-        if (volumeSlider) SetVolume(volumeSlider.value);
-        if (brightnessSlider) SetBrightness(brightnessSlider.value);
-        if (contrastSlider) SetContrast(contrastSlider.value);
-
         items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
         volumeBlur.profile.TryGet(out dof);
         volumeBlur.profile.TryGet(out vignette);
@@ -145,14 +117,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        EnemyVisible = enemyRenderer.isVisible;
         distanceToEnemy = Vector3.Distance(transform.position, enemy.position);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, raycastDistance))
         {
-            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow);
             if (hit.collider.GetComponentInParent<ItemInteract>() is ItemInteract movable)
             {
                 if (hit.collider.gameObject != lastInteractedObject)
@@ -212,7 +182,11 @@ public class Player : MonoBehaviour
                 timerStart = false;
             }
         }
+<<<<<<< Updated upstream
+        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
         HandleMouseLook();
+=======
+>>>>>>> Stashed changes
         UpdateSanity();
         if (pauseAction.triggered && !SetPause)
         {
@@ -225,11 +199,24 @@ public class Player : MonoBehaviour
                 PauseGame();
             }
         }
+<<<<<<< Updated upstream
+=======
         if (!FlashlightTaken && Inventory.Contains("Flashlight"))
         {
             flashlight.OnEnable();
             FlashlightTaken = true; // Prevents running again
         }
+        if (randomSoundTimer <= 0f)
+        {
+            int index = Random.Range(0, randomSounds.Count);
+            footstepSound.PlayOneShot(randomSounds[index]);
+            randomSoundTimer = Random.Range(20f, 40f);
+        }
+        else
+        {
+            randomSoundTimer -= Time.deltaTime;
+        }
+>>>>>>> Stashed changes
     }
 
     void FixedUpdate() // Use FixedUpdate for physics-based movement
@@ -245,6 +232,11 @@ public class Player : MonoBehaviour
 
             rb.linearVelocity = moveDir * grabForce * Time.fixedDeltaTime;
         }
+    }
+
+    void LateUpdate()
+    {
+        HandleMouseLook();
     }
 
     void HandleMovement()
@@ -276,23 +268,18 @@ public class Player : MonoBehaviour
     {
         Vector2 lookInput = lookingAction.ReadValue<Vector2>();
 
-        // Detect if input is coming from a gamepad or mouse
-        float sensitivity = mouseLookSensitivity; // default
+        float sensitivity = mouseLookSensitivity;
+        if (lookingAction.activeControl != null && lookingAction.activeControl.device is Gamepad)
+            sensitivity = controllerLookSensitivity;
 
-        if (lookingAction != null && lookingAction.activeControl != null)
-        {
-            if (lookingAction.activeControl.device is Gamepad)
-                sensitivity = controllerLookSensitivity;
-            else
-                sensitivity = mouseLookSensitivity;
-        }
-
-        // Always allow horizontal look
+        // Horizontal rotation (yaw) — rotate the player body
         transform.Rotate(Vector3.up * lookInput.x * sensitivity * Time.deltaTime);
 
+        // Vertical rotation (pitch) — rotate the camera holder
         verticalRotation -= lookInput.y * sensitivity * Time.deltaTime;
         verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
-        camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+
+        cameraHolder.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
     }
 
     void OnTriggerStay(Collider other)
@@ -327,36 +314,57 @@ public class Player : MonoBehaviour
 
         if (enemyRenderer.isVisible)
         {
+<<<<<<< Updated upstream
+            float maxDistance = 15f; // beyond this, sanity loss is minimal
+            float minDistance = 1f;  // very close = max drain
+=======
             Vector3 dirToEnemy = (enemyRaycastPoint.position - camera.transform.position).normalized;
             // Raycast from camera to enemy
             if (Physics.Raycast(camera.transform.position, dirToEnemy, out RaycastHit hit, distanceToEnemy))
             {
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
+                    enemyStareTimer -= Time.deltaTime;
+                    if (enemyStareTimer < 0f)
+                    {
+                        Sanity -= sanityLoss;
+                        enemy.GetComponent<Enemy>().Teleport();
+                        enemyStareTimer = 5f;
+
+                    }
                     if (!enemySound.isPlaying && distanceToEnemy < 13f)
                     {
                         enemySound.Play();
                     }
-                    // Enemy is visible and not blocked → drain sanity
-                    float maxDistance = 15f;
+                    else
+                    {
+                        enemySound.Stop();
+                    }
+                        // Enemy is visible and not blocked → drain sanity
+                        float maxDistance = 15f;
                     float minDistance = 1f;
+>>>>>>> Stashed changes
 
-                    float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToEnemy);
-                    float sanityLossRate = sanityLoss * proximityFactor;
+            // Map distance → multiplier between 0 and 1
+            float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToEnemy);
 
+<<<<<<< Updated upstream
+            // Scale sanity loss
+            float sanityLossRate = sanityLoss * proximityFactor;
+            Sanity -= sanityLossRate * Time.deltaTime;
+=======
                     Sanity -= sanityLossRate * Time.deltaTime;
                 }
-                else
+                else if (enemySound.isPlaying && hit.collider.gameObject.tag != "Enemy")
                 {
-                    if (enemySound.isPlaying)
-                        enemySound.Stop();
+                    enemySound.Stop();
                 }
             }
         }
-        else
+        else if (enemySound.isPlaying && !enemyRenderer.isVisible)
         {
-            if (enemySound.isPlaying)
-                enemySound.Stop();
+            enemySound.Stop();
+>>>>>>> Stashed changes
         }
 
         if (Sanity < 0)
@@ -377,14 +385,10 @@ public class Player : MonoBehaviour
             if (Sanity > 50f)
             {
                 dof.active = false;
-                walkSpeed = maxWalkSpeed;
-                hallucinations.SetActive(false);
             }
             else
             {
                 dof.active = true;
-                walkSpeed = Mathf.Lerp(maxWalkSpeed / 2, maxWalkSpeed, sanityPercent);
-                hallucinations.SetActive(true);
             }
         }
     }
@@ -421,6 +425,7 @@ public class Player : MonoBehaviour
     {
         footstepSound.Stop();
         pauseMenu.SetActive(true);
+
         EventSystem.current.SetSelectedGameObject(null);
 
         // If gamepad was used → auto-select first UI button + hide cursor
@@ -464,53 +469,12 @@ public class Player : MonoBehaviour
         Application.Quit();
     }
 
-    public void Settings()
-    {
-        SetPause = true;
-        settingsMenu.SetActive(true);
-        if (Gamepad.current != null && Gamepad.current.wasUpdatedThisFrame)
-        {
-            EventSystem.current.SetSelectedGameObject(firstSelectedSettingsMenu);
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        pauseMenu.SetActive(false);
-    }
-
-    public void Return()
-    {
-        SetPause = false;
-        settingsMenu.SetActive(false);
-        pauseMenu.SetActive(true);
-    }
-
-    public void SetVolume(float value)
-    {
-        AudioListener.volume = Mathf.Clamp01(value);
-    }
-
-    public void SetSensitivity(float value)
-    {
-        mouseLookSensitivity = value;
-        controllerLookSensitivity = value * 20f;
-    }
-
-    public void SetBrightness(float value)
-    {
-        if (colorAdjustments != null)
-        colorAdjustments.postExposure.value = Mathf.Clamp(value, -4f, 4f);
-    }
-
-    public void SetContrast(float value)
-    {
-        if (colorAdjustments != null)
-        colorAdjustments.contrast.value = Mathf.Clamp(value, -100f, 100f);
-    }
     public void SetPauseFunction()
     {
         timer = 0.1f;
         timerStart = true;
     }
+
     private IEnumerator Fade(float targetAlpha, float duration)
     {
         float startAlpha = fadeImage.color.a;
@@ -532,7 +496,6 @@ public class Player : MonoBehaviour
         footstepSound.Stop();
         footstepSound.PlayOneShot(lostSanityClip);  
         yield return Fade(1f, duration / 2f);
-        Sanity = maxSanity;
         transform.position = lastCheckpoint.position;
         footstepSound.loop = true;
         // Fade back to clear

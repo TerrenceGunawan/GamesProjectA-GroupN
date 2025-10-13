@@ -16,8 +16,6 @@ public class Phone : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip phoneRing;
     [SerializeField] private Keypad keypad;
     [SerializeField] private ItemChecker itemChecker;
-    [SerializeField] private ItemCheckerChecker itemCheckerChecker;
-    [SerializeField] private PatternChecker patternChecker;
 
     private AudioSource audioSource;
     private bool pickedUp = false;
@@ -32,7 +30,7 @@ public class Phone : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (!pickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded) || (itemCheckerChecker != null && !itemCheckerChecker.AllItemsChecked) || (patternChecker != null && !patternChecker.Completed))
+        if (!pickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded))
         {
             pickedUp = true;
             audioSource.clip = talking[0];
@@ -41,7 +39,7 @@ public class Phone : MonoBehaviour, IInteractable
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        else if (!pickedUp && !pickedUpTwice && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded) || (itemCheckerChecker != null && itemCheckerChecker.AllItemsChecked) || (patternChecker != null && patternChecker.Completed))
+        else if (!pickedUp && !pickedUpTwice && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded))
         {
             pickedUpTwice = true;
             pickedUp = true;
@@ -52,15 +50,20 @@ public class Phone : MonoBehaviour, IInteractable
             GetComponent<Collider>().enabled = false;
             StartCoroutine(ChangeSubtitles());
         }
-        if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded) || (itemCheckerChecker != null && itemCheckerChecker.AllItemsChecked) || (patternChecker != null && patternChecker.Completed))
+<<<<<<< Updated upstream
+        if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded))
         {
             pickedUp = false;
+
         }
+=======
+>>>>>>> Stashed changes
     }
 
     public void OnRaycastHit()
     {
-        interactText.text = "Interact";
+        if (!pickedUp && !pickedUpTwice)
+            interactText.text = "Interact";
     }
 
     // Update is called once per frame
@@ -73,7 +76,12 @@ public class Phone : MonoBehaviour, IInteractable
             {
                 audioSource.clip = phoneRing;
                 audioSource.Play();
+                
             }
+        }
+        if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded) || (itemCheckerChecker != null && itemCheckerChecker.AllItemsChecked) || (patternChecker != null && patternChecker.Completed))
+        {
+            pickedUp = false;
         }
     }
 
@@ -97,5 +105,6 @@ public class Phone : MonoBehaviour, IInteractable
             }
             subtitles.text = "";
         }
+        
     }
 }

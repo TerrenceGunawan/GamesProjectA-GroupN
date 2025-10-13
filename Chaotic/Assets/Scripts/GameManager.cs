@@ -1,83 +1,34 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject saveIcon;
     [SerializeField] private TextMeshProUGUI objectivesText;
     [SerializeField] private ItemChecker groundDoorKey;
-    [SerializeField] private ItemChecker finalPhoto;
+    [SerializeField] private GameObject endPanel;
     [SerializeField] private List<string> goals = new List<string>();
     [SerializeField] private List<ItemChecker> checkers = new List<ItemChecker>();
-    [SerializeField] private List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
-    [SerializeField] private List<Keypad> keypads = new List<Keypad>();
+    [SerializeField] private List<Keypad> keypads = new List<Keypad>();    
     [SerializeField] private List<PatternChecker> patternCheckers = new List<PatternChecker>();
     private bool done = false;
     private int count = 0;
-    private static string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
 
     // To track which items have already been counted
-    public HashSet<ItemChecker> countedCheckers = new HashSet<ItemChecker>();
-    public HashSet<ItemCheckerChecker> countedItemCheckers = new HashSet<ItemCheckerChecker>();
-    public HashSet<Keypad> countedKeypads = new HashSet<Keypad>();
-    public HashSet<PatternChecker> countedPatterns = new HashSet<PatternChecker>();
-
-    void Start()
-    {
-        if (GlobalSave.LoadedData != null)
-        {
-            // Load from global save if available
-            PlayerSaveData data = GlobalSave.LoadedData;
-            GlobalSave.LoadedData = null; // Clear after loading
-
-            // Load the correct scene asynchronously
-            SceneManager.LoadSceneAsync(data.sceneName).completed += op =>
-            {
-                Player player = FindFirstObjectByType<Player>();
-                player.Sanity = data.sanity;
-                player.Inventory = new List<string>(data.inventory);
-                player.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                player.transform.rotation = Quaternion.Euler(data.rotation[0], data.rotation[1], data.rotation[2]);
-
-                // Restore global/scene states
-                countedItemCheckers = data.completedItemCheckers;
-                countedKeypads = data.completedKeypads;
-                countedPatterns = data.completedPatternCheckers;
-                countedCheckers = data.completedCheckers;
-
-                for (int i = 0; i < countedItemCheckers.Count; i++)
-                {
-                    itemCheckerCheckers[i].AllItemsChecked = true;
-                }
-                for (int i = 0; i < countedKeypads.Count; i++)
-                {
-                    keypads[i].Completed = true;
-                }
-                for (int i = 0; i < countedPatterns.Count; i++)
-                {
-                    patternCheckers[i].Completed = true;
-                }
-                for (int i = 0; i < countedCheckers.Count; i++)
-                {
-                    checkers[i].HasSucceeded = true;
-                }
-            };
-        }
-    }
+    private HashSet<ItemChecker> countedCheckers = new HashSet<ItemChecker>();
+    private HashSet<Keypad> countedKeypads = new HashSet<Keypad>();
+    private HashSet<PatternChecker> countedPatterns = new HashSet<PatternChecker>();
 
     // Update is called once per frame
     void Update()
     {
-        if (groundDoorKey != null && groundDoorKey.HasSucceeded)
+        if (groundDoorKey.HasSucceeded)
         {
-            SceneManager.LoadScene("GroundFloor");
-        }
-        if (finalPhoto != null && finalPhoto.HasSucceeded)
-        {
-            StartCoroutine(Wait(2f));
+            endPanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         // Count each checker only once
         foreach (ItemChecker checker in checkers)
@@ -85,6 +36,10 @@ public class GameManager : MonoBehaviour
             if (checker.HasSucceeded && !countedCheckers.Contains(checker))
             {
                 countedCheckers.Add(checker);
+<<<<<<< Updated upstream
+                count++;
+=======
+                StartCoroutine(SaveIcon());
             }
         }
         // Count each itemCheckerChecker only once
@@ -93,6 +48,8 @@ public class GameManager : MonoBehaviour
             if (icc.AllItemsChecked && !countedItemCheckers.Contains(icc))
             {
                 countedItemCheckers.Add(icc);
+                StartCoroutine(SaveIcon());
+>>>>>>> Stashed changes
             }
         }
         // Count each keypad only once
@@ -101,6 +58,11 @@ public class GameManager : MonoBehaviour
             if (kp.Completed && !countedKeypads.Contains(kp))
             {
                 countedKeypads.Add(kp);
+<<<<<<< Updated upstream
+                count++;
+=======
+                StartCoroutine(SaveIcon());
+>>>>>>> Stashed changes
             }
         }
         // Count each pattern checker only once
@@ -109,11 +71,17 @@ public class GameManager : MonoBehaviour
             if (pc.Completed && !countedPatterns.Contains(pc))
             {
                 countedPatterns.Add(pc);
+<<<<<<< Updated upstream
+                count++;
+=======
+                StartCoroutine(SaveIcon());
+>>>>>>> Stashed changes
             }
         }
-        count = countedCheckers.Count + countedItemCheckers.Count + countedKeypads.Count + countedPatterns.Count;
         objectivesText.text = goals[count];
     }
+<<<<<<< Updated upstream
+=======
 
     public static void SaveGame()
     {
@@ -149,4 +117,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("Ending");
     }
+
+    private IEnumerator SaveIcon()
+    {
+        SaveGame();
+        saveIcon.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        saveIcon.SetActive(false);
+    }
+>>>>>>> Stashed changes
 }

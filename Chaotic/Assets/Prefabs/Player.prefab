@@ -135,6 +135,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552ac92a20eef3f43ac97a557f71935a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  wholeBar: {fileID: 0}
+  lightBar: {fileID: 0}
+  maxLight: 100
+  lightUse: 15
+  lightRegain: 7.5
   button: {fileID: 8544491299649733921}
   On: 0
 --- !u!82 &8544491299649733921
@@ -353,8 +359,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8720912813032627383}
   - {fileID: 8579092128070272984}
+  - {fileID: 5191336692454838843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3164948895774940372
@@ -369,27 +375,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cdbec5bd978fe469490dae3a19113d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 0}
+  lostSanityClip: {fileID: 0}
+  cameraHolder: {fileID: 0}
+  flashlight: {fileID: 0}
   enemy: {fileID: 0}
-  walkSpeed: 5
+  enemyRaycastPoint: {fileID: 0}
+  enemyRenderer: {fileID: 0}
+  enemySound: {fileID: 0}
+  maxWalkSpeed: 5
   mouseLookSensitivity: 10
   controllerLookSensitivity: 200
   maxLookAngle: 90
   raycastDistance: 1.5
-  IsHidden: 0
   interactText: {fileID: 0}
   sanityBar: {fileID: 0}
-  enemySanityDamage: 30
-  hidingSanityMulti: 2
+  sanityLoss: 10
   sanityRegained: 20
+  enemyStareTimer: 5
+  hallucinations: {fileID: 0}
   gameOver: {fileID: 0}
   crosshair: {fileID: 0}
   pauseMenu: {fileID: 0}
+  settingsMenu: {fileID: 0}
+  fadeImage: {fileID: 0}
   firstSelected: {fileID: 0}
+  firstSelectedSettingsMenu: {fileID: 0}
   holdPoint: {fileID: 0}
   grabForce: 200
-  maxGrabDistance: 3
+  volumeBlur: {fileID: 0}
+  volumeSlider: {fileID: 0}
+  sensitivitySlider: {fileID: 0}
+  brightnessSlider: {fileID: 0}
+  contrastSlider: {fileID: 0}
+  randomSounds: []
   Sanity: 100
+  EnemyVisible: 0
+  FlashlightTaken: 0
   SetPause: 0
   timerStart: 0
   timer: 0.1
@@ -572,6 +593,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8720912813032627383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5322744527255743089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5191336692454838843}
+  m_Layer: 7
+  m_Name: Camera Holder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5191336692454838843
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5322744527255743089}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8720912813032627383}
+  m_Father: {fileID: 3966372436805886919}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7249891207241951211
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,13 +653,13 @@ Transform:
   m_GameObject: {fileID: 7249891207241951211}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4712473000854597743}
   - {fileID: 6322061087244938523}
-  m_Father: {fileID: 3966372436805886919}
+  m_Father: {fileID: 5191336692454838843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &226715744163366516
 Camera:
