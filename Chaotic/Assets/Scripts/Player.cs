@@ -479,7 +479,7 @@ public class Player : MonoBehaviour
     public void Quit()
     {
         Time.timeScale = 1f;
-        Application.Quit();
+        SceneManager.LoadScene("Menu");
     }
 
     public void Settings()

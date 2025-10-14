@@ -35,11 +35,32 @@ public class MainMenu : MonoBehaviour
             player.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
             player.transform.rotation = Quaternion.Euler(data.rotation[0], data.rotation[1], data.rotation[2]);
 
-            // Restore global/scene states
-            gm.countedItemCheckers = data.completedItemCheckers;
-            gm.countedKeypads = data.completedKeypads;
-            gm.countedPatterns = data.completedPatternCheckers;
-            gm.countedCheckers = data.completedCheckers;
+            foreach (string itemName in player.Inventory)
+            {
+                foreach (GameObject item in gm.PlayerInventory)
+                {
+                    if (item.name == itemName)
+                    {
+                        Destroy(item);
+                        break;
+                    }
+                }
+            }
+            foreach (var checker in gm.checkers)
+                if (data.completedPuzzles.Contains(checker.name))
+                    checker.HasSucceeded = true;
+
+            foreach (var icc in gm.itemCheckerCheckers)
+                if (data.completedPuzzles.Contains(icc.name))
+                    icc.AllItemsChecked = true;
+
+            foreach (var kp in gm.keypads)
+                if (data.completedPuzzles.Contains(kp.name))
+                    kp.Completed = true;
+
+            foreach (var pc in gm.patternCheckers)
+                if (data.completedPuzzles.Contains(pc.name))
+                    pc.Completed = true;
         };
     }
 

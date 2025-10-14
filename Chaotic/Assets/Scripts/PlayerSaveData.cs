@@ -10,8 +10,5 @@ public class PlayerSaveData
     public float[] position;        // store as array for JSON
     public float[] rotation;
     public List<string> inventory;
-    public HashSet<ItemChecker> completedCheckers;
-    public HashSet<ItemCheckerChecker> completedItemCheckers;
-    public HashSet<Keypad> completedKeypads;
-    public HashSet<PatternChecker> completedPatternCheckers;
+    public List<string> completedPuzzles;
 }

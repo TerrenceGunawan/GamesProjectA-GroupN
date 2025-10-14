@@ -12,61 +12,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemChecker groundDoorKey;
     [SerializeField] private ItemChecker finalPhoto;
     [SerializeField] private List<string> goals = new List<string>();
-    [SerializeField] private List<ItemChecker> checkers = new List<ItemChecker>();
-    [SerializeField] private List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
-    [SerializeField] private List<Keypad> keypads = new List<Keypad>();
-    [SerializeField] private List<PatternChecker> patternCheckers = new List<PatternChecker>();
+    public List<ItemChecker> checkers = new List<ItemChecker>();
+    public List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
+    public List<Keypad> keypads = new List<Keypad>();
+    public List<PatternChecker> patternCheckers = new List<PatternChecker>();
     private bool done = false;
-    private int count = 0;
     private static string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
 
     // To track which items have already been counted
-    public HashSet<ItemChecker> countedCheckers = new HashSet<ItemChecker>();
-    public HashSet<ItemCheckerChecker> countedItemCheckers = new HashSet<ItemCheckerChecker>();
-    public HashSet<Keypad> countedKeypads = new HashSet<Keypad>();
-    public HashSet<PatternChecker> countedPatterns = new HashSet<PatternChecker>();
+    private List<string> countedPuzzles = new List<string>();
+    public List<GameObject> PlayerInventory = new List<GameObject>();
 
     void Start()
     {
-        if (GlobalSave.LoadedData != null)
-        {
-            // Load from global save if available
-            PlayerSaveData data = GlobalSave.LoadedData;
-            GlobalSave.LoadedData = null; // Clear after loading
-
-            // Load the correct scene asynchronously
-            SceneManager.LoadSceneAsync(data.sceneName).completed += op =>
-            {
-                Player player = FindFirstObjectByType<Player>();
-                player.Sanity = data.sanity;
-                player.Inventory = new List<string>(data.inventory);
-                player.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                player.transform.rotation = Quaternion.Euler(data.rotation[0], data.rotation[1], data.rotation[2]);
-
-                // Restore global/scene states
-                countedItemCheckers = data.completedItemCheckers;
-                countedKeypads = data.completedKeypads;
-                countedPatterns = data.completedPatternCheckers;
-                countedCheckers = data.completedCheckers;
-
-                for (int i = 0; i < countedItemCheckers.Count; i++)
-                {
-                    itemCheckerCheckers[i].AllItemsChecked = true;
-                }
-                for (int i = 0; i < countedKeypads.Count; i++)
-                {
-                    keypads[i].Completed = true;
-                }
-                for (int i = 0; i < countedPatterns.Count; i++)
-                {
-                    patternCheckers[i].Completed = true;
-                }
-                for (int i = 0; i < countedCheckers.Count; i++)
-                {
-                    checkers[i].HasSucceeded = true;
-                }
-            };
-        }
+        
     }
 
     // Update is called once per frame
@@ -83,47 +42,47 @@ public class GameManager : MonoBehaviour
         // Count each checker only once
         foreach (ItemChecker checker in checkers)
         {
-            if (checker.HasSucceeded && !countedCheckers.Contains(checker))
+            if (checker.HasSucceeded && !countedPuzzles.Contains(checker.name))
             {
-                countedCheckers.Add(checker);
+                countedPuzzles.Add(checker.name);
                 StartCoroutine(SaveIcon());
             }
         }
         // Count each itemCheckerChecker only once
         foreach (ItemCheckerChecker icc in itemCheckerCheckers)
         {
-            if (icc.AllItemsChecked && !countedItemCheckers.Contains(icc))
+            if (icc.AllItemsChecked && !countedPuzzles.Contains(icc.name))
             {
-                countedItemCheckers.Add(icc);
+                countedPuzzles.Add(icc.name);
                 StartCoroutine(SaveIcon());
             }
         }
         // Count each keypad only once
         foreach (Keypad kp in keypads)
         {
-            if (kp.Completed && !countedKeypads.Contains(kp))
+            if (kp.Completed && !countedPuzzles.Contains(kp.name))
             {
-                countedKeypads.Add(kp);
+                countedPuzzles.Add(kp.name);
                 StartCoroutine(SaveIcon());
             }
         }
         // Count each pattern checker only once
         foreach (PatternChecker pc in patternCheckers)
         {
-            if (pc.Completed && !countedPatterns.Contains(pc))
+            if (pc.Completed && !countedPuzzles.Contains(pc.name))
             {
-                countedPatterns.Add(pc);
+                countedPuzzles.Add(pc.name);
                 StartCoroutine(SaveIcon());
             }
         }
-        count = countedCheckers.Count + countedItemCheckers.Count + countedKeypads.Count + countedPatterns.Count;
-        objectivesText.text = goals[count];
+        objectivesText.text = goals[countedPuzzles.Count];
     }
 
     public static void SaveGame()
     {
         GameManager gm = FindFirstObjectByType<GameManager>();
         Player player = FindFirstObjectByType<Player>();
+
         PlayerSaveData data = new PlayerSaveData
         {
             sceneName = SceneManager.GetActiveScene().name,
@@ -139,10 +98,9 @@ public class GameManager : MonoBehaviour
                 player.transform.rotation.eulerAngles.z
             },
             inventory = new List<string>(player.Inventory),
-            completedItemCheckers = gm.countedItemCheckers,
-            completedKeypads = gm.countedKeypads,
-            completedPatternCheckers = gm.countedPatterns,
-            completedCheckers = gm.countedCheckers,
+
+            // Convert objects to names
+            completedPuzzles = gm.countedPuzzles,
         };
 
         File.WriteAllText(SavePath, JsonUtility.ToJson(data, true));
