@@ -624,6 +624,7 @@ MonoBehaviour:
   item: {fileID: 0}
   pattern: {fileID: 0}
   keypad: {fileID: 0}
+  Played: 0
 --- !u!4 &22478433 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4125337903200450, guid: 1c7ffde140ac5f044b0cfbaabcb777a5, type: 3}
@@ -4807,6 +4808,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5100357765400932816, guid: 74fb3dce2b870c948930abb22fb85ad4, type: 3}
   m_PrefabInstance: {fileID: 147401504}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &149348310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4208396866216209772, guid: 35d17f732a60df542af8e92b08145071, type: 3}
+  m_PrefabInstance: {fileID: 427232003}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430dddc7b8a1eed4d9b3da13f78964cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &150854258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15150,6 +15162,7 @@ MonoBehaviour:
   item: {fileID: 0}
   pattern: {fileID: 0}
   keypad: {fileID: 0}
+  Played: 0
 --- !u!135 &470008737
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15550,7 +15563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8546659908553225158, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
       propertyPath: m_Name
-      value: Door
+      value: Ground Floor Door
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15591,6 +15604,17 @@ MonoBehaviour:
   successText: 
   upgraded: 0
   HasSucceeded: 0
+--- !u!114 &485877530 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6611583662771193416, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+  m_PrefabInstance: {fileID: 485877523}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485877525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783800ff614b7104ea5b8c253c6b1593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &491620633 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 221069092931608015, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
@@ -28956,6 +28980,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1946091169642554267, guid: 1dbec83474b76a441813311a42c258a8, type: 3}
   m_PrefabInstance: {fileID: 852110859}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &857605751 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6611583662771193416, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+  m_PrefabInstance: {fileID: 1204303789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783800ff614b7104ea5b8c253c6b1593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &858459671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38329,10 +38364,19 @@ MonoBehaviour:
   - {fileID: 1843665355}
   - {fileID: 924927722}
   patternCheckers: []
-  countedCheckers: []
-  countedItemCheckers: []
-  countedKeypads: []
-  countedPatterns: []
+  jumpscares:
+  - {fileID: 470008736}
+  - {fileID: 149348310}
+  - {fileID: 1425029970}
+  - {fileID: 21905357}
+  doors:
+  - {fileID: 1090641913}
+  - {fileID: 485877530}
+  - {fileID: 857605751}
+  - {fileID: 1561234639}
+  phones:
+  - {fileID: 1559079498}
+  - {fileID: 1547245235}
   PlayerInventory:
   - {fileID: 307108608}
   - {fileID: 7847496}
@@ -39006,6 +39050,17 @@ MonoBehaviour:
   successText: 
   upgraded: 0
   HasSucceeded: 0
+--- !u!114 &1090641913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6611583662771193416, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+  m_PrefabInstance: {fileID: 3036548128009496670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090641896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783800ff614b7104ea5b8c253c6b1593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1091341599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43579,7 +43634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8546659908553225158, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
       propertyPath: m_Name
-      value: Door
+      value: Safe Room 1 Door
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -49695,6 +49750,7 @@ MonoBehaviour:
   item: {fileID: 0}
   pattern: {fileID: 0}
   keypad: {fileID: 0}
+  Played: 0
 --- !u!43 &1426005973
 Mesh:
   m_ObjectHideFlags: 0
@@ -52890,7 +52946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
       propertyPath: m_Name
-      value: Phone
+      value: Phone 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -52977,6 +53033,8 @@ MonoBehaviour:
   itemChecker: {fileID: 1561234636}
   itemCheckerChecker: {fileID: 0}
   patternChecker: {fileID: 0}
+  PickedUp: 0
+  PickedUpTwice: 0
 --- !u!64 &1547245236
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -53391,7 +53449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
       propertyPath: m_Name
-      value: Phone
+      value: Phone 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
       propertyPath: m_IsActive
@@ -53585,6 +53643,8 @@ MonoBehaviour:
   itemChecker: {fileID: 0}
   itemCheckerChecker: {fileID: 0}
   patternChecker: {fileID: 0}
+  PickedUp: 0
+  PickedUpTwice: 0
 --- !u!64 &1559079499
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -54448,6 +54508,17 @@ MonoBehaviour:
   successText: 
   upgraded: 0
   HasSucceeded: 0
+--- !u!114 &1561234639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6611583662771193416, guid: 1e11076a61a7b174781ba37b8bf6ba8b, type: 3}
+  m_PrefabInstance: {fileID: 874636205}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561234629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783800ff614b7104ea5b8c253c6b1593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1567613158
 PrefabInstance:
   m_ObjectHideFlags: 0

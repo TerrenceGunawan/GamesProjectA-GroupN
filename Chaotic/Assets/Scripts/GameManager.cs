@@ -16,13 +16,18 @@ public class GameManager : MonoBehaviour
     public List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
     public List<Keypad> keypads = new List<Keypad>();
     public List<PatternChecker> patternCheckers = new List<PatternChecker>();
+    public List<Jumpscare> jumpscares = new List<Jumpscare>();
+    public List<Doors> doors = new List<Doors>();
+    public List<Phone> phones = new List<Phone>();
+    public List<GameObject> PlayerInventory = new List<GameObject>();
     private bool done = false;
     private static string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
 
     // To track which items have already been counted
     private List<string> countedPuzzles = new List<string>();
-    public List<GameObject> PlayerInventory = new List<GameObject>();
-
+    private List<string> countedObjects = new List<string>();
+    private List<string> countedPhoneTwice = new List<string>();
+    
     void Start()
     {
         
@@ -75,6 +80,32 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(SaveIcon());
             }
         }
+        // Count each object only once
+        foreach (Jumpscare js in jumpscares)
+        {
+            if (js.Played && !countedObjects.Contains(js.name))
+            {
+                countedObjects.Add(js.name);
+            }
+        }
+        foreach (Doors door in doors)
+        {
+            if (door.DoorIsOpen && !countedObjects.Contains(door.name))
+            {
+                countedObjects.Add(door.name);
+            }
+        }
+        foreach (Phone phone in phones)
+        {
+            if (phone.PickedUp && !countedObjects.Contains(phone.name))
+            {
+                countedObjects.Add(phone.name);
+            }
+            if (phone.PickedUpTwice && !countedPhoneTwice.Contains(phone.name))
+            {
+                countedPhoneTwice.Add(phone.name);
+            }
+        }
         objectivesText.text = goals[countedPuzzles.Count];
     }
 
@@ -101,7 +132,26 @@ public class GameManager : MonoBehaviour
 
             // Convert objects to names
             completedPuzzles = gm.countedPuzzles,
+            completedObjects = gm.countedObjects,
+            completedPhoneTwice = gm.countedPhoneTwice
         };
+
+        ItemInteract[] allItems = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
+        foreach (ItemInteract item in allItems)
+        {
+            Debug.Log("Saving position for " + item.name);
+            ItemTransformData itemData = new ItemTransformData
+            {
+                itemName = item.name,
+                position = new float[] {
+                    item.transform.position.x,
+                    item.transform.position.y,
+                    item.transform.position.z
+                }
+            };
+
+            data.itemTransforms.Add(itemData);
+        }
 
         File.WriteAllText(SavePath, JsonUtility.ToJson(data, true));
         Debug.Log("Saved to " + SavePath);

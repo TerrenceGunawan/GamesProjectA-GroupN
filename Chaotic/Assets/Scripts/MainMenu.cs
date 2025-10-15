@@ -35,6 +35,19 @@ public class MainMenu : MonoBehaviour
             player.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
             player.transform.rotation = Quaternion.Euler(data.rotation[0], data.rotation[1], data.rotation[2]);
 
+            ItemInteract[] allItems = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
+            foreach (ItemTransformData itemData in data.itemTransforms)
+            {
+                foreach (ItemInteract item in allItems)
+                {
+                    if (item.name == itemData.itemName)
+                    {
+                        item.transform.position = new Vector3(itemData.position[0], itemData.position[1], itemData.position[2]);
+                        break;
+                    }
+                }
+            }
+
             foreach (string itemName in player.Inventory)
             {
                 foreach (GameObject item in gm.PlayerInventory)
@@ -47,7 +60,7 @@ public class MainMenu : MonoBehaviour
                 }
             }
             foreach (var checker in gm.checkers)
-                if (data.completedPuzzles.Contains(checker.name))
+                if (data.completedPuzzles.Contains(checker.name) && !data.completedObjects.Contains(checker.name))
                     checker.HasSucceeded = true;
 
             foreach (var icc in gm.itemCheckerCheckers)
@@ -61,6 +74,18 @@ public class MainMenu : MonoBehaviour
             foreach (var pc in gm.patternCheckers)
                 if (data.completedPuzzles.Contains(pc.name))
                     pc.Completed = true;
+
+            foreach (var js in gm.jumpscares)
+                if (data.completedObjects.Contains(js.name))
+                    js.Played = true;
+
+            foreach (var phone in gm.phones)
+            {
+                if (data.completedObjects.Contains(phone.name))
+                    phone.PickedUp = true;
+                if (data.completedPhoneTwice.Contains(phone.name))
+                    phone.PickedUpTwice = true;
+            }
         };
     }
 

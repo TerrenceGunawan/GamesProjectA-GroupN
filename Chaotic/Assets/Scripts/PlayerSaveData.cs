@@ -11,4 +11,7 @@ public class PlayerSaveData
     public float[] rotation;
     public List<string> inventory;
     public List<string> completedPuzzles;
+    public List<string> completedObjects;
+    public List<string> completedPhoneTwice;
+    public List<ItemTransformData> itemTransforms = new List<ItemTransformData>();
 }

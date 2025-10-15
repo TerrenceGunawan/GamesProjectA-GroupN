@@ -14,7 +14,7 @@ public class Jumpscare : MonoBehaviour
     private Collider collider;
     private Renderer renderer;
     private ParticleSystem particles;
-    private bool played = false;
+    public bool Played = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,22 +33,22 @@ public class Jumpscare : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (item != null && item.HasSucceeded && !played)
+        if (item != null && item.HasSucceeded && !Played)
         {
-            played = true;
+            Played = true;
             Return();
         }
-        else if (pattern != null && pattern.Completed && !played)
+        else if (pattern != null && pattern.Completed && !Played)
         {
-            played = true;
+            Played = true;
             Return();
         }
-        else if (keypad != null && keypad.Completed && !played)
+        else if (keypad != null && keypad.Completed && !Played)
         {
-            played = true;
+            Played = true;
             Return();
         }
-        if (video == null && audio == null && played)
+        if (video == null && audio == null && Played)
         {
             Vector3 dirToEnemy = (enemyRaycastPoint.position - camera.transform.position).normalized;
             float distanceToEnemy = Vector3.Distance(camera.transform.position, enemyRaycastPoint.position);
@@ -78,17 +78,17 @@ public class Jumpscare : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Player>() && !played)
+        if (other.gameObject.GetComponent<Player>() && !Played)
         {
             if (audio != null)
             {
                 audio.Play();
-                played = true;
+                Played = true;
             }
             else if (video != null)
             {
                 video.Play();
-                played = true;
+                Played = true;
             }
         }
     }

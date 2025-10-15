@@ -20,8 +20,8 @@ public class Phone : MonoBehaviour, IInteractable
     [SerializeField] private PatternChecker patternChecker;
 
     private AudioSource audioSource;
-    private bool pickedUp = false;
-    private bool pickedUpTwice = false;
+    public bool PickedUp = false;
+    public bool PickedUpTwice = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,19 +32,19 @@ public class Phone : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (!pickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded) || (itemCheckerChecker != null && !itemCheckerChecker.AllItemsChecked) || (patternChecker != null && !patternChecker.Completed))
+        if (!PickedUp && ((keypad != null && !keypad.Completed) || itemChecker != null && !itemChecker.HasSucceeded) || (itemCheckerChecker != null && !itemCheckerChecker.AllItemsChecked) || (patternChecker != null && !patternChecker.Completed))
         {
-            pickedUp = true;
+            PickedUp = true;
             audioSource.clip = talking[0];
             audioSource.loop = false;
             audioSource.Play();
             interactText.text = "";
             StartCoroutine(ChangeSubtitles());
         }
-        else if (!pickedUp && !pickedUpTwice && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded) || (itemCheckerChecker != null && itemCheckerChecker.AllItemsChecked) || (patternChecker != null && patternChecker.Completed))
+        else if (!PickedUp && !PickedUpTwice && ((keypad != null && keypad.Completed) || itemChecker != null && itemChecker.HasSucceeded) || (itemCheckerChecker != null && itemCheckerChecker.AllItemsChecked) || (patternChecker != null && patternChecker.Completed))
         {
-            pickedUpTwice = true;
-            pickedUp = true;
+            PickedUpTwice = true;
+            PickedUp = true;
             audioSource.clip = talking[1];
             audioSource.loop = false;
             audioSource.Play();
@@ -56,7 +56,7 @@ public class Phone : MonoBehaviour, IInteractable
 
     public void OnRaycastHit()
     {
-        if (!pickedUp && !pickedUpTwice)
+        if (!PickedUp && !PickedUpTwice)
             interactText.text = "Interact";
     }
 
@@ -64,7 +64,7 @@ public class Phone : MonoBehaviour, IInteractable
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= ringDistance && !pickedUp && !pickedUpTwice)
+        if (distanceToPlayer <= ringDistance && !PickedUp && !PickedUpTwice)
         {
             if (!audioSource.isPlaying)
             {
@@ -75,7 +75,7 @@ public class Phone : MonoBehaviour, IInteractable
         }
         if ((keypad != null && keypad.Completed) || (itemChecker != null && itemChecker.HasSucceeded) || (itemCheckerChecker != null && itemCheckerChecker.AllItemsChecked) || (patternChecker != null && patternChecker.Completed))
         {
-            pickedUp = false;
+            PickedUp = false;
         }
     }
 
