@@ -344,21 +344,27 @@ public class Player : MonoBehaviour
                     enemyStareTimer -= Time.deltaTime;
                     if (enemyStareTimer < 0f)
                     {
+                        if (enemySound.isPlaying)
+                        {
+                            enemySound.Stop();
+                        }
                         Sanity -= sanityLoss;
                         enemy.GetComponent<Enemy>().Teleport();
                         enemyStareTimer = 5f;
-
+                        float jumpscareChance = Random.Range(0f, 1f);
+                        if (jumpscareChance < 0.25f)
+                            StartCoroutine(enemy.GetComponent<Enemy>().Jumpscare());
                     }
                     if (!enemySound.isPlaying && distanceToEnemy < 13f)
                     {
                         enemySound.Play();
                     }
-                    else
+                    else if (distanceToEnemy >= 13f && enemySound.isPlaying)
                     {
                         enemySound.Stop();
                     }
-                        // Enemy is visible and not blocked → drain sanity
-                        float maxDistance = 15f;
+                    // Enemy is visible and not blocked → drain sanity
+                    float maxDistance = 15f;
                     float minDistance = 1f;
 
                     float proximityFactor = Mathf.InverseLerp(maxDistance, minDistance, distanceToEnemy);
@@ -372,9 +378,13 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        else if (enemySound.isPlaying && !enemyRenderer.isVisible)
+        else
         {
-            enemySound.Stop();
+            if (enemySound.isPlaying)
+            {
+                enemySound.Stop();
+            }
+            enemyStareTimer = 5f;
         }
 
         if (Sanity < 0)

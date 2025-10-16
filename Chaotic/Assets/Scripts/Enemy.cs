@@ -5,9 +5,11 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [Header("Setup")]
-    [SerializeField] private Player player;    
+    [SerializeField] private Player player;
     [SerializeField] private Transform[] patrolPoints;
-
+    [SerializeField] private GameObject jumpscareEffect;
+    [SerializeField] private AudioSource jumpscareAudio;
+    [SerializeField] private AudioClip jumpscareSound;
 
     [Header("Behaviour")]
     [SerializeField] private float maxTeleportInterval = 2.5f;
@@ -37,7 +39,10 @@ public class Enemy : MonoBehaviour
     {
         if (player.EnemyVisible)
         {
-            FacePlayerSmooth();
+            float chance;
+            chance = Random.Range(0f, 1f);
+            if (chance < 0.5f)
+                FacePlayerSmooth();
         }
         
         timer += Time.deltaTime;
@@ -71,6 +76,17 @@ public class Enemy : MonoBehaviour
         {
             var target = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, target, turnSpeed * Time.deltaTime);
+        }
+    }
+
+    public IEnumerator Jumpscare()
+    {
+        if (jumpscareEffect)
+        {
+            jumpscareEffect.SetActive(true);
+            if (jumpscareAudio) jumpscareAudio.PlayOneShot(jumpscareSound);
+            yield return new WaitForSeconds(1.5f);
+            jumpscareEffect.SetActive(false);
         }
     }
 }
