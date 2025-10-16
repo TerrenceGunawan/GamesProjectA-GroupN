@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
         if (phoneFinal != null && phoneFinal.PickedUpTwice)
         {
             StartCoroutine(Wait(53f));
+            Player player = FindFirstObjectByType<Player>();
+            player.OnDisable();
         }
         // Count each checker only once
         foreach (ItemChecker checker in checkers)
