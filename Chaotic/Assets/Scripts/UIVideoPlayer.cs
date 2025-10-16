@@ -7,6 +7,7 @@ public class UIVideoPlayer : MonoBehaviour
 {
     private RawImage rawImage;     // Assign the RawImage in Inspector
     private VideoPlayer videoPlayer; // Assign your VideoPlayer
+    private bool done;
 
     void Start()
     {
@@ -24,13 +25,15 @@ public class UIVideoPlayer : MonoBehaviour
 
         // Play the video
         videoPlayer.isLooping = false;
+        videoPlayer.loopPointReached += OnVideoEnd; 
     }
 
     void Update()
     {
-        if (gameObject.activeInHierarchy && !videoPlayer.isPlaying)
+        if (gameObject.activeInHierarchy && !videoPlayer.isPlaying && !done)
         {
             videoPlayer.Play();
+            done = true;
         }
     }
 
