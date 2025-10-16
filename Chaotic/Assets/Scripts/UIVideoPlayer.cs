@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class UIVideoPlayer : MonoBehaviour
 {
@@ -31,5 +32,10 @@ public class UIVideoPlayer : MonoBehaviour
         {
             videoPlayer.Play();
         }
+    }
+
+    private void OnVideoEnd(VideoPlayer vp)
+    {
+        SceneManager.LoadScene("Menu");
     }
 }
