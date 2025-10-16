@@ -2185,6 +2185,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1408953078322925660, guid: 9a5bbe2d36bc7c64a9a9efdcac16ca01, type: 3}
   m_PrefabInstance: {fileID: 138998202}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &152885261 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5191336692454838843, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
+  m_PrefabInstance: {fileID: 3510216306340411955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &169615312
 GameObject:
   m_ObjectHideFlags: 0
@@ -24380,10 +24385,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9845250ce7fa117429db5fe8fe742797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIcon: {fileID: 0}
+  saveIcon: {fileID: 968544930}
   objectivesText: {fileID: 1624224822}
   groundDoorKey: {fileID: 0}
-  finalPhoto: {fileID: 1270526318}
+  phoneFinal: {fileID: 1498355988}
+  finale: {fileID: 2099709758}
   goals:
   - Search the living room
   - Set up the table
@@ -33483,6 +33489,7 @@ Transform:
   - {fileID: 1357585015}
   - {fileID: 2043425741}
   - {fileID: 990414887}
+  - {fileID: 1498355984}
   - {fileID: 4367196574145779137}
   - {fileID: 7062261910563953250}
   - {fileID: 7070083901086833822}
@@ -51900,6 +51907,301 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdcd2234d2cb27c46bff0eafbdf10a3d, type: 3}
+--- !u!1001 &1498355983
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1209466182}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -27.021267
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.0151484
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.185547
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.015137132
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.016570833
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.67427653
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7381379
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -95.78
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -206.463
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 26.347
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      propertyPath: m_Name
+      value: Phone (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1498355988}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1498355987}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1498355986}
+  m_SourcePrefab: {fileID: 100100000, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+--- !u!4 &1498355984 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+  m_PrefabInstance: {fileID: 1498355983}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1498355985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+  m_PrefabInstance: {fileID: 1498355983}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1498355986
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498355985}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6073593852238139381, guid: 05c02afe651ecfb41a68948bd1ad299f, type: 3}
+--- !u!82 &1498355987
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498355985}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1498355988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498355985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cb770de82c2a1446bda4c83a0c32310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1003410458}
+  ringDistance: 12
+  dialogue:
+  - 
+  - "Lucian: The spoon\u2026 why did it open the door?"
+  - 'Lucian:  How could it be like that?'
+  - "Noctis: Don\u2019t you see, Lucian? Not all things are the same."
+  - "Noctis: Plastic, wood\u2026 are just empty shells. They don\u2019t respond.
+    But real metal"
+  - "Noctis: it listens to invisible attraction. This door is the same, it only gives
+    in to the \u2018truth\u2019."
+  - 'Noctis: Only something solid is heavy enough to open the way.'
+  - "Lucian: The magnet\u2026 the attraction\u2026 only the real spoon responds\u2026"
+  - "Noctis: That\u2019s right. It\u2019s like you, Lucian. It may shine on the outside,"
+  - "Noctis: but only something truly \u2018heavy\u2019 can leave a mark. And you\u2026
+    are the mark of that night"
+  - "Noctis: Anyway, I\u2019ve reached the dining room."
+  - 'Lucian: The smell is so familiar. The dining table is still the same as before.'
+  - "Noctis: That\u2019s right, Lucian. This is where things started to change."
+  - "Noctis: Do you remember\u2026 the last supper?"
+  - "Lucian: All the chairs are still there\u2026 But why is it so cold?"
+  - 'Noctis: Look at the dishes arranged on the table that day, just like that night.'
+  - "Noctis: When you do\u2026 you\u2019ll understand why things will never be the
+    same again."
+  - 
+  - "Lucian: No\u2026 this isn\u2019t true\u2026 you were always here with me\u2026
+    He can\u2019t be gone\u2026"
+  - "Noctis: Lucian\u2026 I saw it too. There\u2019s no denying it anymore."
+  - "Noctis: That night\u2026 the hand holding the knife was yours."
+  - "Lucian: No\u2026 That monster\u2026 it hunted me\u2026 it killed them\u2026"
+  - 'Noctis: No, Lucian. That monster was you. You ran away from yourself.'
+  - "Noctis: And I\u2026 am just a projection of your memories, so that you wouldn\u2019t
+    fall."
+  - "Lucis: So\u2026 I killed my parents\u2026?"
+  - "Noctis: Yes. But you were just a scared child. No one will forgive you anymore\u2026
+    except yourself."
+  talking:
+  - {fileID: 8300000, guid: 0724d6cd23d8afb4981096f76aa77ab2, type: 3}
+  - {fileID: 8300000, guid: d36ee545a7729884aab3e4b61ec22c7d, type: 3}
+  delay:
+  - 3
+  - 5
+  - 2
+  - 6
+  - 6
+  - 7
+  - 6
+  - 7
+  - 5
+  - 9
+  - 3
+  - 8
+  - 5
+  - 4
+  - 4
+  - 4
+  - 4
+  - 3
+  - 7
+  - 5
+  - 4
+  - 8
+  - 6
+  - 6
+  - 5
+  - 7
+  dialogueLineStop: 17
+  subtitles: {fileID: 1896234049}
+  interactText: {fileID: 1980203787}
+  phoneRing: {fileID: 8300000, guid: ceb1e467a573b1e458be7b5413dfbdba, type: 3}
+  keypad: {fileID: 0}
+  itemChecker: {fileID: 1270526318}
+  itemCheckerChecker: {fileID: 0}
+  patternChecker: {fileID: 0}
+  PickedUp: 1
+  PickedUpTwice: 0
 --- !u!1 &1499347774
 GameObject:
   m_ObjectHideFlags: 0
@@ -65694,6 +65996,7 @@ RectTransform:
   - {fileID: 1206214133}
   - {fileID: 237538933}
   - {fileID: 968544931}
+  - {fileID: 2099709757}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -74377,6 +74680,128 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &2099709756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2099709757}
+  - component: {fileID: 2099709761}
+  - component: {fileID: 2099709760}
+  - component: {fileID: 2099709759}
+  - component: {fileID: 2099709758}
+  m_Layer: 5
+  m_Name: Video
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2099709757
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099709756}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1922439650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2099709758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099709756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe3f63ced5ec27341bf1ba5f05de8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!328 &2099709759
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099709756}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 0}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 0
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
+--- !u!114 &2099709760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099709756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &2099709761
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099709756}
+  m_CullTransparentMesh: 1
 --- !u!1001 &2100438846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76428,7 +76853,7 @@ PrefabInstance:
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: cameraHolder
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 152885261}
     - target: {fileID: 3164948895774940372, guid: 1be029cd8fd65204cba89f048ce9efef, type: 3}
       propertyPath: interactText
       value: 
