@@ -6,7 +6,15 @@ using System.Collections.Generic;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject controllerScreen;
+    [SerializeField] GameObject loadGameButton;
     private static string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        loadGameButton.SetActive(File.Exists(SavePath));
+    }
 
     public void StartGame()
     {
