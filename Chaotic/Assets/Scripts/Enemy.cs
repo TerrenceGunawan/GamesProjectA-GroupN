@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [Header("Setup")]
+    [SerializeField] private Collider enemyCollider;
     [SerializeField] private Player player;
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private GameObject jumpscareEffect;
@@ -13,18 +14,20 @@ public class Enemy : MonoBehaviour
 
     [Header("Behaviour")]
     [SerializeField] private float maxTeleportInterval = 2.5f;
-    [SerializeField] private float turnSpeed = 360f;      
+    [SerializeField] private float turnSpeed = 360f;
 
-    private Transform transform; 
+    private Transform transform;
+    private Animator animator;
     private Transform playerT;
     private float teleportInterval;
+    public float Chance;
     private int index = -1;
     private float timer = 0f;
 
     void Awake()
     {
         transform = GetComponent<Transform>();
-
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -37,23 +40,20 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (player.EnemyVisible)
-        {
-            float chance;
-            chance = Random.Range(0f, 1f);
-            if (chance < 0.5f)
-                FacePlayerSmooth();
-        }
-        
         timer += Time.deltaTime;
         if (timer >= teleportInterval)
         {
             Teleport();
+            Chance = Random.Range(0f, 1f);
         }
+        if (Chance < 0.5f)
+            FacePlayerSmooth();
     }
 
     public void Teleport()
     {
+        animator.ResetTrigger("run");
+        animator.SetTrigger("stand");
         timer = 0f;
         teleportInterval = Random.Range(0.5f, maxTeleportInterval);
 
@@ -77,6 +77,40 @@ public class Enemy : MonoBehaviour
             var target = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, target, turnSpeed * Time.deltaTime);
         }
+    }
+
+    public IEnumerator RunAtPlayer()
+    {
+        animator.ResetTrigger("stand");
+        animator.SetTrigger("run");
+
+        float duration = 1f;
+        float timer = 0f;
+        float runSpeed = 10f;
+        enemyCollider.enabled = false;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+
+            // Recalculate direction to player
+            Vector3 dir = playerT.position - transform.position;
+            dir.y = 0f;
+
+            if (dir.sqrMagnitude > 0.001f)
+            {
+                var target = Quaternion.LookRotation(dir, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, target, turnSpeed * Time.deltaTime);
+
+                // Move smoothly toward player
+                transform.position += dir.normalized * runSpeed * Time.deltaTime;
+            }
+
+            yield return null; // wait one frame
+        }
+        jumpscareAudio.PlayOneShot(jumpscareSound);
+        enemyCollider.enabled = true;
+        Teleport();
     }
 
     public IEnumerator Jumpscare()

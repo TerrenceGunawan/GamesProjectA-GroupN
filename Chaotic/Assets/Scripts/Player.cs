@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private AudioSource footstepSound;
     private AudioClip footstepClip;
     [SerializeField] private Transform cameraHolder;
+    [SerializeField] private AudioSource oneShotAudio;
     [SerializeField] private AudioClip lostSanityClip;
     [SerializeField] private Flashlight flashlight;
     [SerializeField] private Transform enemy;
@@ -177,12 +178,6 @@ public class Player : MonoBehaviour
                 {
                     movable.Interact();
                 }
-
-                // If grab button is released → drop
-                if (!interactAction.IsPressed() && grabbedItem != null)
-                {
-                    DropItem();
-                }
             }
             else if (hit.collider.GetComponentInParent<IInteractable>() is IInteractable interactable)
             {
@@ -201,6 +196,10 @@ public class Player : MonoBehaviour
         {
             interactText.text = "";
             lastInteractedObject = null;
+        }
+        if (interactAction.WasReleasedThisFrame() && grabbedItem != null)
+        {
+            DropItem();
         }
         if (timerStart)
         {
@@ -247,11 +246,7 @@ public class Player : MonoBehaviour
         if (grabbedItem != null)
         {
             Rigidbody rb = grabbedItem.GetComponent<Rigidbody>();
-
-            Vector3 targetPos = holdPoint.position;
-            Vector3 moveDir = targetPos - rb.position;
-
-            rb.linearVelocity = moveDir * grabForce * Time.fixedDeltaTime;
+            rb.MovePosition(holdPoint.position);
         }
     }
 
@@ -349,11 +344,21 @@ public class Player : MonoBehaviour
                             enemySound.Stop();
                         }
                         Sanity -= sanityLoss;
-                        enemy.GetComponent<Enemy>().Teleport();
                         enemyStareTimer = 5f;
                         float jumpscareChance = Random.Range(0f, 1f);
-                        if (jumpscareChance < 0.25f)
+                        if (jumpscareChance > 0.8f)
+                        {
+                            StartCoroutine(enemy.GetComponent<Enemy>().RunAtPlayer());
+                        }
+                        else if (jumpscareChance < 0.25f)
+                        {
                             StartCoroutine(enemy.GetComponent<Enemy>().Jumpscare());
+                            enemy.GetComponent<Enemy>().Teleport();
+                        }
+                        else if (jumpscareChance <= 0.8f && jumpscareChance >= 0.25f)
+                        {
+                            enemy.GetComponent<Enemy>().Teleport();
+                        }
                     }
                     if (!enemySound.isPlaying && distanceToEnemy < 13f)
                     {

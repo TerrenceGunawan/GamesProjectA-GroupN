@@ -30,6 +30,12 @@ public class ItemChecker : MonoBehaviour, IInteractable
         {
             return;
         }
+        if (HasSucceeded && door != null)
+        {
+            // Let the door handle its own open/close logic
+            door.Interact();
+            return;
+        }
         if (Check() && !HasSucceeded)
         {
             HasSucceeded = true; // Mark as done
@@ -74,13 +80,14 @@ public class ItemChecker : MonoBehaviour, IInteractable
         {
             return;
         }
-        else if (!HasSucceeded && door == null)
-        {
-            interactText.text = "Interact";
-        }
-        else if (!HasSucceeded && door != null)
+
+        if (door != null)
         {
             interactText.text = door.DoorIsOpen ? "Close" : "Open";
+        }
+        else if (!HasSucceeded)
+        {
+            interactText.text = "Interact";
         }
     }
 
