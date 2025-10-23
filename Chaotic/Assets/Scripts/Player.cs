@@ -21,7 +21,6 @@ public class Player : MonoBehaviour
     private AudioSource footstepSound;
     private AudioClip footstepClip;
     [SerializeField] private Transform cameraHolder;
-    [SerializeField] private AudioSource oneShotAudio;
     [SerializeField] private AudioClip lostSanityClip;
     [SerializeField] private Flashlight flashlight;
     [SerializeField] private Transform enemy;
@@ -131,15 +130,28 @@ public class Player : MonoBehaviour
             SetSensitivity(sensitivitySlider.value);
         }
 
-        if (volumeSlider) SetVolume(volumeSlider.value);
-        if (brightnessSlider) SetBrightness(brightnessSlider.value);
-        if (contrastSlider) SetContrast(contrastSlider.value);
-
         items = FindObjectsByType<ItemInteract>(FindObjectsSortMode.None);
         volumeBlur.profile.TryGet(out dof);
         volumeBlur.profile.TryGet(out vignette);
         volumeBlur.profile.TryGet(out chroma);
         volumeBlur.profile.TryGet(out colorAdjustments);
+        // Apply settings from the manager if it exists
+        if (SettingsManager.Instance)
+        {
+            SetVolume(SettingsManager.Instance.Volume);
+            SetSensitivity(SettingsManager.Instance.Sensitivity);
+            SetBrightness(SettingsManager.Instance.Brightness);
+            SetContrast(SettingsManager.Instance.Contrast);
+
+            if (volumeSlider) volumeSlider.value = SettingsManager.Instance.Volume;
+            if (sensitivitySlider) sensitivitySlider.value = SettingsManager.Instance.Sensitivity;
+            if (brightnessSlider) brightnessSlider.value = SettingsManager.Instance.Brightness;
+            if (contrastSlider) contrastSlider.value = SettingsManager.Instance.Contrast;
+        }
+
+        if (volumeSlider) SetVolume(volumeSlider.value);
+        if (brightnessSlider) SetBrightness(brightnessSlider.value);
+        if (contrastSlider) SetContrast(contrastSlider.value);
     }
 
     // Update is called once per frame
@@ -519,25 +531,30 @@ public class Player : MonoBehaviour
 
     public void SetVolume(float value)
     {
+        Debug.Log("Setting volume to: " + value);
         AudioListener.volume = Mathf.Clamp01(value);
+        if (SettingsManager.Instance) SettingsManager.Instance.Volume = value;
     }
 
     public void SetSensitivity(float value)
     {
+        Debug.Log("Setting sensitivity to: " + value);
         mouseLookSensitivity = value;
         controllerLookSensitivity = value * 20f;
+        if (SettingsManager.Instance) SettingsManager.Instance.Sensitivity = value;
     }
 
     public void SetBrightness(float value)
     {
-        if (colorAdjustments != null)
-        colorAdjustments.postExposure.value = Mathf.Clamp(value, -4f, 4f);
+        Debug.Log("Setting brightness to: " + value);
+        if (colorAdjustments != null) colorAdjustments.postExposure.value = Mathf.Clamp(value, -4f, 4f);
+        if (SettingsManager.Instance) SettingsManager.Instance.Brightness = value;
     }
 
     public void SetContrast(float value)
     {
-        if (colorAdjustments != null)
-        colorAdjustments.contrast.value = Mathf.Clamp(value, -100f, 100f);
+        if (colorAdjustments != null) colorAdjustments.contrast.value = Mathf.Clamp(value, -100f, 100f);
+        if (SettingsManager.Instance) SettingsManager.Instance.Contrast = value;
     }
     public void SetPauseFunction()
     {
