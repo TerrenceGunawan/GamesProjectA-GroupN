@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject saveIcon;
     [SerializeField] private TextMeshProUGUI objectivesText;
     [SerializeField] private ItemChecker groundDoorKey;
-    [SerializeField] private Phone phoneFinal;
+    [SerializeField] private ItemChecker finalPicture;
     [SerializeField] private UIVideoPlayer finale;
     [SerializeField] private List<string> goals = new List<string>();
     public List<ItemChecker> checkers = new List<ItemChecker>();
@@ -41,11 +41,14 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("GroundFloor");
         }
-        if (phoneFinal != null && phoneFinal.PickedUpTwice)
+        if (finalPicture != null && finalPicture.HasSucceeded)
         {
-            StartCoroutine(Wait(53f));
             Player player = FindFirstObjectByType<Player>();
+            Flashlight flashlight = player.GetComponentInChildren<Flashlight>();
+            flashlight.OnDisable();
             player.OnDisable();
+            player.GetComponent<AudioSource>().enabled = false;
+            StartCoroutine(Wait(2f));
         }
         // Count each checker only once
         foreach (ItemChecker checker in checkers)
