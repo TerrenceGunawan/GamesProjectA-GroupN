@@ -464,6 +464,7 @@ public class Player : MonoBehaviour
 
     void PauseGame()
     {
+        OnDisable();
         footstepSound.Stop();
         pauseMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
@@ -487,6 +488,7 @@ public class Player : MonoBehaviour
 
     public void ResumeGame()
     {
+        OnEnable();
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
