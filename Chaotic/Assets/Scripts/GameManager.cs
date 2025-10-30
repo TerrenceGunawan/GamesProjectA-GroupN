@@ -4,15 +4,18 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject saveIcon;
     [SerializeField] private TextMeshProUGUI objectivesText;
+    [SerializeField] private TextMeshProUGUI hintText;
     [SerializeField] private ItemChecker groundDoorKey;
     [SerializeField] private ItemChecker finalPicture;
     [SerializeField] private UIVideoPlayer finale;
     [SerializeField] private List<string> goals = new List<string>();
+    [SerializeField] private List<string> hints = new List<string>();
     public List<ItemChecker> checkers = new List<ItemChecker>();
     public List<ItemCheckerChecker> itemCheckerCheckers = new List<ItemCheckerChecker>();
     public List<Keypad> keypads = new List<Keypad>();
@@ -28,15 +31,37 @@ public class GameManager : MonoBehaviour
     private List<string> countedPuzzles = new List<string>();
     private List<string> countedObjects = new List<string>();
     private List<string> countedPhoneTwice = new List<string>();
-    
+    private PlayerActions actions;
+    private InputAction hintAction;
+    private int currentHint = 0;
+    private int lastPuzzleCount = 0;
+
     void Start()
     {
-        
+
     }
+    void OnEnable()
+    {
+        if (actions == null)
+            actions = new PlayerActions();
+
+        hintAction = actions.interaction.hint;
+        hintAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        hintAction.Disable();
+    }
+
 
     // Update is called once per frame
     void Update()
     {
+        if (hintAction.WasPressedThisFrame())
+        {
+            ShowHint();
+        }
         if (groundDoorKey != null && groundDoorKey.HasSucceeded)
         {
             SceneManager.LoadScene("GroundFloor");
@@ -112,7 +137,36 @@ public class GameManager : MonoBehaviour
                 countedPhoneTwice.Add(phone.name);
             }
         }
-        objectivesText.text = goals[countedPuzzles.Count];
+        if (countedPuzzles.Count > lastPuzzleCount)
+        {
+            currentHint = 0;
+            lastPuzzleCount = countedPuzzles.Count;
+            hintText.gameObject.SetActive(false);
+            objectivesText.text = goals[countedPuzzles.Count];
+        }
+      
+    }
+    
+    public void ShowHint()
+    {
+        if (hints.Count == 0 || hintText == null)
+        return;
+
+        int goalIndex = Mathf.Clamp(countedPuzzles.Count, 0, goals.Count - 1);
+        int startIndex = goalIndex * 3; 
+        int hintIndex = startIndex + currentHint;
+
+        if (hintIndex >= hints.Count)
+            return;
+
+        hintText.text = hints[hintIndex];
+        hintText.gameObject.SetActive(true);
+
+        currentHint++;
+
+        if (currentHint > 2)
+            currentHint = 2; 
+        
     }
 
     public static void SaveGame()

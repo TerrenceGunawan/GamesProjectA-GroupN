@@ -233,6 +233,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "hint",
+                    "type": "Button",
+                    "id": "ab259552-c59f-4ed5-8149-699456f37e0c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -299,6 +308,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "light",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c7762aac-2794-4ecf-b27e-ef2f9910e36f",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "hint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "74cf4694-22ee-4e56-8ee1-7ecd4b36c51e",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "hint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

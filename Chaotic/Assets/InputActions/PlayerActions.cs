@@ -319,6 +319,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""hint"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab259552-c59f-4ed5-8149-699456f37e0c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -387,6 +396,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""light"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7762aac-2794-4ecf-b27e-ef2f9910e36f"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74cf4694-22ee-4e56-8ee1-7ecd4b36c51e"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -402,6 +433,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_interaction_interact = m_interaction.FindAction("interact", throwIfNotFound: true);
         m_interaction_pause = m_interaction.FindAction("pause", throwIfNotFound: true);
         m_interaction_light = m_interaction.FindAction("light", throwIfNotFound: true);
+        m_interaction_hint = m_interaction.FindAction("hint", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -593,6 +625,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_interaction_interact;
     private readonly InputAction m_interaction_pause;
     private readonly InputAction m_interaction_light;
+    private readonly InputAction m_interaction_hint;
     /// <summary>
     /// Provides access to input actions defined in input action map "interaction".
     /// </summary>
@@ -616,6 +649,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "interaction/light".
         /// </summary>
         public InputAction @light => m_Wrapper.m_interaction_light;
+        /// <summary>
+        /// Provides access to the underlying input action "interaction/hint".
+        /// </summary>
+        public InputAction @hint => m_Wrapper.m_interaction_hint;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -651,6 +688,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @light.started += instance.OnLight;
             @light.performed += instance.OnLight;
             @light.canceled += instance.OnLight;
+            @hint.started += instance.OnHint;
+            @hint.performed += instance.OnHint;
+            @hint.canceled += instance.OnHint;
         }
 
         /// <summary>
@@ -671,6 +711,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @light.started -= instance.OnLight;
             @light.performed -= instance.OnLight;
             @light.canceled -= instance.OnLight;
+            @hint.started -= instance.OnHint;
+            @hint.performed -= instance.OnHint;
+            @hint.canceled -= instance.OnHint;
         }
 
         /// <summary>
@@ -754,5 +797,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "hint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHint(InputAction.CallbackContext context);
     }
 }
