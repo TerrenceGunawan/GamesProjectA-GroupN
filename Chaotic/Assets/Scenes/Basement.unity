@@ -39014,21 +39014,22 @@ MonoBehaviour:
   - Unlock the safe
   - Leave the basement
   hints:
-  - Look for the red number in each clue
-  - The roman numerals is the order of the code
-  - The code is 2829
-  - Use your flashlight to see better
-  - Check shelves for the keys
-  - '1 key on some barrels. 1 key next to a soccerball. 1 key on the same shelve
-    as a dvd player. Once all 3 are collected. Open the door near the soccerball '
-  - This key must do something in the basement
-  - Use a key to open a locked door in the basement
-  - Get the key from the table upstairs, Use the key on the other door in the basement
-  - Find 2 letters in each clue
-  - The chronological order is the order of the code. The 2 red letters per item
-    are used for morse code
-  - The code is 8504
-  - Grab the key and go back upstairs
+  - Look for the red number in each clue.
+  - The Roman numerals show the order of the code.
+  - The code is 2829.
+  - Use your flashlight to see better.
+  - Check the shelves for the keys.
+  - "One key is on some barrels, one is next to a soccer ball, and one is on the
+    same shelf as the cassette player. Once you\u2019ve collected all three, open
+    the door near the soccer ball."
+  - This key must unlock something in the basement.
+  - Use a key to open a locked door in the basement.
+  - Get the key from the table upstairs, then use it on the other door in the basement.
+  - Find two letters in each clue.
+  - The chronological order matches the order of the code. The two red letters per
+    item are used for Morse code.
+  - The code is 8504.
+  - Grab the key in the safe and go back upstairs.
   checkers:
   - {fileID: 1090641909}
   - {fileID: 1561234636}

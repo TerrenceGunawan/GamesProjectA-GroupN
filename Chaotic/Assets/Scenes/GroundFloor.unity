@@ -26127,28 +26127,29 @@ MonoBehaviour:
   - Find the pieces
   hints:
   - The spoons must mean something. But which one?
-  - The magnetic spoon is what you need on the red X.
-  - Use the magnet which spoon is magnetic and drag said spoon to the table with
-    the red X, Open the door
+  - The magnetic spoon is the one you need to place on the red X.
+  - Use the magnet to find which spoon is magnetic, then drag that spoon to the table
+    with the red X to open the door.
   - Which food item goes in which spot?
-  - There are clues around the room pointing to which food goes where.
-  - Dad gets the soup, Mom gets sushi, Lucian gets eggs, noctis gets the empty plate.
-  - One of the rooms in the living room
-  - Opposite the parents room
-  - The room in a corner with 2 doors almost touching each other
-  - Look for something in the bathroom
-  - There's a key in the bathroom
-  - There's a key on the toilet in the bathroom
-  - The answer hides in plain sight
-  - The number and objects on the shelf must correlate to something
-  - The answer to the safe in the room is B1,F1,D2,A3,C3,E5
-  - 'Go to your room '
+  - There are clues around the room that show which food belongs where.
+  - Dad gets the soup, Mum gets the sushi, Lucian gets the eggs, and Noctis gets
+    the empty plate.
+  - "It\u2019s one of the rooms in the living room."
+  - "It\u2019s opposite the parents\u2019 room."
+  - "It\u2019s the room in the corner with two doors almost touching each other."
+  - Look for something in the bathroom.
+  - "There\u2019s a key in the bathroom."
+  - The key is on the toilet in the bathroom.
+  - The answer hides in plain sight.
+  - The numbers and objects on the shelf must correlate to something.
+  - The answer to the safe in the room is B1, F1, D2, A3, C3, E5.
+  - Go to your room.
   - Go to your room!
   - 'Go to your room!!!! '
-  - Look around the room
-  - There should be 3 pieces in total, Place them in a picture frame
-  - Theres 1 on a chair, 1 on the bed and 1 on the bedside table. Place them in the
-    picture frame opposite of the room
+  - Look around the room.
+  - There should be three pieces in total. Place them in the picture frame.
+  - "There\u2019s one on the chair, one on the bed, and one on the bedside table.
+    Place them in the picture frame opposite the room."
   checkers:
   - {fileID: 1245119742}
   - {fileID: 516738654}
